@@ -1,0 +1,142 @@
+@import "../../global.scss";
+
+.product-detail {
+
+    .product-image{
+        min-width: 450px;
+    }
+
+    .product-desc {
+
+        min-width: 450px;
+
+        .stock-data {
+            display: block;
+        }
+
+        .status {
+            height: 24px;
+            min-width: 22px;
+            line-height: 0;
+            border-radius: 6px;
+            cursor: default;
+            align-items: center;
+            white-space: nowrap;
+            display: inline-flex;
+            justify-content: center;
+            padding: 0px 8px;
+            color: rgb(0, 0, 0);
+            font-size: 0.75rem;
+            font-family: "Public Sans", sans-serif;
+            font-weight: 700;
+            z-index: 9;
+            position: relative;
+            text-transform: uppercase;
+            background-color: rgb(0, 184, 217);
+            
+            
+            &.new {
+                background-color: rgb(34, 240, 51);
+            }
+            
+            &.hot {
+                background-color: rgb(233, 30, 57);
+            }
+        }
+    }
+
+    .discount {
+        text-decoration: line-through;
+        height: 25px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: center;
+        color:rgb(179, 26, 26);
+    }
+    .discounted-price {
+        height: 25px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: center;
+        color:$dark-green;
+    }
+
+    
+}
+
+.description {
+    min-width: 450px;
+}
+
+.description-tabs {
+    
+    .tabs {
+        min-width: 450px;
+        .tab {
+
+            cursor: pointer;
+            
+            &.active {
+                font-weight: 600;
+                border-bottom: 3px solid $dark-green;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                background-color: transparent;
+                outline: 0px;
+                margin: 0px;
+                border-radius: 0px;
+            }
+
+            .btn{
+                border:0;
+                
+                &:focus {
+                    outline:0;
+                    border: 0;
+                }
+            }
+        }
+    }
+}
+
+.color-data {
+    .color-selector {
+        // display: inline;
+        width: 30px;
+        height: 30px;
+        border:1px solid rgb(255, 255, 255);
+        border-radius: 50%;
+        cursor: pointer;
+        
+        &.red {
+            background: red;
+        }
+
+        &.black {
+            background: black;
+        }
+
+        &.green {
+            background:green;
+        }
+
+        input {
+            display: none;
+            border:none;
+            border-radius:none;
+            color:none;
+        }
+    }
+}

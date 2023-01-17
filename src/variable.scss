@@ -1,0 +1,29 @@
+$width: 768px;
+
+$white:#F4F6FC;
+$royal-green : #19D67B;
+$royal-blue : #09108E;
+$royal-yellow : #FCE880;
+$dark-green : #346F64;
+$accent:#C2ECF2;
+
+$theme-colors: (
+  "primary": $royal-green,
+  "secondary":$royal-yellow,
+  // "danger": $danger,
+  "dark": $royal-blue,
+  "light": $white,
+);
+
+$custom-colors: (
+  "royal-green": $royal-green,
+  "royal-blue": $royal-blue,
+  "royal-yellow": $royal-yellow,
+  "dark-green": $dark-green,
+  "accent": $accent,
+  "white": $white,
+  "black": #000,
+);
+
+
+$theme-colors: map-merge($map1: $theme-colors, $map2: $custom-colors)
