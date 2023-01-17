@@ -1,0 +1,41 @@
+@import "../../global.scss";
+
+.header {
+    background:$dark-green;
+    padding:10px;
+    position: relative;
+    z-index: 1;
+
+    // .account {
+    //     list-style: none;
+    //     display: flex;
+    //     flex-direction: row;
+    //     align-items: center;
+    //     justify-content: space-between;
+    //     gap: 10px;
+
+    //     .shop_icon {
+    //         color: #fff;
+    //     }
+    // }
+}
+.main-menu-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-logo {
+    height: 60px;
+    width: 150px;
+}
+
+.item-count {
+    color:white;
+    // position: absolute;
+    
+    background:red;
+    display: unset;
+    border-radius: 50%;
+    align-items: center;
+}

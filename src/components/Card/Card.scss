@@ -1,0 +1,213 @@
+@import "../../global.scss";
+
+.user-profile {
+    z-index:999;
+
+    .hidden {
+        z-index:1;
+    }
+}
+
+.product-card {
+    width: 16rem;
+    min-width: 250px;
+    z-index: 0;
+    color:rgb(33,43, 54);
+    background-image: none;
+    overflow: hidden;
+    position: relative;
+    box-shadow: rgb(0 0 0 / 16%) 0px 4px 8px 0px;
+    border-radius: 16px;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    
+    a{
+        text-decoration: none;
+        color: $royal-green;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .box {
+        // width: 100%;
+        line-height: 1;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        border-radius: 12px;
+        
+        .wrapper {
+            color: transparent;
+            display: inline-block;
+
+            img {
+                opacity: 1;
+                transition: opacity .3s;
+                border-radius:20px;
+            }
+        }
+    }
+
+    .status {
+        height: 24px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: center;
+        padding: 0px 8px;
+        color: rgb(255, 255, 255);
+        font-size: 0.75rem;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        top: 16px;
+        right: 16px;
+        z-index: 9;
+        position: absolute;
+        text-transform: uppercase;
+        background-color: rgb(0, 184, 217);
+        
+        
+        &.new {
+            background-color: rgb(34, 240, 51);
+        }
+        
+        &.hot {
+            background-color: rgb(233, 30, 57);
+        }
+    }
+
+    .stock {
+        height: 24px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: left;
+        padding: 0px 8px;
+        color: rgb(255, 255, 255);
+        font-size: 0.75rem;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        top: 16px;
+        left: 16px;
+        z-index: 9;
+        position: absolute;
+        text-transform: uppercase;
+        // background-color: rgb(0, 184, 217);
+        
+        
+        &.low {
+            background-color: rgb(133, 13, 245);
+        }
+        
+        &.out {
+            background-color: rgb(233, 30, 57);
+        }
+    }
+
+
+    .shop-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        outline: 0px;
+        border: 0px;
+        margin: 0px;
+        cursor: pointer;
+        user-select: none;
+        vertical-align: middle;
+        appearance: none;
+        text-decoration: none;
+        font-weight: 700;
+        line-height: 1.71429;
+        font-size: 0.875rem;
+        text-transform: capitalize;
+        font-family: "Public Sans", sans-serif;
+        min-height: 36px;
+        border-radius: 50%;
+        padding: 0px;
+        min-width: 0px;
+        width: 48px;
+        height: 48px;
+        color: rgb(33, 43, 54);
+        background-color: rgb(255, 171, 0);
+        box-shadow: rgb(255 171 0 / 24%) 0px 8px 16px 0px;
+        right: 20px;
+        bottom: 125px;
+        z-index: 9;
+        opacity: 0;
+        position: absolute;
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1) 0.5ms;
+
+        &:hover {
+            box-shadow:none;
+            background-color: rgb(183, 110, 0);
+        }
+    }
+
+    &:hover {
+        .shop-icon{
+            opacity: 100;
+        }
+    }
+
+    .warranty {
+        height: 24px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: left;
+        padding: 0px 8px;
+        color: rgb(0, 0, 0);
+        font-size: 0.75rem;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        bottom: 100px;
+        left: 16px;
+        z-index: 9;
+        position: absolute;
+        text-transform: uppercase;
+        background-color: $royal-yellow;
+        
+    }
+
+    .discount {
+        text-decoration: line-through;
+        height: 25px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: center;
+        color:red;
+    }
+    .discounted-price {
+        height: 25px;
+        min-width: 22px;
+        line-height: 0;
+        border-radius: 6px;
+        cursor: default;
+        align-items: center;
+        white-space: nowrap;
+        display: inline-flex;
+        justify-content: center;
+        color:$dark-green;
+    }
+}

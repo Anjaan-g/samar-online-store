@@ -1,0 +1,20 @@
+@import "../../global.scss";
+
+
+span{
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+.form-row {
+
+    .row {
+
+        // width: max-content;
+
+        label {
+            width: 100%;
+        }
+    }
+}
