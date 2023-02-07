@@ -1,13 +1,31 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiEdit } from "react-icons/fi";
-import { removeItem,incrementQuantity, decrementQuantity } from "../../store/cartSlice";
-import { FaTrash } from "react-icons/fa";
+import {
+    removeItem,
+    incrementQuantity,
+    decrementQuantity,
+} from "../../store/cartSlice";
+import { FaTrash, FaShoppingCart } from "react-icons/fa";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import Item from "../../../assets/5.webp";
+import "./Cart.scss";
+import { useNavigate } from "react-router-dom";
+import Table from "react-bootstrap/Table";
+import Col from "react-bootstrap/Col";
+import Checkout from "../checkout/checkout";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cart = useSelector((state) => state.cart);
-    console.log(cart)
+
+    const [discount, setDiscount] = useState(0);
+
     const totalQuantity = () => {
         let totalQuantity = 0;
         cart.cart.forEach((item) => {
@@ -23,69 +41,137 @@ const Cart = () => {
         return totalPrice;
     };
 
-    const deleteItem = ({ id }) => {
-        if (window.confirm("Are you sure you want to remove this item?")){
-            dispatch(removeItem(id))
-        }
-    };
-
     return (
-        <div className="container ">
-            <h2 className="display-5">My Cart Details</h2>
-            <div className="table mt-5">
-                <table className="table table-hover">
-                    <thead>
-                        <tr className="">
-                            {/* <th scope="col">#</th> */}
-                            <th scope="col">Name</th>
-                            <th scope="col">Rate</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total Price</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="">
-                        {cart.cart.map((item) => {
-                            return (
-                                <tr key={item.id} className=" ">
-                                    {/* <th scope="row">{item.id}</th> */}
-                                    <td>
-                                        {/* <img src={item.img}  /> */}
-                                        {item.name}
-                                    </td>
-                                    <td>{item.rate}</td>
-                                    <td>
-                                        <button onClick={() => dispatch(decrementQuantity(item.id))}>-</button>
-                                        {item.quantity}
-                                        <button onClick={() => dispatch(incrementQuantity(item.id))}>+</button>
-                                    </td>
-                                    <td>Rs. {item.rate * item.quantity}</td>
-                                    <td>
-                                        <FaTrash
-                                            className="mx-2"
-                                            color="red"
-                                            cursor="pointer"
-                                            size={20}
-                                            onClick={() => {
-                                                dispatch(removeItem(item.id));
-                                            }}
-                                        />
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            {/* <th scope="row"></th> */}
-                            <th colSpan="2">Grand Total</th>
-                            <th scope="row">{totalQuantity()}</th>
-                            <th>Rs. {totalPrice()}</th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <Container>
+            <h3 className="display-5">Checkout</h3>
+            <div className="table-content d-flex flex-row justify-content-between mt-5 flex-wrap gap-5">
+                <Col lg={7} sm={12} xs={12}>
+                    <Card>
+                        <Card.Header className="pt-4">
+                            <h4>Cart ({totalQuantity()} Items)</h4>
+                        </Card.Header>
+                        <Card.Body>
+                            <Table hover borderless className="align-middle">
+                                <thead className="bg-dark-green text-white">
+                                    <tr className="text-center">
+                                        <th>Product</th>
+                                        <th>Rate</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody className="align-middle">
+                                    {cart.cart.map((item) => {
+                                        return (
+                                            <tr
+                                                key={item.id}
+                                                className="text-center "
+                                            >
+                                                <td>
+                                                    <img
+                                                        src={Item}
+                                                        className="cart-image img-fluid rounded "
+                                                    />
+                                                    <Link to="/detail">
+                                                        <p className="mx-3">
+                                                            {item.name}
+                                                        </p>
+                                                    </Link>
+                                                </td>
+                                                <td> Rs. {item.rate}</td>
+                                                <td className="text-center align-center">
+                                                    <Card className="quantity-card mt-2">
+                                                        <div className="quantity d-flex flex-row align-items-center justify-content-between mx-1">
+                                                            <Button
+                                                                variant=""
+                                                                className={`quantity-button ${
+                                                                    item.quantity <=
+                                                                    1
+                                                                        ? "disabled"
+                                                                        : ""
+                                                                }`}
+                                                                onClick={() =>
+                                                                    dispatch(
+                                                                        decrementQuantity(
+                                                                            item.id
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                <AiOutlineMinus />
+                                                            </Button>
+                                                            <h6 className="item-quantity mt-2 text-dark align-center">
+                                                                {item.quantity}
+                                                            </h6>
+                                                            <Button
+                                                                variant=""
+                                                                className={`quantity-button ${
+                                                                    item.quantity >=
+                                                                    item.stock
+                                                                        ? "disabled"
+                                                                        : ""
+                                                                }`}
+                                                                onClick={() =>
+                                                                    dispatch(
+                                                                        incrementQuantity(
+                                                                            item.id
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                <AiOutlinePlus />
+                                                            </Button>
+                                                        </div>
+                                                    </Card>
+                                                    <div className="d-flex flex-row justify-content-center mx-1">
+                                                        {item.stock <= 20 && (
+                                                            <p className="text-danger">
+                                                                Available:{" "}
+                                                                {item.stock}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    Rs.{" "}
+                                                    {item.rate * item.quantity}
+                                                </td>
+                                                <td>
+                                                    <FaTrash
+                                                        className="mx-2"
+                                                        color="red"
+                                                        cursor="pointer"
+                                                        size={20}
+                                                        onClick={() => {
+                                                            dispatch(
+                                                                removeItem(
+                                                                    item.id
+                                                                )
+                                                            );
+                                                        }}
+                                                        data-bs-toggle="tooltip"
+                                                        title="Remove Item"
+                                                    />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col lg={4} md={12} sm={12} xs={12}>
+                    <Checkout
+                        totalPrice={totalPrice()}
+                        totalQuantity={totalQuantity()}
+                        discount={discount}
+                        setDiscount={setDiscount}
+                    />
+                </Col>
             </div>
-        </div>
+        </Container>
     );
 };
 

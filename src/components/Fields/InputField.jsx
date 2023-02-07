@@ -9,7 +9,7 @@ const InputField = ({ label, errorMessage, onChange, id, ...inputProps }) => {
     };
 
     return (
-        <div className="form-row">
+        <div className="form-row mt-4">
             <div className="row">
                 <div className="col-lg-5 col-sm-6 ">
                     <label

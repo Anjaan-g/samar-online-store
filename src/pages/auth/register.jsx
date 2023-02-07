@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
-import { configureStore } from "@reduxjs/toolkit";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import { setToken } from "../../actions/authActions";
+import { toast } from "react-toastify";
+import { setToken } from "../../store/authSlice";
 
 import api from "../../services/axios";
 
 export default function Register() {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.auth.token);
+    const accessToken = useSelector((state) => state.auth.accessToken);
 
     const navigateTo = useNavigate();
-
-    useEffect(() => {
-        if (token) {
-            localStorage.setItem("token", token);
-        }
-    });
 
     const handleSubmit = async (formState) => {
         const { firstName, lastName, email, phoneNo, avatar, password } =
@@ -41,7 +34,7 @@ export default function Register() {
                     },
                 }
             );
-            const { token } = response.data["token"];
+            const { accessToken, refreshToken, user } = response.data.data;
 
             const notify = () => {
                 if (response.status == 200) {
@@ -57,7 +50,9 @@ export default function Register() {
                 }
             };
             // store JWT token in local storage
-            dispatch(setToken(token));
+            dispatch(setToken({ accessToken, refreshToken, user }));
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
             // localStorage.setItem("jwt", data.token);
             // redirect to dashboard or home page
             navigateTo("/");
@@ -71,7 +66,6 @@ export default function Register() {
         <div className="container col-lg-6">
             <div className="register">
                 <RegisterForm onSubmit={handleSubmit} title={"Register"} />
-                <ToastContainer />
             </div>
         </div>
     );

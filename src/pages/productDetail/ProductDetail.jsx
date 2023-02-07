@@ -4,6 +4,10 @@ import "./productDetail.scss";
 import { MdAddShoppingCart } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BsShieldFillCheck, BsTruck } from "react-icons/bs";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const product = {
     id: "1",
@@ -35,6 +39,7 @@ const product = {
 
 const ProductDetail = () => {
     const [quantity, setQuantity] = useState(0);
+    const navigateTo = useNavigate();
 
     function increaseQuantity(event) {
         event.preventDefault();
@@ -59,6 +64,8 @@ const ProductDetail = () => {
         };
     }, []);
 
+    const dispatch = useDispatch();
+
     const [activeTab, setActiveTab] = useState("firstTab");
 
     const handleFirstTab = () => {
@@ -77,7 +84,7 @@ const ProductDetail = () => {
                         <CarouselContainer />
                     </div>
                 </div>
-                <form className="col-xl-5 col-lg-5 col-md-10 col-sm-12 product-desc d-flex flex-column">
+                <Form className="col-xl-5 col-lg-5 col-md-10 col-sm-12 product-desc d-flex flex-column pt-5">
                     {product.status && (
                         <div className="d-flex flex-row">
                             <span className={`status ${product.status}`}>
@@ -110,23 +117,27 @@ const ProductDetail = () => {
                         </div>
                         <div className="card">
                             <div className="d-flex flex-row w-100">
-                                <button
+                                <Button
+                                    variant="outline"
+                                    size="sm"
                                     className="decrease-quantity"
                                     onClick={(e) => decreaseQuantity(e)}
                                 >
                                     -
-                                </button>
+                                </Button>
                                 <div className="vr"></div>
                                 &nbsp; &nbsp;
                                 {quantity}
                                 &nbsp; &nbsp;
                                 <div className="vr"></div>
-                                <button
+                                <Button
+                                    variant="outline"
+                                    size="sm"
                                     className="increase-quantity"
                                     onClick={(e) => increaseQuantity(e)}
                                 >
                                     +
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -139,20 +150,37 @@ const ProductDetail = () => {
                     <hr />
 
                     <div className="d-flex flex-row justify-content-between align-items-center d-grid gap-2">
-                        <button
-                            className="btn btn-warning col-6"
+                        <Button
+                            variant="warning"
+                            size="lg"
+                            className="col-6"
                             type="submit"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(
+                                    addToCart({ id, name, img, rate, stock })
+                                );
+                            }}
                         >
                             <MdAddShoppingCart /> Add to Cart
-                        </button>
-                        <button
-                            className="btn btn-success col-6"
+                        </Button>
+                        <Button
+                            variant="success"
+                            size="lg"
+                            className="col-6"
                             type="submit"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(
+                                    addToCart({ id, name, img, rate, stock })
+                                );
+                                navigateTo("/cart");
+                            }}
                         >
                             Buy Now
-                        </button>
+                        </Button>
                     </div>
-                </form>
+                </Form>
             </div>
             <div className="description mt-4 pt-5">
                 <hr />

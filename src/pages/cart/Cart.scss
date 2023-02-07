@@ -1,2 +1,46 @@
 @import "../../global.scss";
 
+.table-content {
+    min-width: 450px;
+
+    .cart-image {
+        width: 80px;
+        height: 80px;
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .quantity-card{
+        width: 96px;
+        border-radius:12px;
+        
+        .quantity-button{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            background-color: transparent;
+            outline: 0px;
+            border: 0px;
+            margin: 0px;
+            cursor:pointer;
+            user-select:none;
+            vertical-align: middle;
+            appearance: none;
+            text-decoration: none;
+            text-align: center;
+            flex: 0 0 auto;
+            border-radius:50%;
+            overflow:visible;
+            transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            padding:5px;
+            color: rgb(145, 158, 171);
+            
+            &:hover{
+                background-color: rgba(45, 52, 59, 0.08);
+            }
+        }
+    }
+}

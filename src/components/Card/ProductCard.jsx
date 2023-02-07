@@ -3,7 +3,10 @@ import "./Card.scss";
 import { MdAddShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 export default function ProductCard({
     id,
@@ -14,13 +17,13 @@ export default function ProductCard({
     price,
     discountedPrice,
     warranty,
-    // image,
     ...props
 }) {
     const dispatch = useDispatch();
+    // const token = useSelector((state) => state.auth.accessToken)
 
     return (
-        <div className="card product-card">
+        <Card className="product-card">
             {stock && (
                 <span
                     className={`stock ${
@@ -43,33 +46,43 @@ export default function ProductCard({
                     />
                 </span>
             </span>
-            <button
+            <Button
                 className="shop-icon"
                 onClick={() => {
-                    if (discountedPrice) {
-                        var rate = discountedPrice;
-                        dispatch(addToCart({ id, name, img, rate }));
+                    if (stock != 0) {
+                        if (discountedPrice) {
+                            var rate = discountedPrice;
+                            dispatch(
+                                addToCart({ id, name, img, rate, stock })
+                            );
+                        } else {
+                            var rate = price;
+                            dispatch(
+                                addToCart({ id, name, img, rate, stock })
+                            );
+                        }
                     } else {
-                        var rate = price;
-                        dispatch(addToCart({ id, name, img, rate }));
+                        toast.warning("Item not available in stock");
                     }
                 }}
             >
                 <MdAddShoppingCart />
-            </button>
+            </Button>
             {warranty && (
                 <span className={`warranty`}>{warranty} Warranty</span>
             )}
             {status && <span className={`status ${status}`}>{status}</span>}
-            <div className="card-body">
+            <Card.Body className="card-body">
                 <div className="description cover">
                     <Link to="/detail">
-                        <h5 className="card-title text-dark">{name}</h5>
+                        <Card.Title className="card-title text-dark">
+                            {name}
+                        </Card.Title>
                     </Link>
-                    <div className="d-flex flex-row lead">
-                        {discountedPrice && (
-                            <>
-                                <span className="discount">NRS.{price}</span>
+                    {discountedPrice && (
+                        <div>
+                            <span className="discount">NRS.{price}</span>
+                            <div className="d-flex flex-row align-items-center ">
                                 <p className="discounted-price">
                                     NRS.{discountedPrice} &nbsp;
                                 </p>
@@ -81,12 +94,17 @@ export default function ProductCard({
                                     ).toFixed(1)}
                                     %)
                                 </p>
-                            </>
-                        )}
-                        {!discountedPrice && <p>NRS.{price}</p>}
-                    </div>
+                            </div>
+                        </div>
+                    )}
+                    {!discountedPrice && (
+                        <>
+                            <p className="gx-3">NRS.{price}</p>
+                            <br />
+                        </>
+                    )}
                 </div>
-            </div>
-        </div>
+            </Card.Body>
+        </Card>
     );
 }

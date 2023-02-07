@@ -1,10 +1,9 @@
+import Spinner from "react-bootstrap/Spinner";
 
 export const Loader = () => {
     return (
-        <div className="loader">
-            <div className="loader-inner">
-                <div className="circle"></div>
-            </div>
-        </div>
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
     );
 };

@@ -3,16 +3,15 @@ import "./LoginForm.scss";
 import Logo from "../../../assets/shopee.png";
 import InputField from "../Fields/InputField";
 import { Link } from "react-router-dom";
-// import { regInputs } from "../../utils/registerUtils";
+import Figure from "react-bootstrap/Figure";
 
 const RegisterForm = ({ onSubmit, title }) => {
-    
     const [values, setValues] = useState({
         firstName: "",
-        lastName:"",
+        lastName: "",
         email: "",
         phoneNo: "",
-        avatar:"",
+        avatar: "",
         password: "",
         confirmPassword: "",
     });
@@ -104,11 +103,11 @@ const RegisterForm = ({ onSubmit, title }) => {
     };
 
     return (
-        <div className="login-container">
-            <figure className="header_image">
-                <img src={Logo} alt="logo" />
-            </figure>
-            <h2>{title}</h2>
+        <div className="login-container mt-5 mb-5">
+            <Figure className="header_image mb-4 mt-3">
+                <Figure.Image src={Logo} alt="logo" />
+            </Figure>
+            <h2 className="mb-4">{title}</h2>
             <form onSubmit={handleSubmit}>
                 {inputs.map((input) => (
                     <InputField
@@ -119,14 +118,14 @@ const RegisterForm = ({ onSubmit, title }) => {
                     />
                 ))}
 
-                <div className="form-btn">
-                    <button className="btn btn-primary" type="submit">
+                <div className="form-btn mt-4">
+                    <button className="btn btn-primary btn-lg" type="submit">
                         Register
                     </button>
                 </div>
             </form>
-            <div className="text-end">
-                <Link className="btn" to={"/login"}>
+            <div className="text-end mt-4">
+                <Link className="" to={"/login"}>
                     Already have an account? <strong>Login</strong>
                 </Link>
             </div>

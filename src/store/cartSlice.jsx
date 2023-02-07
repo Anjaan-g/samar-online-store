@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { Navigate } from "react-router-dom";
 
 const cartSlice = createSlice({
     name: "cart",
-    initialState:{cart:[]},
+    initialState: { cart: [] },
     reducers: {
         addToCart: (state, action) => {
             const itemInCart = state.cart.find(
                 (item) => item.id === action.payload.id
             );
             if (itemInCart) {
-                itemInCart.quantity++;
+                if (itemInCart.stock > itemInCart.quantity) {
+                    itemInCart.quantity++;
+                }
             } else {
                 state.cart.push({ ...action.payload, quantity: 1 });
             }
@@ -18,8 +20,16 @@ const cartSlice = createSlice({
 
         incrementQuantity: (state, action) => {
             const item = state.cart.find((item) => item.id === action.payload);
-            item.quantity++;
+            if (item.stock > item.quantity) {
+                item.quantity++;
+            }
         },
+        // incrementQuantityBy: (state, action) => {
+        //     const item = state.cart.find((item) => item.id === action.payload);
+        //     if ( item.stock> item.quantity) {
+        //         item.quantity
+        //     }
+        // },
 
         decrementQuantity: (state, action) => {
             const item = state.cart.find((item) => item.id === action.payload);

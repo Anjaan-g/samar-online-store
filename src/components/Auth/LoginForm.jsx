@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 import InputField from "../Fields/InputField";
 
 const LoginForm = ({ onSubmit, title }) => {
-
     const [values, setValues] = useState({
         email: "",
-        password: ""
+        password: "",
     });
 
     const inputs = [
@@ -44,11 +43,11 @@ const LoginForm = ({ onSubmit, title }) => {
     }
 
     return (
-        <div className="login-container">
-            <figure className="header_image">
+        <div className="login-container mt-5 mb-5">
+            <figure className="header_image mb-4 mt-3">
                 <img src={Logo} alt="logo" />
             </figure>
-            <h2>{title}</h2>
+            <h2 className="mb-4">{title}</h2>
             <form onSubmit={handleSubmit}>
                 {inputs.map((input) => (
                     <InputField
@@ -58,8 +57,8 @@ const LoginForm = ({ onSubmit, title }) => {
                         onChange={onChange}
                     />
                 ))}
-                <div className="form-btn ">
-                    <button className="btn btn-primary" type="submit">
+                <div className="form-btn mt-4">
+                    <button className="btn btn-primary btn-lg" type="submit">
                         Login
                     </button>
                 </div>
@@ -68,8 +67,8 @@ const LoginForm = ({ onSubmit, title }) => {
                 </div>
             </form>
 
-            <div className="text-end">
-                <Link className="btn" to={"/register"}>
+            <div className="text-end mt-4">
+                <Link className="" to={"/register"}>
                     Don't have an account? <strong> Register </strong>
                 </Link>
             </div>

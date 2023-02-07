@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 export const Footer = () => {
     return (
-        <footer className="py-5 bg-dark-green text-white ">
+        <footer className="py-5 bg-dark-green text-white mt-5">
             <div className="container">
                 <div className="footer-area">
                     <div className="row">
@@ -40,13 +40,13 @@ export const Footer = () => {
                     <div className="d-flex flex-wrap justify-content-between border-top pt-3">
                         <div className="">
                             <p className="text-white">
-                                Copyrights &copy; 2022  &nbsp;
+                                Copyrights &copy; 2022 &nbsp;
                                 <a
                                     href="https://sagargaire.com.np/ "
                                     target="_blank"
                                 >
                                     Sagar Gaire
-                                </a> 
+                                </a>
                                 , All Rights Reserved.
                                 <br />
                             </p>

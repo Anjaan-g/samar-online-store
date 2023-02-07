@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { AiOutlineSearch } from "react-icons/ai";
+import { MdCancel } from "react-icons/md";
 
 import "./search.scss";
 // import {useResultContext} from "../../contexts/ResultContextProvider"
 
 export const Search = () => {
     const [text, setText] = useState("");
-    // const {setSearchTerm} = useResultContext()
     const [debounceValue] = useDebounce(text, 300);
 
-    // useEffect(() => {
-    //     if (debounceValue) setSearchTerm(debounceValue)
-    // }, [debounceValue])
-
     return (
-        <div className="search flex">
+        <div className="search d-flex justify-content-center align-items-center">
             <AiOutlineSearch className="searchIcon" />
             <input
                 value={text}
@@ -23,17 +19,18 @@ export const Search = () => {
                 placeholder="Searching for..."
                 onChange={(e) => setText(e.target.value)}
             />
-            <span>
+            <span className="d-inline">
                 {text && (
                     <button
                         type="button"
-                        className="absoulute top-1.5 right-4 text-2xl text-gray-500"
+                        className="btn"
                         onClick={() => setText("")}
                     >
-                        X
+                        <MdCancel size={20}/>
                     </button>
                 )}
             </span>
+            
         </div>
     );
 };
