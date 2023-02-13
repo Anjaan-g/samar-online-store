@@ -8,7 +8,7 @@ export const PrivateRoute = ({
     redirectPath = "/login",
     children,
 }) => {
-    const isAuthenticated = Cookies.get("accessToken")
+    const isAuthenticated = Cookies.get("token");
 
     if (!isAuthenticated) {
         toast.success("Please Login to view your Cart", {

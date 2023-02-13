@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import api from "../../services/axios";
 import LoginForm from "../../components/Auth/LoginForm";
-import { setToken } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import { login } from "../../services/axios";
 
 const LoginPage = () => {
     const navigateTo = useNavigate();
@@ -14,20 +11,8 @@ const LoginPage = () => {
     const handleSubmit = async (formState) => {
         const { email, password } = formState;
         try {
-            const response = await api.post(
-                "auth/login/",
-                { email, password },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            const {
-                accessToken,
-                refreshToken,
-                user,
-            } = response.data.data;
+            const response = await login(email, password);
+            const token = response.data.token;
 
             const notify = () => {
                 if (response.status == 200) {
@@ -43,11 +28,8 @@ const LoginPage = () => {
                 }
             };
 
-            // dispatch(setToken({accessToken, refreshToken, user}));
-            // Save to local storage
-            Cookies.set("accessToken", accessToken);
-            // Cookies.set("refreshToken", refreshToken);
-
+            // Save to Cookie storage
+            Cookies.set("token", token);
             navigateTo("/");
             notify();
         } catch (error) {

@@ -3,6 +3,8 @@ import "./LoginForm.scss";
 import Logo from "../../../assets/shopee.png";
 import { Link } from "react-router-dom";
 import InputField from "../Fields/InputField";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const LoginForm = ({ onSubmit, title }) => {
     const [values, setValues] = useState({
@@ -48,7 +50,7 @@ const LoginForm = ({ onSubmit, title }) => {
                 <img src={Logo} alt="logo" />
             </figure>
             <h2 className="mb-4">{title}</h2>
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 {inputs.map((input) => (
                     <InputField
                         key={input.id}
@@ -58,14 +60,18 @@ const LoginForm = ({ onSubmit, title }) => {
                     />
                 ))}
                 <div className="form-btn mt-4">
-                    <button className="btn btn-primary btn-lg" type="submit">
+                    <Button
+                        variant="primary"
+                        className="btn btn-lg"
+                        type="submit"
+                    >
                         Login
-                    </button>
+                    </Button>
                 </div>
                 <div className="text-end">
                     <a href="#login">forgot password?</a>
                 </div>
-            </form>
+            </Form>
 
             <div className="text-end mt-4">
                 <Link className="" to={"/register"}>

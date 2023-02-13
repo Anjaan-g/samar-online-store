@@ -16,10 +16,22 @@
 .offcanvas{
     background: $dark-green;
 
-    #offcanvasNavbarDropdown-expand {
-        background: $dark-green;
+    .btn-close {
+        color: white;
+    }
+
+    .off-canvas-header {
+        border-bottom: 1px solid white;
+    }
+
+
+    .avatar-dropdown {
+        @media screen and (min-width: 768px) {
+            align-items: start;
+        }
     }
 }
+
 
 .site-logo {
     height: 60px;

@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import { cartData } from "../store";
+import { cartData, deliveryAddress } from "../store";
 const rootReducer = combineReducers({
     cart: cartData,
+    deliveryAddress: deliveryAddress,
 });
 
 export default rootReducer;

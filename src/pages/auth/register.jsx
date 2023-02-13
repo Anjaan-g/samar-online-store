@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setToken } from "../../store/authSlice";
+import Cookies from "js-cookie";
 
 import api from "../../services/axios";
 
 export default function Register() {
-    const dispatch = useDispatch();
-    const accessToken = useSelector((state) => state.auth.accessToken);
-
     const navigateTo = useNavigate();
 
     const handleSubmit = async (formState) => {
@@ -34,7 +29,7 @@ export default function Register() {
                     },
                 }
             );
-            const { accessToken, refreshToken, user } = response.data.data;
+            const token = response.data.token;
 
             const notify = () => {
                 if (response.status == 200) {
@@ -49,13 +44,8 @@ export default function Register() {
                     });
                 }
             };
-            // store JWT token in local storage
-            dispatch(setToken({ accessToken, refreshToken, user }));
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
-            // localStorage.setItem("jwt", data.token);
-            // redirect to dashboard or home page
-            navigateTo("/");
+            Cookies.set("token", token)
+            navigateTo("/login");
             notify();
         } catch (error) {
             console.log(error);

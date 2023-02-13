@@ -3,13 +3,15 @@ import "./App.scss";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Home from "./pages/home/home";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Contact from "./pages/contact/Contact";
 import Cart from "./pages/cart/Cart";
 import ProductDetail from "./pages/productDetail/ProductDetail";
-import Checkout from "./pages/checkout/checkout";
 import { PrivateRoute } from "./actions/PrivateRoute";
-import { useSelector } from "react-redux";
+import Billing from "./pages/checkout/billing";
+import Payment from "./pages/checkout/payment";
+import Profile from "./pages/profile/Profile";
+import OrderHistory from "./pages/orderHistory/OrderHistory";
 
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
@@ -31,10 +33,34 @@ function App() {
                 />
                 <Route path="/detail" element={<ProductDetail />} />
                 <Route
-                    path="/checkout"
+                    path="/billing"
                     element={
                         <PrivateRoute>
-                            <Checkout />
+                            <Billing />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/payment"
+                    element={
+                        <PrivateRoute>
+                            <Payment />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <Profile />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/order-history"
+                    element={
+                        <PrivateRoute>
+                            <OrderHistory />
                         </PrivateRoute>
                     }
                 />

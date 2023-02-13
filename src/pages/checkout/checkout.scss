@@ -1,0 +1,13 @@
+@import "../../global.scss";
+
+.tracker {
+
+    a {
+        text-decoration: none;
+        color: black;
+        
+        &:hover {
+            color: $dark-green;
+        }
+    }
+}

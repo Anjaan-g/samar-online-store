@@ -1,5 +1,11 @@
 @import "../../global.scss";
 
+.divider {
+    flex-grow: 2;
+    border-top: 1px solid black;
+    margin: 15px
+}
+
 .table-content {
     min-width: 450px;
 

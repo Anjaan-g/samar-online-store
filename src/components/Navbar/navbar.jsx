@@ -12,18 +12,12 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { LinkContainer } from "react-router-bootstrap";
 import { removeToken } from "../../store/authSlice";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = ({ darkTheme, setDarkTheme }) => {
+    const navigateTo = useNavigate();
     const themeMode = useSelector((state) => state.themeMode);
-    const dispatch = useDispatch();
-    // const accessToken = useSelector((state) => state.auth.accessToken);
-    // const refreshToken = useSelector((state) => state.auth.refreshToken);
-
-    // useEffect(() => {}, [accessToken, refreshToken]);
-    // if (accessToken !== null) {
-    //     token = accessToken;
-    // }
-    const token = Cookies.get("accessToken");
+    const token = Cookies.get("token");
     const cart = useSelector((state) => state.cart);
     const getTotalQuantity = () => {
         let total = 0;
@@ -53,18 +47,19 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                     placement="end"
                     scroll
                     backdrop
-                    className="offcanvas text-bg-dark-green"
+                    className="offcanvas-end text-bg-dark-green"
+                    tabindex="-1"
                 >
-                    <Offcanvas.Header closeButton className="text-white">
+                    <Offcanvas.Header
+                        closeButton
+                        className="off-canvas-header text-white"
+                    >
                         <Offcanvas.Title id={`offcanvasNavbarLabel-expand`}>
-                            Menu
+                            <div className="">Menu</div>
                         </Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                        <Nav
-                            className="justify-content-end flex-grow-1 pe-3 gap-4 align-items-center"
-                            style={{ maxHeight: "100px" }}
-                        >
+                        <Nav className="off-canvas-nav justify-content-end flex-grow-1 pe-3 gap-4 align-items-center">
                             <LinkContainer to="/contact">
                                 <Nav.Link className="text-white">
                                     <strong>Contact</strong>
@@ -77,11 +72,11 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                                         size={"30px"}
                                         color="white"
                                     />
-                                    {
+                                    {token && (
                                         <span className="item-count">
                                             {getTotalQuantity() || 0}
                                         </span>
-                                    }
+                                    )}
                                 </Nav.Link>
                             </LinkContainer>
                             {token && (
@@ -94,19 +89,33 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                                     }
                                     id={`offcanvasNavbarDropdown-expand`}
                                     className="avatar-dropdown"
+                                    drop="down"
+                                    align="end"
                                 >
-                                    <NavDropdown.Item href="#action3">
-                                        Profile
+                                    <NavDropdown.Item>
+                                        <LinkContainer to="/profile">
+                                            <Nav.Link className="text-dark">
+                                                Profile
+                                            </Nav.Link>
+                                        </LinkContainer>
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action4">
-                                        Order History
+                                    <NavDropdown.Item>
+                                        <LinkContainer to="/order-history">
+                                            <Nav.Link className="text-dark">
+                                                Order History
+                                            </Nav.Link>
+                                        </LinkContainer>
                                     </NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item
-                                        href="#action5"
-                                        onClick={() => dispatch(removeToken())}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            Cookies.remove("token");
+                                            navigateTo("/login");
+                                            window.location.reload(true);
+                                        }}
                                     >
-                                        <BiLogOut size={25} color="red" />{" "}
+                                        <BiLogOut size={25} color="red" />
                                         Logout
                                     </NavDropdown.Item>
                                 </NavDropdown>

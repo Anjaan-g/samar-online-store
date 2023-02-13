@@ -1,21 +1,35 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
+import { FiEdit3 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-const Checkout = ({ totalQuantity, totalPrice, discount, setDiscount }) => {
+const Checkout = ({
+    totalQuantity,
+    totalPrice,
+    discount,
+    setDiscount,
+    page,
+}) => {
     const deliveryCharge = totalPrice >= 5000 ? 0 : 100;
     return (
         <Col>
             <Card>
                 <Card.Header className="pt-4">
-                    <h4>Order Summary</h4>
+                    <div className="d-flex justify-content-between align-items center">
+                        <h4>Order Summary</h4>
+                        {page === "payment" ? (
+                            <Link to="/cart">
+                                <FiEdit3 size={25} color="green" />
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
                 </Card.Header>
                 <Card.Body>
                     <div className="d-flex flex-column">
@@ -63,31 +77,39 @@ const Checkout = ({ totalQuantity, totalPrice, discount, setDiscount }) => {
                             </span>
                         </div>
                     </div>
-                    <hr />
-                    <div className="discount mt-3">
-                        <InputGroup className="mb-3">
-                            <Form.Control
-                                placeholder="discount"
-                                aria-label="Discount"
-                                as="input"
-                                className="text-uppercase"
-                            />
-                            <InputGroup.Text>
-                                <Button variant="success">Apply</Button>
-                            </InputGroup.Text>
-                        </InputGroup>
-                    </div>
-                    <hr />
-                    <div className="checkout d-flex justify-content-center align-items-center">
-                        <LinkContainer to="/login">
-                            <Button
-                                variant="success"
-                                className="btn btn-dark-green btn-lg w-full"
-                            >
-                                Proceed to checkout
-                            </Button>
-                        </LinkContainer>
-                    </div>
+                    {page === "cart" ? (
+                        <>
+                            <hr />
+                            <div className="discount mt-3">
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="discount"
+                                        aria-label="Discount"
+                                        as="input"
+                                        className="text-uppercase"
+                                    />
+                                    <InputGroup.Text>
+                                        <Button variant="success">
+                                            Apply
+                                        </Button>
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </div>
+                            <hr />
+                            <div className="checkout d-flex justify-content-center align-items-center">
+                                <LinkContainer to="/billing">
+                                    <Button
+                                        variant="success"
+                                        className="btn btn-dark-green btn-lg w-full"
+                                    >
+                                        Proceed to checkout
+                                    </Button>
+                                </LinkContainer>
+                            </div>
+                        </>
+                    ) : (
+                        <div />
+                    )}
                 </Card.Body>
             </Card>
         </Col>

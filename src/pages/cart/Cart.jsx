@@ -7,12 +7,14 @@ import {
 } from "../../store/cartSlice";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { FiCheckCircle, FiCircle, FiPlus } from "react-icons/fi";
+import { BiArrowBack } from "react-icons/bi";
 import Item from "../../../assets/5.webp";
 import "./Cart.scss";
 import { useNavigate } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Col from "react-bootstrap/Col";
-import Checkout from "../checkout/checkout";
+import Checkout from "../checkout/summary";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import { useState } from "react";
@@ -44,6 +46,22 @@ const Cart = () => {
     return (
         <Container>
             <h3 className="display-5">Checkout</h3>
+            <div className="container tracker d-flex align-items-center mt-5 w-75">
+                <h5 className="text-dark-green">
+                    <FiCircle size={12} color="green" fill="white" />
+                    &nbsp; Cart
+                </h5>
+                <span className="divider d-flex"></span>
+                <h5>
+                    <FiCircle size={12} />
+                    &nbsp; Billing
+                </h5>
+                <span className="divider d-flex"></span>
+                <h5>
+                    <FiCircle size={12} />
+                    &nbsp; Checkout
+                </h5>
+            </div>
             <div className="table-content d-flex flex-row justify-content-between mt-5 flex-wrap gap-5">
                 <Col lg={7} sm={12} xs={12}>
                     <Card>
@@ -161,6 +179,23 @@ const Cart = () => {
                             </Table>
                         </Card.Body>
                     </Card>
+                    <div className="d-flex justify-content-between align-items-center mt-5">
+                        <div className="back">
+                            <Link to="/">
+                                <Button
+                                    variant="outline-light"
+                                    className="text-dark-green back-button"
+                                >
+                                    <BiArrowBack /> Continue Shopping
+                                </Button>
+                            </Link>
+                        </div>
+                        <div className="add-new">
+                            {/* <Button variant="danger">
+                                <FiPlus size={25} /> Add new Address
+                            </Button> */}
+                        </div>
+                    </div>
                 </Col>
                 <Col lg={4} md={12} sm={12} xs={12}>
                     <Checkout
@@ -168,6 +203,7 @@ const Cart = () => {
                         totalQuantity={totalQuantity()}
                         discount={discount}
                         setDiscount={setDiscount}
+                        page="cart"
                     />
                 </Col>
             </div>
