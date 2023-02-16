@@ -11,6 +11,7 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import Checkout from "./summary";
 import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
+import { Helmet } from "react-helmet";
 
 const Payment = () => {
     const cart = useSelector((state) => state.cart);
@@ -36,6 +37,22 @@ const Payment = () => {
 
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>
+                    {" "}
+                    Samar Supplier | Payment | Choose a payment method to order
+                    now{" "}
+                </title>
+                <link
+                    rel="canonical"
+                    href="http://samarsuppliers.com/payment"
+                />
+                <meta
+                    name="description"
+                    content="Select e-sewa, khalti, connect-ips or cash on delivery to pay for your products."
+                />
+            </Helmet>
             <h3 className="display-5">Payment</h3>
             <div className="tracker d-flex container align-items-center justify-content-center mt-5 w-75">
                 <Link to="/cart">

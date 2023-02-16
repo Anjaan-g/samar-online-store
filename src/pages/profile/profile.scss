@@ -1,0 +1,14 @@
+@import '../../global.scss';
+
+.tablink {
+    cursor: pointer;
+}
+.profile-sidebar {
+    min-width: 100px;
+}
+.edit {
+    cursor: pointer;
+}
+.active-tab {
+    background-color: $accent;
+}

@@ -10,7 +10,6 @@ import { default as NavBar } from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { LinkContainer } from "react-router-bootstrap";
-import { removeToken } from "../../store/authSlice";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -27,6 +26,13 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
         });
         return total;
     };
+    useEffect(() => {
+      
+    
+      return () => {
+      }
+    }, [token])
+    
 
     return (
         <NavBar collapseOnSelect sticky="top" bg="dark-green" expand="md">
@@ -48,7 +54,7 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                     scroll
                     backdrop
                     className="offcanvas-end text-bg-dark-green"
-                    tabindex="-1"
+                    tabIndex="-1"
                 >
                     <Offcanvas.Header
                         closeButton
@@ -100,7 +106,12 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                                         </LinkContainer>
                                     </NavDropdown.Item>
                                     <NavDropdown.Item>
-                                        <LinkContainer to="/order-history">
+                                        <LinkContainer
+                                            to={{
+                                                pathname: "/profile",
+                                                search: "?active=orderHistory",
+                                            }}
+                                        >
                                             <Nav.Link className="text-dark">
                                                 Order History
                                             </Nav.Link>

@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
+import { Helmet } from "react-helmet";
 
 const faqs = [
     {
@@ -20,12 +21,23 @@ const faqs = [
         answer: "Answer to that question",
     },
 ];
+
 const Contact = () => {
     function handleSubmit(e) {
         e.preventDefault();
     }
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title> Samar Supplier | Contact | Submit your queries about anything here </title>
+                <link rel="canonical" href="http://samarsuppliers.com/contact" />
+                <meta
+                    name="description"
+                    content="Contact us for detail knowledge of any products or request any product."
+                />
+                
+            </Helmet>
             {/* <div className="d-flex flex-column justify-content-center align-items-center"> */}
             <h3 className="display-5">Contact</h3>
             <div className="d-flex justify-content-between mt-4">

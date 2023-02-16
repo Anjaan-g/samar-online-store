@@ -11,11 +11,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 // import * as bootstrap from "bootstrap";
 
 import { Provider } from "react-redux";
-import {
-    configureStore,
-    applyMiddleware,
-    getDefaultMiddleware,
-} from "@reduxjs/toolkit";
+import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 

@@ -6,14 +6,25 @@ import { Search } from "../../components/Search/search";
 import CarouselContainer from "../../components/Carousel/Carousel";
 import "./home.scss";
 import products from "../../utils/products";
-import Container from "react-bootstrap/Container"
+import Container from "react-bootstrap/Container";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
     return (
         <div className="home">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title> Samar Supplier | Home | Surround your life with authentic gadgets </title>
+                <link rel="canonical" href="http://samarsuppliers.com/home" />
+                <meta
+                    name="description"
+                    content="Samar supplier is your one and only place to get authentic gadgets and accessories for your smart phone or computers. Online store in Butwal."
+                />
+                
+            </Helmet>
             <CarouselContainer />
 
-            <Container >
+            <Container>
                 <div className="d-flex d-sm-flex flex-row justify-content-around">
                     <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex">
                         <div className="card-body">

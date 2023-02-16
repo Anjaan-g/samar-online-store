@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { login } from "../../services/axios";
+import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
     const navigateTo = useNavigate();
@@ -46,6 +47,15 @@ const LoginPage = () => {
 
     return (
         <div className="container col-lg-6 max-h-vh">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title> Samar Supplier | Login </title>
+                <link rel="canonical" href="http://samarsuppliers.com/login" />
+                <meta
+                    name="description"
+                    content="Samar supplier is your one and only place to get authentic gadgets and accessories for your smart phone or computers."
+                />
+            </Helmet>
             <div className="login">
                 <LoginForm title={"Login"} onSubmit={handleSubmit} />
             </div>

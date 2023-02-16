@@ -20,6 +20,7 @@ import Card from "react-bootstrap/Card";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Cart = () => {
     const dispatch = useDispatch();
@@ -44,7 +45,17 @@ const Cart = () => {
     };
 
     return (
-        <Container>
+        <Container className="w-full">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title> Samar Supplier | Cart | Your Cart for all purposes </title>
+                <link rel="canonical" href="http://samarsuppliers.com/cart" />
+                <meta
+                    name="description"
+                    content="Track your items in the cart. Add new and authentic items to cart and find similar items easily."
+                />
+                
+            </Helmet>
             <h3 className="display-5">Checkout</h3>
             <div className="container tracker d-flex align-items-center mt-5 w-75">
                 <h5 className="text-dark-green">

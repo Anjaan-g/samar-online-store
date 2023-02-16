@@ -10,6 +10,7 @@ import Checkout from "./summary";
 import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
 import { selectAddress, removeAddress } from "../../store/addressSlice";
+import { Helmet } from "react-helmet";
 
 const Billing = () => {
     const cart = useSelector((state) => state.cart);
@@ -37,9 +38,19 @@ const Billing = () => {
     const handleClick = () => {
         
     }
-
+    
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title> Samar Supplier | Billing | Add new address or select and address </title>
+                <link rel="canonical" href="http://samarsuppliers.com/billing" />
+                <meta
+                    name="description"
+                    content="Easily find and buy gadgets with discounted price from the ease of your home. "
+                />
+                
+            </Helmet>
             <h3 className="display-5">Billing & Address </h3>
             <div className="tracker d-flex container align-items-center justify-content-center mt-5 w-75">
                 <Link to="/cart">

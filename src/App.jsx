@@ -11,13 +11,13 @@ import { PrivateRoute } from "./actions/PrivateRoute";
 import Billing from "./pages/checkout/billing";
 import Payment from "./pages/checkout/payment";
 import Profile from "./pages/profile/Profile";
-import OrderHistory from "./pages/orderHistory/OrderHistory";
+import NotFound from "./pages/error/404";
 
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
 
     return (
-        <div className={` app ${darkTheme && "app__dark"}`}>
+        <div className={` app w-100 ${darkTheme && "app__dark"}`}>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
@@ -56,14 +56,7 @@ function App() {
                         </PrivateRoute>
                     }
                 />
-                <Route
-                    path="/order-history"
-                    element={
-                        <PrivateRoute>
-                            <OrderHistory />
-                        </PrivateRoute>
-                    }
-                />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
     );

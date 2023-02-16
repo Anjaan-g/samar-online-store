@@ -1,9 +1,15 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const api = axios.create({
     baseURL: "http://localhost:8888/api/v1/",
 });
-// api.defaults.headers.common["Content-Type"] = "application/json";
+
+api.interceptors.request.use(function (config) {
+    const token = Cookies.get("token");
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+    return config;
+});
 
 export const login = async (email, password) => {
     try {
@@ -21,7 +27,6 @@ export const login = async (email, password) => {
         console.log(e);
         return;
     }
-    // return response;
 };
 
 export const register = async (
@@ -54,21 +59,6 @@ export const register = async (
         console.log(e);
         return;
     }
-};
-
-export const refresh = async ({ refreshToken }) => {
-    response = await api.post(
-        "auth/refresh/",
-        {
-            refresh_token: refreshToken,
-        },
-        {
-            headers: {
-                "content-type": "multipart/form-data",
-            },
-        }
-    );
-    return response;
 };
 
 export default api;

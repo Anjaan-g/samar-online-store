@@ -8,7 +8,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
+import Container from "react-bootstrap/Container";
 const product = {
     id: "1",
     name: "Smart Watch",
@@ -76,7 +77,22 @@ const ProductDetail = () => {
     };
 
     return (
-        <div className="container">
+        <Container>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>
+                    Samar Supplier | {product.name} | Buy {product.name} easily
+                    from your home
+                </title>
+                <link
+                    rel="canonical"
+                    href="http://samarsuppliers.com/detail"
+                />
+                <meta
+                    name="description"
+                    content={`Samar supplier provides you with authentic ${product.name} for your daily usage. Buy ${product.name} in Butwal, Online. `}
+                />
+            </Helmet>
             {/* <h4 className="display-4">Product Details</h4> */}
             <div className="product-detail d-flex flex-wrap justify-content-center gap-5 ">
                 <div className="col-xl-5 col-lg-5 col-md-10 col-sm-12 product-image pt-5 d-flex flex-column">
@@ -259,7 +275,7 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 
