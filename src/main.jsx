@@ -11,26 +11,24 @@ import "bootstrap/dist/js/bootstrap.min.js";
 // import * as bootstrap from "bootstrap";
 
 import { Provider } from "react-redux";
-import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 
 import "react-toastify/dist/ReactToastify.css";
 import rootReducer from "./reducers/rootReducer";
-
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from "redux-persist";
+import { usersAddressSlice } from "./store/addressSlice";
+import { persistStore } from "redux-persist";
+import { userHistorySlice } from "./store/historySlice";
+import { userReturnsSlice } from "./store/returnsSlice";
 
 const store = configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+            .concat(usersAddressSlice.middleware)
+            .concat(userHistorySlice.middleware)
+            .concat(userReturnsSlice.middleware),
 });
 
 const persistor = persistStore(store);

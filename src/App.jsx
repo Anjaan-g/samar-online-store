@@ -12,6 +12,7 @@ import Billing from "./pages/checkout/billing";
 import Payment from "./pages/checkout/payment";
 import Profile from "./pages/profile/Profile";
 import NotFound from "./pages/error/404";
+import Admin from "./components/Admin/Admin";
 
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
@@ -53,6 +54,14 @@ function App() {
                     element={
                         <PrivateRoute>
                             <Profile />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/admin"
+                    element={
+                        <PrivateRoute>
+                            <Admin />
                         </PrivateRoute>
                     }
                 />

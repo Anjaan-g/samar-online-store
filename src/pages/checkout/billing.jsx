@@ -9,8 +9,13 @@ import { BiArrowBack } from "react-icons/bi";
 import Checkout from "./summary";
 import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
-import { selectAddress, removeAddress } from "../../store/addressSlice";
+import {
+    selectAddress,
+    removeAddress,
+} from "../../store/deliveryAddressSlice";
 import { Helmet } from "react-helmet";
+import { useGetAddressQuery } from "../../store/addressSlice";
+import AddAddressModal from "../../components/Modals/AddAddressModal";
 
 const Billing = () => {
     const cart = useSelector((state) => state.cart);
@@ -33,23 +38,28 @@ const Billing = () => {
 
     const [discount, setDiscount] = useState(0);
 
-    const [modalShow, setModalShow] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const { data = [], error, loading } = useGetAddressQuery();
 
-    const handleClick = () => {
-        
-    }
-    
+    const handleClick = () => {};
+
     return (
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title> Samar Supplier | Billing | Add new address or select and address </title>
-                <link rel="canonical" href="http://samarsuppliers.com/billing" />
+                <title>
+                    {" "}
+                    Samar Supplier | Billing | Add new address or select and
+                    address{" "}
+                </title>
+                <link
+                    rel="canonical"
+                    href="http://samarsuppliers.com/billing"
+                />
                 <meta
                     name="description"
                     content="Easily find and buy gadgets with discounted price from the ease of your home. "
                 />
-                
             </Helmet>
             <h3 className="display-5">Billing & Address </h3>
             <div className="tracker d-flex container align-items-center justify-content-center mt-5 w-75">
@@ -70,50 +80,58 @@ const Billing = () => {
                     &nbsp; Checkout
                 </h5>
             </div>
+
             <div className="d-flex flex-row justify-content-between mt-5 flex-wrap gap-5">
                 <Col lg={7} sm={12} xs={12}>
-                    <Card>
-                        <Card.Body>
-                            <div className="d-flex flex-wrap justify-content-between">
-                                <div className="d-flex flex-column">
-                                    <div className="d-flex">
-                                        <h4>
-                                            Sagar Gaire
-                                            <span className="alias display-block">
-                                                Home
-                                            </span>
-                                        </h4>
-                                        <span className="tag">Default</span>
+                    {data?.map((item) => {
+                        return (
+                            <Card className="mt-2 w-100" key={item.id}>
+                                <Card.Body>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="d-flex flex-column">
+                                            <div className="d-flex align-items-center">
+                                                <h5>{item.contact_person}</h5>
+                                                <span className="d-inline text-dark">
+                                                    ( {item.tag} )
+                                                </span>
+                                                {item.default && (
+                                                    <span className="d-inline text-white bg-dark-green rounded">
+                                                        Default
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className="lead">
+                                                {item.address}
+                                            </p>
+                                            <p>{item.phone_no}</p>
+                                        </div>
+                                        <div className="d-flex flex-column justify-content-end align-items-center">
+                                            <Button
+                                                variant="success"
+                                                className="btn"
+                                                onClick={() => {
+                                                    dispatch(
+                                                        selectAddress({
+                                                            id: item.id,
+                                                            name: item.contact_person,
+                                                            address:
+                                                                item.address,
+                                                            contact:
+                                                                item.phone_no,
+                                                        })
+                                                    );
+                                                    navigateTo("/payment");
+                                                }}
+                                            >
+                                                Deliver to this address
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <p>
-                                        Sahabhagita Marga, Mid-Baneshwor,
-                                        Kathmandu
-                                    </p>
-                                    <p>9847004480</p>
-                                </div>
-                                <div className="d-flex flex-column justify-content-end align-items-center">
-                                    <Button
-                                        variant="success"
-                                        className="btn"
-                                        onClick={() => {
-                                            dispatch(
-                                                selectAddress({
-                                                    id: 1,
-                                                    name: "Sagar Gaire",
-                                                    address:
-                                                        "Sahabhagita Marga, Mid-Baneshwor 10, Kathmandu",
-                                                    contact: "9847004480",
-                                                })
-                                            );
-                                            navigateTo("/payment");
-                                        }}
-                                    >
-                                        Deliver to this address
-                                    </Button>
-                                </div>
-                            </div>
-                        </Card.Body>
-                    </Card>
+                                </Card.Body>
+                            </Card>
+                        );
+                    })}
+
                     <div className="d-flex justify-content-between align-items-center mt-5 mx-2">
                         <div className="back">
                             <Link to="/cart">
@@ -126,10 +144,17 @@ const Billing = () => {
                             </Link>
                         </div>
                         <div className="add-new">
-                            <Button variant="danger" onClick={handleClick()}>
+                            <Button
+                                variant="info"
+                                onClick={() => setShowModal(true)}
+                            >
                                 <FiPlus size={25} /> Add new Address
                             </Button>
                         </div>
+                        <AddAddressModal
+                            show={showModal}
+                            onHide={() => setShowModal(false)}
+                        />
                     </div>
                 </Col>
                 <Col lg={4} md={12} sm={12} xs={12}>

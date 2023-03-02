@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { login } from "../../services/axios";
 import { Helmet } from "react-helmet";
+import jwt_decode from "jwt-decode";
 
 const LoginPage = () => {
     const navigateTo = useNavigate();
@@ -30,7 +31,10 @@ const LoginPage = () => {
             };
 
             // Save to Cookie storage
-            Cookies.set("token", token);
+            const decodedData = jwt_decode(token);
+            Cookies.set("token", token, {
+                expires: new Date(decodedData.exp * 1000),
+            });
             navigateTo("/");
             notify();
         } catch (error) {

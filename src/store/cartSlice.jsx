@@ -24,13 +24,6 @@ const cartSlice = createSlice({
                 item.quantity++;
             }
         },
-        // incrementQuantityBy: (state, action) => {
-        //     const item = state.cart.find((item) => item.id === action.payload);
-        //     if ( item.stock> item.quantity) {
-        //         item.quantity
-        //     }
-        // },
-
         decrementQuantity: (state, action) => {
             const item = state.cart.find((item) => item.id === action.payload);
             if (item.quantity === 1) {

@@ -12,11 +12,21 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { LinkContainer } from "react-router-bootstrap";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 export const Navbar = ({ darkTheme, setDarkTheme }) => {
     const navigateTo = useNavigate();
-    const themeMode = useSelector((state) => state.themeMode);
     const token = Cookies.get("token");
+
+    const getAdminStatus = () => {
+        if (token) {
+            const decodedData = jwt_decode(token);
+            const admin = decodedData.admin;
+            return admin
+        }
+    }
+
+    const admin = getAdminStatus();
     const cart = useSelector((state) => state.cart);
     const getTotalQuantity = () => {
         let total = 0;
@@ -26,13 +36,6 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
         });
         return total;
     };
-    useEffect(() => {
-      
-    
-      return () => {
-      }
-    }, [token])
-    
 
     return (
         <NavBar collapseOnSelect sticky="top" bg="dark-green" expand="md">
@@ -66,6 +69,15 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="off-canvas-nav justify-content-end flex-grow-1 pe-3 gap-4 align-items-center">
+                            {admin ? (
+                                <LinkContainer to="/admin">
+                                    <Nav.Link className="text-white">
+                                        <strong>Admin Panel</strong>
+                                    </Nav.Link>
+                                </LinkContainer>
+                            ) : (
+                                <></>
+                            )}
                             <LinkContainer to="/contact">
                                 <Nav.Link className="text-white">
                                     <strong>Contact</strong>

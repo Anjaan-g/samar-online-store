@@ -1,29 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit";
+import authHeader from "../services/auth-header";
+import { apiSlice } from "./apiSlice";
 
-const addressSlice = createSlice({
-    name: "deliveryAddress",
-    initialState: {
-        id: null,
-        name: null,
-        address: null,
-        contact: null,
-    },
-    reducers: {
-        selectAddress: (state, action) => {
-            state.id = action.payload.id;
-            state.name = action.payload.name;
-            state.address = action.payload.address;
-            state.contact = action.payload.contact;
-        },
-        removeAddress: (state, token) => {
-            state.id = null;
-            state.name = null;
-            state.address = null;
-            state.contact = null;
-        },
-    },
+export const usersAddressSlice = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        getAddress: builder.query({
+            query: () => ({
+                url:"auth/user/address/",
+                method: "GET",
+                headers: authHeader,
+            }),
+            providesTags: ["Address"],
+        }),
+        addAddress: builder.mutation({
+            query: ({contactPerson, address, phoneNo, tag, isdefault}) => ({
+                url: "auth/user/address/",
+                method: "POST",
+                body: {contact_person:contactPerson, address:address, phone_no:phoneNo, tag:tag, default:isdefault},
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Address"],
+        }),
+        updateAddress: builder.mutation({
+            query: ({ id, contactPerson, address, phoneNo, tag, isdefault }) => ({
+                url: `auth/user/address/${id}/`,
+                method: "PATCH",
+                body: {contact_person:contactPerson, address:address, phone_no:phoneNo, tag:tag, default:isdefault},
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Address"],
+        }),
+        deleteAddress: builder.mutation({
+            query: (id) => ({
+                url: `auth/user/address/${id}`,
+                method: "Delete",
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Address"],
+        }),
+    }),
 });
 
-export const { selectAddress, removeAddress } = addressSlice.actions;
-
-export const addressReducer = addressSlice.reducer;
+export const { useGetAddressQuery, useAddAddressMutation, useUpdateAddressMutation, useDeleteAddressMutation } = usersAddressSlice;
