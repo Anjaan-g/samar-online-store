@@ -11,7 +11,7 @@ const RegisterForm = ({ onSubmit, title }) => {
         lastName: "",
         email: "",
         phoneNo: "",
-        avatar: "",
+        avatar: null,
         password: "",
         confirmPassword: "",
     });
@@ -93,13 +93,17 @@ const RegisterForm = ({ onSubmit, title }) => {
         const lastName = event.target.elements.lastName.value;
         const email = event.target.elements.email.value;
         const phoneNo = event.target.elements.phoneNo.value;
-        const avatar = event.target.elements.avatar.value;
+        const avatar = event.target.elements.avatar.files[0];
         const password = event.target.elements.password.value;
         onSubmit({ firstName, lastName, email, phoneNo, avatar, password });
     }
 
     const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
+        if (e.target.name == "avatar") {
+            setValues({ ...values, [e.target.name]: e.target.files[0] });
+        } else {
+            setValues({ ...values, [e.target.name]: e.target.value });
+        }
     };
 
     return (
@@ -113,7 +117,7 @@ const RegisterForm = ({ onSubmit, title }) => {
                     <InputField
                         key={input.id}
                         {...input}
-                        value={values[input.name]}
+                        defaultValue={values[input.name]}
                         onChange={onChange}
                     />
                 ))}

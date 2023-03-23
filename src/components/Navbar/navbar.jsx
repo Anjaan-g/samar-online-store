@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./navbar.scss";
 import Shoppee from "../../../assets/logo_3.png";
-import { useDispatch, useSelector } from "react-redux";
 import { BiShoppingBag, BiLogOut } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import Container from "react-bootstrap/Container";
@@ -13,29 +12,72 @@ import { LinkContainer } from "react-router-bootstrap";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import {
+    useGetCartItemsQuery,
+    useUpdateCartMutation,
+} from "../../store/userCartSlice";
+import { Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { setCart } from "../../store/cartSlice";
 
-export const Navbar = ({ darkTheme, setDarkTheme }) => {
-    const navigateTo = useNavigate();
+export const Navbar = () => {
     const token = Cookies.get("token");
+
+    const navigateTo = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const {
+        data: cartData = [],
+        isLoading,
+        isError,
+        error,
+    } = useGetCartItemsQuery();
+
+    const [updateCart, { isLoading: isLoadingUpdateCart }] =
+        useUpdateCartMutation();
+
+    const cart = useSelector((state) => state.cart) || {};
+    const { data = [] } = cart;
+
+    useEffect(() => {
+        if (!isLoading) {
+            dispatch(setCart(cartData.data));
+        }
+        return () => {};
+    }, []);
+
+    useEffect(() => {
+        if (data && data.length > 0) {
+            updateCart(data);
+        }
+    }, [data]);
 
     const getAdminStatus = () => {
         if (token) {
             const decodedData = jwt_decode(token);
             const admin = decodedData.admin;
-            return admin
+            return admin;
         }
-    }
-
+    };
     const admin = getAdminStatus();
-    const cart = useSelector((state) => state.cart);
+
     const getTotalQuantity = () => {
         let total = 0;
-
-        cart.cart.forEach((item) => {
-            total += item.quantity;
-        });
+        if (cart.data) {
+            cart.data?.forEach((item) => {
+                total += item.qty;
+            });
+        }
         return total;
     };
+
+    if (isError) {
+        return <>ERROR</>;
+    }
+    if (isLoading) {
+        return <>Loading...</>;
+    }
 
     return (
         <NavBar collapseOnSelect sticky="top" bg="dark-green" expand="md">
@@ -85,19 +127,21 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                             </LinkContainer>
                             <LinkContainer to="/cart">
                                 <Nav.Link>
-                                    <BiShoppingBag
-                                        className="shop_icon"
-                                        size={"30px"}
-                                        color="white"
-                                    />
-                                    {token && (
-                                        <span className="item-count">
-                                            {getTotalQuantity() || 0}
-                                        </span>
-                                    )}
+                                    <div className="d-flex align-items-center justify-content-center">
+                                        <BiShoppingBag
+                                            className="shop_icon"
+                                            size={"30px"}
+                                            color="white"
+                                        />
+                                        {token && (
+                                            <span className="item-count">
+                                                {getTotalQuantity() || 0}
+                                            </span>
+                                        )}
+                                    </div>
                                 </Nav.Link>
                             </LinkContainer>
-                            {token && (
+                            {token ? (
                                 <NavDropdown
                                     title={
                                         <BsFillPersonFill
@@ -132,18 +176,15 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item
                                         onClick={(e) => {
-                                            e.preventDefault();
                                             Cookies.remove("token");
                                             navigateTo("/login");
-                                            window.location.reload(true);
                                         }}
                                     >
                                         <BiLogOut size={25} color="red" />
                                         Logout
                                     </NavDropdown.Item>
                                 </NavDropdown>
-                            )}
-                            {!token && (
+                            ) : (
                                 <LinkContainer to="/login">
                                     <Nav.Link className="text-white">
                                         Login/Register
@@ -157,35 +198,3 @@ export const Navbar = ({ darkTheme, setDarkTheme }) => {
         </NavBar>
     );
 };
-
-/*
-
-<Nav  className="me-auto d-flex gap-5 align-items-center justify-content-between">
-                        <Nav.Link className="nav-item">
-                            <Link
-                                to="/contact"
-                                className="text-white fw-bold text-decoration-none"
-                            >
-                                Contact
-                            </Link>
-                        </Nav.Link>
-                        <Nav.Link className="nav-item ">
-                            <Link
-                                to="/cart"
-                                className="text-white fw-bold text-decoration-none"
-                            >
-                                <BiShoppingBag
-                                    className="shop_icon"
-                                    size={"30px"}
-                                />
-                                <span className="item-count">
-                                    {getTotalQuantity() || 0}
-                                </span>
-                            </Link>
-                        </Nav.Link>
-                        <Nav.Link className="nav-item text-white cursor">
-                            <BsFillPersonFill size={"30px"} />
-                        </Nav.Link>
-                    </Nav>
-                    
-*/

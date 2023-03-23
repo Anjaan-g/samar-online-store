@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import api from "../../services/axios";
 import { Helmet } from "react-helmet";
+import { register } from "../../services/axios";
 
 export default function Register() {
     const navigateTo = useNavigate();
@@ -13,23 +14,16 @@ export default function Register() {
             formState;
 
         try {
-            const response = await api.post(
-                "auth/register/",
-                {
-                    first_name: firstName,
-                    last_name: lastName,
-                    email: email,
-                    phone_no: phoneNo,
-                    avatar: avatar,
-                    password: password,
-                },
-                {
-                    headers: {
-                        "content-type": "multipart/form-data",
-                    },
-                }
+            const response = await register(
+                firstName,
+                lastName,
+                email,
+                phoneNo,
+                avatar,
+                password
             );
             const token = response.data.token;
+            console.log(token);
 
             const notify = () => {
                 if (response.status == 200) {
@@ -45,7 +39,7 @@ export default function Register() {
                 }
             };
             Cookies.set("token", token);
-            navigateTo("/login");
+            navigateTo("/");
             notify();
         } catch (error) {
             console.log(error);
@@ -57,9 +51,8 @@ export default function Register() {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    {" "}
                     Samar Supplier | Register | Come join us for authentic
-                    gadgets{" "}
+                    gadgets
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta

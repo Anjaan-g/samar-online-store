@@ -40,9 +40,12 @@
 }
 
 .item-count {
-    color:white;
+    color:rgb(255, 255, 255);
     background:red;
-    display: unset;
+    display: flex;
     border-radius: 50%;
+    height: 22px;
+    width: 22px;
     align-items: center;
+    justify-content: center;
 }
