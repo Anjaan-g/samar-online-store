@@ -15,7 +15,7 @@ const Checkout = ({
     setDiscount,
     page,
 }) => {
-    const deliveryCharge = totalPrice >= 5000 ? 0 : 100;
+    const deliveryCharge = totalPrice >= 10000 ? 0 : 100;
     return (
         <Col>
             <Card>
@@ -54,19 +54,27 @@ const Checkout = ({
                             )}
                         </div>
 
-                        <div className="d-flex justify-content-between">
-                            <p className="text-left">Delivery Charge </p>
+                        {totalQuantity > 0 && (
+                            <div className="d-flex justify-content-between">
+                                <p className="text-left">Delivery Charge </p>
 
-                            <h6>Rs. {deliveryCharge}</h6>
-                        </div>
+                                <h6>Rs. {deliveryCharge}</h6>
+                            </div>
+                        )}
                     </div>
                     <hr />
                     <div className="total d-flex justify-content-between">
                         <p>Total</p>
                         <div className="d-flex flex-column">
-                            <h6 className="text-end">
-                                {totalPrice - discount + deliveryCharge}
-                            </h6>
+                            {totalQuantity > 0 ? (
+                                <h6 className="text-end">
+                                    {totalPrice - discount + deliveryCharge}
+                                </h6>
+                            ) : (
+                                <h6 className="text-end">
+                                    {totalPrice - discount}
+                                </h6>
+                            )}
                             <span
                                 style={{
                                     display: "inline-block",
@@ -101,6 +109,7 @@ const Checkout = ({
                                     <Button
                                         variant="success"
                                         className="btn btn-dark-green btn-lg w-full"
+                                        disabled = {totalQuantity==0}
                                     >
                                         Proceed to checkout
                                     </Button>

@@ -1,10 +1,4 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    removeItem,
-    incrementQuantity,
-    decrementQuantity,
-} from "../../store/cartSlice";
+import React, { useEffect } from "react";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FiCheckCircle, FiCircle, FiPlus } from "react-icons/fi";
@@ -17,29 +11,37 @@ import Col from "react-bootstrap/Col";
 import Checkout from "../checkout/summary";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import {
+    incrementQuantity,
+    decrementQuantity,
+    removeItem,
+} from "../../store/cartSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 
 const Cart = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     const cart = useSelector((state) => state.cart);
+    console.log(cart);
 
+    const dispatch = useDispatch();
     const [discount, setDiscount] = useState(0);
 
     const totalQuantity = () => {
         let totalQuantity = 0;
-        cart.cart.forEach((item) => {
-            totalQuantity += item.quantity;
+        cart?.data?.forEach((item) => {
+            totalQuantity += item.qty;
         });
         return totalQuantity;
     };
     const totalPrice = () => {
         let totalPrice = 0;
-        cart.cart.forEach((item) => {
-            totalPrice += item.rate * item.quantity;
+        cart?.data?.forEach((item) => {
+            totalPrice += item.price * item.qty;
         });
         return totalPrice;
     };
@@ -48,15 +50,17 @@ const Cart = () => {
         <Container className="w-full">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title> Samar Supplier | Cart | Your Cart for all purposes </title>
+                <title>
+                    {" "}
+                    Samar Supplier | Cart | Your Cart for all purposes{" "}
+                </title>
                 <link rel="canonical" href="http://samarsuppliers.com/cart" />
                 <meta
                     name="description"
                     content="Track your items in the cart. Add new and authentic items to cart and find similar items easily."
                 />
-                
             </Helmet>
-            <h3 className="display-5">Checkout</h3>
+            <h3 className="display-5">Cart</h3>
             <div className="container tracker d-flex align-items-center mt-5 w-75">
                 <h5 className="text-dark-green">
                     <FiCircle size={12} color="green" fill="white" />
@@ -73,9 +77,9 @@ const Cart = () => {
                     &nbsp; Checkout
                 </h5>
             </div>
-            <div className="table-content d-flex flex-row justify-content-between mt-5 flex-wrap gap-5">
-                <Col lg={7} sm={12} xs={12}>
-                    <Card>
+            <div className="table-content d-flex flex-row justify-content-between mt-5 flex-wrap">
+                <Col lg={8} sm={12} xs={12} md={12} className="pe-2">
+                    <Card className="me-1 pe-1">
                         <Card.Header className="pt-4">
                             <h4>Cart ({totalQuantity()} Items)</h4>
                         </Card.Header>
@@ -90,71 +94,73 @@ const Cart = () => {
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody className="align-middle">
-                                    {cart.cart.map((item) => {
+                                <tbody className="align-middle border">
+                                    {cart?.data?.map((item) => {
                                         return (
                                             <tr
-                                                key={item.id}
+                                                key={item.product_id}
                                                 className="text-center "
                                             >
                                                 <td>
                                                     <img
-                                                        src={Item}
+                                                        src={item.img}
                                                         className="cart-image img-fluid rounded "
                                                     />
                                                     <Link to="/detail">
                                                         <p className="mx-3">
-                                                            {item.name}
+                                                            {item.product_name}
                                                         </p>
                                                     </Link>
                                                 </td>
-                                                <td> Rs. {item.rate}</td>
+                                                <td> Rs. {item.price}</td>
                                                 <td className="text-center align-center">
                                                     <Card className="quantity-card mt-2">
                                                         <div className="quantity d-flex flex-row align-items-center justify-content-between mx-1">
                                                             <Button
                                                                 variant=""
                                                                 className={`quantity-button ${
-                                                                    item.quantity <=
+                                                                    item.qty <=
                                                                     1
                                                                         ? "disabled"
                                                                         : ""
                                                                 }`}
-                                                                onClick={() =>
+                                                                onClick={() => {
                                                                     dispatch(
                                                                         decrementQuantity(
-                                                                            item.id
+                                                                            item.product_id
                                                                         )
-                                                                    )
-                                                                }
+                                                                    );
+                                                                    // handleUpdateCart();
+                                                                }}
                                                             >
                                                                 <AiOutlineMinus />
                                                             </Button>
                                                             <h6 className="item-quantity mt-2 text-dark align-center">
-                                                                {item.quantity}
+                                                                {item.qty}
                                                             </h6>
                                                             <Button
                                                                 variant=""
                                                                 className={`quantity-button ${
-                                                                    item.quantity >=
+                                                                    item.qty >=
                                                                     item.stock
                                                                         ? "disabled"
                                                                         : ""
                                                                 }`}
-                                                                onClick={() =>
+                                                                onClick={() => {
                                                                     dispatch(
                                                                         incrementQuantity(
-                                                                            item.id
+                                                                            item.product_id
                                                                         )
-                                                                    )
-                                                                }
+                                                                    );
+                                                                    // handleUpdateCart();
+                                                                }}
                                                             >
                                                                 <AiOutlinePlus />
                                                             </Button>
                                                         </div>
                                                     </Card>
                                                     <div className="d-flex flex-row justify-content-center mx-1">
-                                                        {item.stock <= 20 && (
+                                                        {item.stock <= 10 && (
                                                             <p className="text-danger">
                                                                 Available:{" "}
                                                                 {item.stock}
@@ -163,8 +169,7 @@ const Cart = () => {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    Rs.{" "}
-                                                    {item.rate * item.quantity}
+                                                    Rs. {item.price * item.qty}
                                                 </td>
                                                 <td>
                                                     <FaTrash
@@ -175,7 +180,7 @@ const Cart = () => {
                                                         onClick={() => {
                                                             dispatch(
                                                                 removeItem(
-                                                                    item.id
+                                                                    item.product_id
                                                                 )
                                                             );
                                                         }}
@@ -187,6 +192,15 @@ const Cart = () => {
                                         );
                                     })}
                                 </tbody>
+                                <tfoot className="text-center border">
+                                    <tr>
+                                        <th>Grand Total</th>
+                                        <th></th>
+                                        <th className="pe-5"> {totalQuantity()} </th>
+                                        <th> Rs. {totalPrice()} </th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </Table>
                         </Card.Body>
                     </Card>
@@ -201,14 +215,9 @@ const Cart = () => {
                                 </Button>
                             </Link>
                         </div>
-                        <div className="add-new">
-                            {/* <Button variant="danger">
-                                <FiPlus size={25} /> Add new Address
-                            </Button> */}
-                        </div>
                     </div>
                 </Col>
-                <Col lg={4} md={12} sm={12} xs={12}>
+                <Col lg={4} md={12} sm={12} xs={12} className="ps-2">
                     <Checkout
                         totalPrice={totalPrice()}
                         totalQuantity={totalQuantity()}

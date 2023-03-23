@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import Spinner from "react-bootstrap/Spinner";
 import { FiCheckCircle, FiCircle, FiEdit3 } from "react-icons/fi";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -12,37 +13,67 @@ import Checkout from "./summary";
 import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
 import { Helmet } from "react-helmet";
+import { useGetCartItemsQuery } from "../../store/userCartSlice";
+import dayjs from "dayjs";
 
 const Payment = () => {
-    const cart = useSelector((state) => state.cart);
     const deliveryAddress = useSelector((state) => state.deliveryAddress);
+
+    const [deliveryOption, setDeliveryOption] = useState("free");
+    const [paymentOption, setPaymentOption] = useState("cod");
+
+    const handleDeliveryOption = (key) => {
+        setDeliveryOption(key);
+    };
+
+    const handleDeliveryChecked = (id) => {
+        if (id == deliveryOption) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const handlePaymentOption = (key) => {
+        setPaymentOption(key);
+    };
+    const handlePaymentChecked = (id) => {
+        if (id == paymentOption) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const cart = useSelector((state) => state.cart);
 
     const totalQuantity = () => {
         let totalQuantity = 0;
-        cart.cart.forEach((item) => {
-            totalQuantity += item.quantity;
+        cart?.data?.forEach((item) => {
+            totalQuantity += item.qty;
         });
         return totalQuantity;
     };
-
     const totalPrice = () => {
         let totalPrice = 0;
-        cart.cart.forEach((item) => {
-            totalPrice += item.rate * item.quantity;
+        cart?.data?.forEach((item) => {
+            totalPrice += item.rate * item.qty;
         });
         return totalPrice;
     };
 
     const [discount, setDiscount] = useState(0);
+    const a = dayjs();
+    const freeDeliveryDate = a.add(7, "day").format("dddd, YYYY/MM/DD");
+    const fastDeliveryDate = a.add(3, "day").format("dddd, YYYY/MM/DD");
 
     return (
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    {" "}
                     Samar Supplier | Payment | Choose a payment method to order
-                    now{" "}
+                    now
                 </title>
                 <link
                     rel="canonical"
@@ -83,14 +114,36 @@ const Payment = () => {
                                 <div className="d-flex flex-wrap justify-content-between mt-2">
                                     <Col lg={6} sm={12} xs={12}>
                                         <div className="input mb-3 mx-2">
-                                            <Card>
+                                            <Card
+                                                onClick={() =>
+                                                    handleDeliveryOption(
+                                                        "free"
+                                                    )
+                                                }
+                                            >
                                                 <Card.Body>
                                                     <Form.Check>
-                                                        <div className="d-flex flex-row align-items-center gap-4">
+                                                        <div
+                                                            className="d-flex flex-row align-items-center gap-4"
+                                                            onClick={() =>
+                                                                handleDeliveryOption(
+                                                                    "free"
+                                                                )
+                                                            }
+                                                        >
                                                             <div className="">
                                                                 <Form.Check.Input
                                                                     type="checkbox"
                                                                     id="free"
+                                                                    checked={handleDeliveryChecked(
+                                                                        "free"
+                                                                    )}
+                                                                    readOnly
+                                                                    onClick={() =>
+                                                                        handleDeliveryOption(
+                                                                            "free"
+                                                                        )
+                                                                    }
                                                                 />
                                                             </div>
                                                             <div className="">
@@ -106,10 +159,12 @@ const Payment = () => {
                                                                         </h6>
                                                                         <p>
                                                                             Delivered
-                                                                            on
-                                                                            Feb
-                                                                            20,
-                                                                            2023
+                                                                            on:
+                                                                            &nbsp;
+                                                                            {
+                                                                                freeDeliveryDate
+                                                                            }
+                                                                            (approx.)
                                                                         </p>
                                                                     </div>
                                                                 </Form.Check.Label>
@@ -122,7 +177,13 @@ const Payment = () => {
                                     </Col>
                                     <Col lg={6} sm={12} xs={12}>
                                         <div className="input mb-3 mx-2">
-                                            <Card>
+                                            <Card
+                                                onClick={() =>
+                                                    handleDeliveryOption(
+                                                        "fast"
+                                                    )
+                                                }
+                                            >
                                                 <Card.Body>
                                                     <Form.Check>
                                                         <div className="d-flex flex-row align-items-center gap-4">
@@ -130,12 +191,26 @@ const Payment = () => {
                                                                 <Form.Check.Input
                                                                     type="checkbox"
                                                                     id="fast"
+                                                                    checked={handleDeliveryChecked(
+                                                                        "fast"
+                                                                    )}
+                                                                    onClick={() =>
+                                                                        handleDeliveryOption(
+                                                                            "fast"
+                                                                        )
+                                                                    }
+                                                                    readOnly
                                                                 />
                                                             </div>
                                                             <div className="">
                                                                 <Form.Check.Label
                                                                     htmlFor="fast"
                                                                     type="checkbox"
+                                                                    onClick={() =>
+                                                                        handleDeliveryOption(
+                                                                            "fast"
+                                                                        )
+                                                                    }
                                                                 >
                                                                     <div className="d-flex flex-column justify-content-start">
                                                                         <h6>
@@ -146,10 +221,12 @@ const Payment = () => {
                                                                         </h6>
                                                                         <p>
                                                                             Delivered
-                                                                            on
-                                                                            Feb
-                                                                            12,
-                                                                            2023
+                                                                            on:
+                                                                            &nbsp;
+                                                                            {
+                                                                                fastDeliveryDate
+                                                                            }{" "}
+                                                                            (approx.)
                                                                         </p>
                                                                     </div>
                                                                 </Form.Check.Label>
@@ -168,15 +245,36 @@ const Payment = () => {
                             <Card>
                                 <Card.Body>
                                     <h4>Payment Options</h4>
-                                    <Card className="mt-3">
+                                    <Card
+                                        className="mt-3"
+                                        onClick={() =>
+                                            handlePaymentOption("khalti")
+                                        }
+                                    >
                                         <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
                                                 <Form.Check>
-                                                    <div className="d-flex flex-row align-items-center gap-4">
+                                                    <div
+                                                        className="d-flex flex-row align-items-center gap-4"
+                                                        onClick={() =>
+                                                            handlePaymentOption(
+                                                                "khalti"
+                                                            )
+                                                        }
+                                                    >
                                                         <div className="">
                                                             <Form.Check.Input
                                                                 type="checkbox"
                                                                 id="khalti"
+                                                                onClick={() =>
+                                                                    handlePaymentOption(
+                                                                        "khalti"
+                                                                    )
+                                                                }
+                                                                checked={handlePaymentChecked(
+                                                                    "khalti"
+                                                                )}
+                                                                readOnly
                                                             />
                                                         </div>
                                                         <div className="">
@@ -205,7 +303,14 @@ const Payment = () => {
                                                         </div>
                                                     </div>
                                                 </Form.Check>
-                                                <div className="khalti-logo">
+                                                <div
+                                                    className="khalti-logo"
+                                                    onClick={() =>
+                                                        handlePaymentOption(
+                                                            "khalti"
+                                                        )
+                                                    }
+                                                >
                                                     <img
                                                         src="https://raw.githubusercontent.com/khalti/khalti-sdk-web/master/src/assets/icons/khalti.png"
                                                         alt="logo here"
@@ -215,15 +320,37 @@ const Payment = () => {
                                             </div>
                                         </Card.Body>
                                     </Card>
-                                    <Card className="mt-3">
+
+                                    <Card
+                                        className="mt-3"
+                                        onClick={() =>
+                                            handlePaymentOption("esewa")
+                                        }
+                                    >
                                         <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
                                                 <Form.Check>
-                                                    <div className="d-flex flex-row align-items-center gap-4">
+                                                    <div
+                                                        className="d-flex flex-row align-items-center gap-4"
+                                                        onClick={() =>
+                                                            handlePaymentOption(
+                                                                "esewa"
+                                                            )
+                                                        }
+                                                    >
                                                         <div className="">
                                                             <Form.Check.Input
                                                                 type="checkbox"
                                                                 id="esewa"
+                                                                onClick={() =>
+                                                                    handlePaymentOption(
+                                                                        "esewa"
+                                                                    )
+                                                                }
+                                                                checked={handlePaymentChecked(
+                                                                    "esewa"
+                                                                )}
+                                                                readOnly
                                                             />
                                                         </div>
                                                         <div className="">
@@ -252,7 +379,14 @@ const Payment = () => {
                                                         </div>
                                                     </div>
                                                 </Form.Check>
-                                                <div className="esewa-logo">
+                                                <div
+                                                    className="esewa-logo"
+                                                    onClick={() =>
+                                                        handlePaymentOption(
+                                                            "esewa"
+                                                        )
+                                                    }
+                                                >
                                                     <img
                                                         src="https://blog.esewa.com.np/wp-content/uploads/2022/03/eSewa-logo.png"
                                                         alt="logo here"
@@ -262,7 +396,13 @@ const Payment = () => {
                                             </div>
                                         </Card.Body>
                                     </Card>
-                                    <Card className="mt-3">
+
+                                    <Card
+                                        className="mt-3"
+                                        onClick={() =>
+                                            handlePaymentOption("ips")
+                                        }
+                                    >
                                         <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
                                                 <Form.Check>
@@ -271,6 +411,15 @@ const Payment = () => {
                                                             <Form.Check.Input
                                                                 type="checkbox"
                                                                 id="ips"
+                                                                onClick={() =>
+                                                                    handlePaymentOption(
+                                                                        "ips"
+                                                                    )
+                                                                }
+                                                                checked={handlePaymentChecked(
+                                                                    "ips"
+                                                                )}
+                                                                readOnly
                                                             />
                                                         </div>
                                                         <div className="">
@@ -301,7 +450,14 @@ const Payment = () => {
                                                         </div>
                                                     </div>
                                                 </Form.Check>
-                                                <div className="ips-logo">
+                                                <div
+                                                    className="ips-logo"
+                                                    onClick={() =>
+                                                        handlePaymentOption(
+                                                            "ips"
+                                                        )
+                                                    }
+                                                >
                                                     <img
                                                         src="https://raw.githubusercontent.com/khalti/khalti-sdk-web/master/src/assets/icons/connectips.png"
                                                         alt="logo here"
@@ -311,7 +467,13 @@ const Payment = () => {
                                             </div>
                                         </Card.Body>
                                     </Card>
-                                    <Card className="mt-3">
+
+                                    <Card
+                                        className="mt-3"
+                                        onClick={() =>
+                                            handlePaymentOption("cod")
+                                        }
+                                    >
                                         <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
                                                 <Form.Check>
@@ -320,6 +482,15 @@ const Payment = () => {
                                                             <Form.Check.Input
                                                                 type="checkbox"
                                                                 id="cod"
+                                                                onClick={() =>
+                                                                    handlePaymentOption(
+                                                                        "cod"
+                                                                    )
+                                                                }
+                                                                checked={handlePaymentChecked(
+                                                                    "cod"
+                                                                )}
+                                                                readOnly
                                                             />
                                                         </div>
                                                         <div className="">
@@ -351,7 +522,14 @@ const Payment = () => {
                                                         </div>
                                                     </div>
                                                 </Form.Check>
-                                                <div className="ips-logo mx-4">
+                                                <div
+                                                    className="ips-logo mx-4"
+                                                    onClick={() =>
+                                                        handlePaymentOption(
+                                                            "cod"
+                                                        )
+                                                    }
+                                                >
                                                     <CiDeliveryTruck
                                                         size={70}
                                                     />
@@ -363,17 +541,18 @@ const Payment = () => {
                             </Card>
                         </div>
 
-                        <div className="d-flex justify-content-between align-items-center mt-5 mb-5 mx-2">
-                            <div className="back">
-                                <Link to="/billing">
-                                    <Button
-                                        variant="outline-light"
-                                        className="text-dark-green back-button"
-                                    >
-                                        <BiArrowBack /> &nbsp; Back
-                                    </Button>
-                                </Link>
-                            </div>
+                        <div className="mt-5 mb-5 mx-2">
+                            <Link to="/billing">
+                                <Button
+                                    variant="outline"
+                                    className="text-dark-green back-button"
+                                >
+                                    <div className="d-flex flex-row justify-content-center align-items-center">
+                                        <BiArrowBack size={25} />
+                                        <h4>&nbsp; Back</h4>
+                                    </div>
+                                </Button>
+                            </Link>
                         </div>
                     </Col>
                     <Col lg={4} md={12} sm={12} xs={12}>

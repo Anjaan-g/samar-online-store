@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import { FiCheckCircle, FiCircle, FiPlus } from "react-icons/fi";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import Checkout from "./summary";
@@ -16,41 +17,51 @@ import {
 import { Helmet } from "react-helmet";
 import { useGetAddressQuery } from "../../store/addressSlice";
 import AddAddressModal from "../../components/Modals/AddAddressModal";
+import {
+    useGetCartItemsQuery,
+    useUpdateCartMutation,
+} from "../../store/userCartSlice";
 
 const Billing = () => {
-    const cart = useSelector((state) => state.cart);
-    const totalQuantity = () => {
-        let totalQuantity = 0;
-        cart.cart.forEach((item) => {
-            totalQuantity += item.quantity;
-        });
-        return totalQuantity;
-    };
-    const totalPrice = () => {
-        let totalPrice = 0;
-        cart.cart.forEach((item) => {
-            totalPrice += item.rate * item.quantity;
-        });
-        return totalPrice;
-    };
+    // const {
+    //     data: cartData = [],
+    //     isLoading,
+    //     isError,
+    //     error: cartError,
+    // } = useGetCartItemsQuery();
+
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
 
     const [discount, setDiscount] = useState(0);
 
-    const [showModal, setShowModal] = useState(false);
-    const { data = [], error, loading } = useGetAddressQuery();
+    // const [showModal, setShowModal] = useState(false);
+    const { data: addressData = [], error, loading } = useGetAddressQuery();
 
-    const handleClick = () => {};
+    const cart = useSelector((state) => state.cart)
+
+    const totalQuantity = () => {
+        let totalQuantity = 0;
+        cart?.data?.forEach((item) => {
+            totalQuantity += item.qty;
+        });
+        return totalQuantity;
+    };
+    const totalPrice = () => {
+        let totalPrice = 0;
+        cart?.data?.forEach((item) => {
+            totalPrice += item.rate * item.qty;
+        });
+        return totalPrice;
+    };
 
     return (
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    {" "}
                     Samar Supplier | Billing | Add new address or select and
-                    address{" "}
+                    address
                 </title>
                 <link
                     rel="canonical"
@@ -81,11 +92,14 @@ const Billing = () => {
                 </h5>
             </div>
 
-            <div className="d-flex flex-row justify-content-between mt-5 flex-wrap gap-5">
-                <Col lg={7} sm={12} xs={12}>
-                    {data?.map((item) => {
+            <div className="d-flex flex-row justify-content-between mt-5 flex-wrap">
+                <Col lg={8} md={12} sm={12} xs={12} className="pe-2">
+                    {addressData?.map((item) => {
                         return (
-                            <Card className="mt-2 w-100" key={item.id}>
+                            <Card
+                                className="mt-2 w-100 me-1 pe-1"
+                                key={item.id}
+                            >
                                 <Card.Body>
                                     <div className="d-flex justify-content-between">
                                         <div className="d-flex flex-column">
@@ -100,9 +114,9 @@ const Billing = () => {
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="lead">
+                                            <i className="text-highlight fs-6">
                                                 {item.address}
-                                            </p>
+                                            </i>
                                             <p>{item.phone_no}</p>
                                         </div>
                                         <div className="d-flex flex-column justify-content-end align-items-center">
@@ -130,34 +144,33 @@ const Billing = () => {
                                 </Card.Body>
                             </Card>
                         );
-                    })}
-
-                    <div className="d-flex justify-content-between align-items-center mt-5 mx-2">
-                        <div className="back">
-                            <Link to="/cart">
+                        <div className="d-flex justify-content-between align-items-center mt-5">
+                            <div className="back">
+                                <Link to="/cart">
+                                    <Button
+                                        variant="outline-light"
+                                        className="text-dark-green back-button"
+                                    >
+                                        <BiArrowBack /> &nbsp; Back
+                                    </Button>
+                                </Link>
+                            </div>
+                            <div className="add-new">
                                 <Button
-                                    variant="outline-light"
-                                    className="text-dark-green back-button"
+                                    variant="info"
+                                    onClick={() => setShowModal(true)}
                                 >
-                                    <BiArrowBack /> &nbsp; Back
+                                    <FiPlus size={25} /> Add new Address
                                 </Button>
-                            </Link>
-                        </div>
-                        <div className="add-new">
-                            <Button
-                                variant="info"
-                                onClick={() => setShowModal(true)}
-                            >
-                                <FiPlus size={25} /> Add new Address
-                            </Button>
-                        </div>
-                        <AddAddressModal
-                            show={showModal}
-                            onHide={() => setShowModal(false)}
-                        />
-                    </div>
+                            </div>
+                            <AddAddressModal
+                                show={showModal}
+                                onHide={() => setShowModal(false)}
+                            />
+                        </div>;
+                    })}
                 </Col>
-                <Col lg={4} md={12} sm={12} xs={12}>
+                <Col lg={4} md={12} sm={12} xs={12} className="ps-2 mt-2">
                     <Checkout
                         totalPrice={totalPrice()}
                         totalQuantity={totalQuantity()}
