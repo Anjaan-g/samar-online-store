@@ -8,7 +8,7 @@ export const Layout = ({ children }) => {
     return (
         <div className="layout d-flex flex-column ">
             <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
-            <main className="d-flex justify-content-around flex-grow-1 flex-shrink-0 ">
+            <main className="d-flex justify-content-around flex-grow-1">
                 {children}
             </main>
             <Footer />

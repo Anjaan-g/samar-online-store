@@ -34,7 +34,6 @@ const AddAddressModal = (props) => {
         const tag = values["tag"];
         const isdefault = values["default"];
 
-        console.log(contactPerson, address, phoneNo, tag, isdefault);
         try {
             const response = await addAddress({
                 contactPerson,
@@ -43,6 +42,7 @@ const AddAddressModal = (props) => {
                 tag,
                 isdefault,
             });
+            console.log(response)
             const notify = () => {
                 toast.success(response.data["message"], {
                     position: toast.POSITION.TOP_RIGHT,
