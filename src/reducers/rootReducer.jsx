@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
-import { cartData, deliveryAddress, userData } from "../store";
+import { deliveryAddress } from "../store";
 import { usersAddressSlice } from "../store/addressSlice";
 import { userHistorySlice } from "../store/historySlice";
 import { userReturnsSlice } from "../store/returnsSlice";
 import { userDataSlice } from "../store/userDataSlice";
+import { cartReducer } from "../store/cartSlice";
 
 const rootReducer = combineReducers({
-    cart: cartData,
     deliveryAddress: deliveryAddress,
-    auth: userData,
+    cart: cartReducer,
     [usersAddressSlice.reducerPath]: usersAddressSlice.reducer,
     [userHistorySlice.reducerPath]: userHistorySlice.reducer,
     [userReturnsSlice.reducerPath]: userReturnsSlice.reducer,

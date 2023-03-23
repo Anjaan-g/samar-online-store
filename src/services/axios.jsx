@@ -1,14 +1,8 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+import authHeader from "./auth-header";
 
 const api = axios.create({
     baseURL: "http://localhost:8888/api/v1/",
-});
-
-api.interceptors.request.use(function (config) {
-    const token = Cookies.get("token");
-    config.headers.Authorization = token ? `Bearer ${token}` : "";
-    return config;
 });
 
 export const login = async (email, password) => {
@@ -50,10 +44,22 @@ export const register = async (
             },
             {
                 headers: {
-                    "content-type": "multipart/form-data",
+                    "Content-Type": "multipart/form-data",
                 },
             }
         );
+        return response;
+    } catch (e) {
+        console.log(e);
+        return;
+    }
+};
+
+export const cartItems = async () => {
+    try {
+        const response = await api.get("auth/user/cart/", {
+            headers: authHeader,
+        });
         return response;
     } catch (e) {
         console.log(e);

@@ -5,22 +5,34 @@ import ProductCard from "../../components/Card/ProductCard";
 import { Search } from "../../components/Search/search";
 import CarouselContainer from "../../components/Carousel/Carousel";
 import "./home.scss";
-import products from "../../utils/products";
 import Container from "react-bootstrap/Container";
 import { Helmet } from "react-helmet";
+import { useGetAllProductsQuery } from "../../store/productSlice";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function Home() {
+    const { data: products, isLoading, isError } = useGetAllProductsQuery();
+    if (isLoading) {
+        return (
+            <div className="d-flex align-items-center justify-content-center">
+                <Spinner />
+            </div>
+        );
+    }
     return (
         <div className="home">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title> Samar Supplier | Home | Surround your life with authentic gadgets </title>
+                <title>
+                    {" "}
+                    Samar Supplier | Home | Surround your life with authentic
+                    gadgets{" "}
+                </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta
                     name="description"
                     content="Samar supplier is your one and only place to get authentic gadgets and accessories for your smart phone or computers. Online store in Butwal."
                 />
-                
             </Helmet>
             <CarouselContainer />
 
@@ -40,7 +52,7 @@ export default function Home() {
                                 <Search />
                             </div>
                             <div className="products">
-                                <div className="d-flex flex-wrap justify-content-center align-items-center gap-2  mt-4">
+                                <div className="d-flex flex-wrap justify-content-start align-items-center gap-2  mt-4">
                                     {products.map((item) => {
                                         return (
                                             <ProductCard
@@ -49,12 +61,12 @@ export default function Home() {
                                                 name={item.name}
                                                 stock={item.stock}
                                                 status={item.status}
-                                                price={item.price}
+                                                price={item.sell_price}
                                                 discountedPrice={
-                                                    item.discountedPrice
+                                                    item.discounted_price
                                                 }
                                                 warranty={item.warranty}
-                                                img={item.img}
+                                                img={item.images[0].image_url}
                                             />
                                         );
                                     })}

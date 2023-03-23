@@ -6,6 +6,6 @@ const authHeader = () => {
     } else {
         return {};
     }
-}
+};
 
-export default authHeader()
+export default authHeader();

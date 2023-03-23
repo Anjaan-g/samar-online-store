@@ -8,7 +8,6 @@ import "./profile.scss";
 import { FaUserAstronaut } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { FiEdit3, FiPlus, FiTrash } from "react-icons/fi";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
@@ -28,7 +27,7 @@ const Profile = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const user = useSelector((state) => state.auth.user);
+    const { data: user = [], loading, error } = useGetDataQuery();
 
     useEffect(() => {
         let queryParam = searchParams.get("active");
@@ -149,10 +148,7 @@ const Profile = () => {
 /* Done with this too */
 function Account({ user }) {
     const { data = [], error, loading } = useGetDataQuery();
-    console.log(data);
     const { message, data: user_info = [] } = data;
-    console.log(message);
-    console.log(user_info);
     const [editing, setEditing] = useState(false);
     const [file, setFile] = useState(null);
     const [fileDataURL, setFileDataURL] = useState(null);
@@ -299,9 +295,7 @@ function Account({ user }) {
                                         plaintext={!editing}
                                         readOnly={!editing}
                                         className=""
-                                        defaultValue={
-                                            user_info.phone_no || "NaN"
-                                        }
+                                        defaultValue={user_info.phone_no}
                                     />
                                 </Col>
                             </Form.Group>
