@@ -4,11 +4,11 @@ import { REHYDRATE } from "redux-persist";
 
 
 export const userDataSlice = apiSlice.injectEndpoints({
-    extractRehydrationInfo(action, {reducerPath}) {
-        if (action.type === REHYDRATE) {
-            return action.payload[reducerPath]
-        }
-    },
+    // extractRehydrationInfo(action, {reducerPath}) {
+    //     if (action.type === REHYDRATE) {
+    //         return action.payload[reducerPath]
+    //     }
+    // },
     endpoints: (builder) => ({
         getData: builder.query({
             query: () => ({

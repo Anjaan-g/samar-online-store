@@ -1,12 +1,14 @@
-import Item from "../../../assets/5.webp";
+// import Item from "../../../assets/5.webp";
 import "./Card.scss";
 import { MdAddShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { addToCart } from "../../store/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+
 import { toast } from "react-toastify";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/cartSlice";
 
 export default function ProductCard({
     id,
@@ -15,15 +17,16 @@ export default function ProductCard({
     img,
     name,
     price,
+    brand,
     discountedPrice,
     warranty,
     ...props
 }) {
     const dispatch = useDispatch();
-    // const token = useSelector((state) => state.auth.accessToken)
+    const image = `http://localhost:8888${img}?auto=compress&h=350`;
 
     return (
-        <Card className="product-card">
+        <Card className="product-card" key={id}>
             {stock && (
                 <span
                     className={`stock ${
@@ -38,11 +41,12 @@ export default function ProductCard({
                 </span>
             )}
             <span className="box">
-                <span className="wrapper">
+                <span className="wrapper d-flex align-items-center justify-content-center">
                     <img
-                        src={Item}
+                        height={300}
+                        src={image}
                         className="card-img-top enable-rounded p-2"
-                        alt=""
+                        alt={name}
                     />
                 </span>
             </span>
@@ -51,14 +55,19 @@ export default function ProductCard({
                 onClick={() => {
                     if (stock != 0) {
                         if (discountedPrice) {
-                            var rate = discountedPrice;
+                            var price = discountedPrice;
                             dispatch(
-                                addToCart({ id, name, img, rate, stock })
+                                addToCart({
+                                    product_id: id,
+                                    product_name: name,
+                                    img,
+                                    price,
+                                    stock,
+                                })
                             );
                         } else {
-                            var rate = price;
                             dispatch(
-                                addToCart({ id, name, img, rate, stock })
+                                addToCart( product_id=id, name, img, price, stock )
                             );
                         }
                     } else {
@@ -68,8 +77,8 @@ export default function ProductCard({
             >
                 <MdAddShoppingCart />
             </Button>
-            {warranty && (
-                <span className={`warranty`}>{warranty} Warranty</span>
+            {warranty !== "-" && (
+                <span className={`warranty`}>{warranty}</span>
             )}
             {status && <span className={`status ${status}`}>{status}</span>}
             <Card.Body className="card-body">
@@ -79,7 +88,7 @@ export default function ProductCard({
                             {name}
                         </Card.Title>
                     </Link>
-                    {discountedPrice && (
+                    {discountedPrice != price && (
                         <div>
                             <span className="discount">NRS.{price}</span>
                             <div className="d-flex flex-row align-items-center ">
@@ -97,7 +106,7 @@ export default function ProductCard({
                             </div>
                         </div>
                     )}
-                    {!discountedPrice && (
+                    {discountedPrice == price && (
                         <>
                             <p className="gx-3">NRS.{price}</p>
                             <br />
