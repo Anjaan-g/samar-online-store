@@ -46,6 +46,7 @@ const Payment = () => {
     };
 
     const cart = useSelector((state) => state.cart);
+    console.log(cart)
 
     const totalQuantity = () => {
         let totalQuantity = 0;
@@ -57,7 +58,7 @@ const Payment = () => {
     const totalPrice = () => {
         let totalPrice = 0;
         cart?.data?.forEach((item) => {
-            totalPrice += item.rate * item.qty;
+            totalPrice += item.price * item.qty;
         });
         return totalPrice;
     };

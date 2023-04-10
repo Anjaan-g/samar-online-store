@@ -67,7 +67,13 @@ export default function ProductCard({
                             );
                         } else {
                             dispatch(
-                                addToCart( product_id=id, name, img, price, stock )
+                                addToCart(
+                                    (product_id = id),
+                                    name,
+                                    img,
+                                    price,
+                                    stock
+                                )
                             );
                         }
                     } else {
@@ -83,7 +89,7 @@ export default function ProductCard({
             {status && <span className={`status ${status}`}>{status}</span>}
             <Card.Body className="card-body">
                 <div className="description cover">
-                    <Link to="/detail">
+                    <Link to={`/detail/${id}`}>
                         <Card.Title className="card-title text-dark">
                             {name}
                         </Card.Title>

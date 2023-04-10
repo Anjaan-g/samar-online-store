@@ -9,6 +9,10 @@ const cartSlice = createSlice({
             state.data = action.payload;
         },
 
+        clearCart: (state, action) => {
+            state.data = null;
+        },
+
         addToCart: (state, action) => {
             const itemInCart = state.data.find(
                 (item) => item.product_id === action.payload.product_id
@@ -54,6 +58,7 @@ const cartSlice = createSlice({
 
 export const {
     setCart,
+    clearCart,
     addToCart,
     incrementQuantity,
     decrementQuantity,

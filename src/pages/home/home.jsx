@@ -19,6 +19,14 @@ export default function Home() {
             </div>
         );
     }
+
+    if (isError) {
+        return(
+            <div className="d-flex align-items-center justify-content-center">
+                <p>Error...</p>
+            </div>
+        )
+    }
     return (
         <div className="home">
             <Helmet>
@@ -53,7 +61,7 @@ export default function Home() {
                             </div>
                             <div className="products">
                                 <div className="d-flex flex-wrap justify-content-start align-items-center gap-2  mt-4">
-                                    {products.map((item) => {
+                                    {products?.map((item) => {
                                         return (
                                             <ProductCard
                                                 key={item.id}

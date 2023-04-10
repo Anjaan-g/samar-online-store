@@ -106,7 +106,9 @@ const Cart = () => {
                                                         src={item.img}
                                                         className="cart-image img-fluid rounded "
                                                     />
-                                                    <Link to="/detail">
+                                                    <Link
+                                                        to={`/detail/${item.product_id}`}
+                                                    >
                                                         <p className="mx-3">
                                                             {item.product_name}
                                                         </p>
@@ -196,7 +198,10 @@ const Cart = () => {
                                     <tr>
                                         <th>Grand Total</th>
                                         <th></th>
-                                        <th className="pe-5"> {totalQuantity()} </th>
+                                        <th className="pe-5">
+                                            {" "}
+                                            {totalQuantity()}{" "}
+                                        </th>
                                         <th> Rs. {totalPrice()} </th>
                                         <th></th>
                                     </tr>

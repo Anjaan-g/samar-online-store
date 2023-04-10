@@ -14,6 +14,7 @@ import Profile from "./pages/profile/Profile";
 import NotFound from "./pages/error/404";
 import Admin from "./components/Admin/Admin";
 
+
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
 
@@ -32,7 +33,7 @@ function App() {
                         </PrivateRoute>
                     }
                 />
-                <Route path="/detail" element={<ProductDetail />} />
+                <Route path="/detail/:id" element={<ProductDetail />} />
                 <Route
                     path="/billing"
                     element={

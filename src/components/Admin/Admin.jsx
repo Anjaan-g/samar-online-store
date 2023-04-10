@@ -312,6 +312,21 @@ function Products({ superUser }) {
 function Admins() {
     const { data = [], loading, error } = useGetAllAdminsQuery();
     const [showAddModal, setShowAddModal] = useState(false);
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
     return (
         <>
             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -582,20 +597,39 @@ const AddProductModal = ({ data, ...props }) => {
 
 const AddAdminModal = ({ data, ...props }) => {
     const [values, setValues] = useState({
-        first_name: "",
-        last_name: "",
+        firstName: "",
+        lastName: "",
         email: "",
         phoneNo: "",
-        vendor: "",
+        vendor: null,
         password: "",
     });
-
     const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
+        // console.log(e)
+        if (e.target.name == "vendor") {
+            setValues({ ...values, [e.target.name]: e.currentTarget.value });
+        } else {
+            setValues({ ...values, [e.target.name]: e.target.value });
+        }
+        console.log(values);
     };
 
     const [addAdmin, { isLoading: isLoadingAddAdmin }] = useAddAdminMutation();
 
+    const {
+        data: vendorsData,
+        isLoading,
+        isError,
+        error,
+    } = useGetAllVendorsQuery();
+
+    if (isLoading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
     return (
         <Modal {...props} size="lg" aria-labelledby="add-admin-modal" centered>
             <Modal.Header closeButton>
@@ -615,8 +649,8 @@ const AddAdminModal = ({ data, ...props }) => {
                             <Form.Control
                                 name="firstName"
                                 htmlFor="firstName"
-                                value={values["firstName"]}
-                                onChange={onchange}
+                                defaultValue={values["firstName"]}
+                                onChange={onChange}
                             />
                         </Col>
                     </Form.Group>
@@ -633,8 +667,8 @@ const AddAdminModal = ({ data, ...props }) => {
                             <Form.Control
                                 name="lastName"
                                 htmlFor="lastName"
-                                value={values["lastName"]}
-                                onChange={onchange}
+                                defaultValue={values["lastName"]}
+                                onChange={onChange}
                             />
                         </Col>
                     </Form.Group>
@@ -651,8 +685,8 @@ const AddAdminModal = ({ data, ...props }) => {
                             <Form.Control
                                 name="email"
                                 htmlFor="email"
-                                value={values["email"]}
-                                onChange={onchange}
+                                defaultValue={values["email"]}
+                                onChange={onChange}
                             />
                         </Col>
                     </Form.Group>
@@ -669,8 +703,9 @@ const AddAdminModal = ({ data, ...props }) => {
                             <Form.Control
                                 name="phoneNo"
                                 htmlFor="phoneNo"
-                                value={values["phoneNo"]}
-                                onChange={onchange}
+                                type="number"
+                                defaultValue={values["phoneNo"]}
+                                onChange={onChange}
                             />
                         </Col>
                     </Form.Group>
@@ -684,12 +719,20 @@ const AddAdminModal = ({ data, ...props }) => {
                             <h6>Vendor</h6>
                         </Form.Label>
                         <Col cm="8">
-                            <Form.Control
+                            <Form.Select
                                 name="vendor"
                                 htmlFor="vendor"
-                                value={values["vendor"]}
-                                onChange={onchange}
-                            />
+                                defaultValue={values["vendor"]}
+                                onChange={onChange}
+                            >
+                                {vendorsData.map((item) => {
+                                    return (
+                                        <option value="" key={item.id}>
+                                            {item.name}
+                                        </option>
+                                    );
+                                })}
+                            </Form.Select>
                         </Col>
                     </Form.Group>
                 </Form>

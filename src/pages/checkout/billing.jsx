@@ -38,7 +38,7 @@ const Billing = () => {
     // const [showModal, setShowModal] = useState(false);
     const { data: addressData = [], error, loading } = useGetAddressQuery();
 
-    const cart = useSelector((state) => state.cart)
+    const cart = useSelector((state) => state.cart);
 
     const totalQuantity = () => {
         let totalQuantity = 0;
@@ -50,7 +50,7 @@ const Billing = () => {
     const totalPrice = () => {
         let totalPrice = 0;
         cart?.data?.forEach((item) => {
-            totalPrice += item.rate * item.qty;
+            totalPrice += item.price * item.qty;
         });
         return totalPrice;
     };
@@ -169,6 +169,20 @@ const Billing = () => {
                             />
                         </div>;
                     })}
+
+                    <div className="mt-5 mb-5 mx-2">
+                        <Link to="/cart">
+                            <Button
+                                variant="outline"
+                                className="text-dark-green back-button"
+                            >
+                                <div className="d-flex flex-row justify-content-center align-items-center">
+                                    <BiArrowBack size={25} />
+                                    <h4>&nbsp; Back</h4>
+                                </div>
+                            </Button>
+                        </Link>
+                    </div>
                 </Col>
                 <Col lg={4} md={12} sm={12} xs={12} className="ps-2 mt-2">
                     <Checkout

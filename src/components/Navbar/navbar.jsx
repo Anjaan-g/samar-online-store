@@ -18,7 +18,8 @@ import {
 } from "../../store/userCartSlice";
 import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "../../store/cartSlice";
+import { setCart, clearCart } from "../../store/cartSlice";
+import dayjs from "dayjs";
 
 export const Navbar = () => {
     const token = Cookies.get("token");
@@ -44,6 +45,10 @@ export const Navbar = () => {
         if (!isLoading) {
             dispatch(setCart(cartData.data));
         }
+
+        if (token === undefined) {
+            navigateTo("/login");
+        }
         return () => {};
     }, []);
 
@@ -54,13 +59,16 @@ export const Navbar = () => {
     }, [data]);
 
     const getAdminStatus = () => {
-        if (token) {
+        if (token !== undefined) {
             const decodedData = jwt_decode(token);
             const admin = decodedData.admin;
-            return admin;
+            const exp = decodedData.exp;
+            return { admin, exp };
         }
     };
-    const admin = getAdminStatus();
+    const { admin, exp } = getAdminStatus() || false;
+
+    // console.log((exp*1000)<dayjs().unix()*1000);
 
     const getTotalQuantity = () => {
         let total = 0;
@@ -72,11 +80,33 @@ export const Navbar = () => {
         return total;
     };
 
+    const logout = () => {
+        Cookies.remove("token");
+        dispatch(clearCart());
+        navigateTo("/login");
+    };
+
+    useEffect(() => {
+        if (exp * 1000 <= dayjs().unix() * 1000) {
+            logout();
+        }
+
+        return () => {};
+    }, [exp]);
+
     if (isError) {
-        return <>ERROR</>;
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                Error
+            </div>
+        );
     }
     if (isLoading) {
-        return <>Loading...</>;
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
     }
 
     return (
@@ -176,11 +206,10 @@ export const Navbar = () => {
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item
                                         onClick={(e) => {
-                                            Cookies.remove("token");
-                                            navigateTo("/login");
+                                            logout();
                                         }}
                                     >
-                                        <BiLogOut size={25} color="red" />
+                                        <BiLogOut size={25} color="red" /> &nbsp;
                                         Logout
                                     </NavDropdown.Item>
                                 </NavDropdown>
