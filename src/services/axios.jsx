@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 
 const api = axios.create({
-    baseURL: "http://localhost:8888/api/v1/",
+    baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 export const login = async (email, password) => {
