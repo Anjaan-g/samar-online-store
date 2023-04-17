@@ -60,7 +60,7 @@ export default function ProductCard({
                                 addToCart({
                                     product_id: id,
                                     product_name: name,
-                                    img,
+                                    image,
                                     price,
                                     stock,
                                 })

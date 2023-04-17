@@ -16,6 +16,7 @@ export const productSlice = apiSlice.injectEndpoints({
                 url: `inventory/product/${id}`,
                 method: "GET",
             }),
+            providesTags: ["ProductDetail"],
         }),
 
         addProducts: builder.mutation({

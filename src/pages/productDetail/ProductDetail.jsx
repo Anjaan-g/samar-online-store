@@ -21,38 +21,17 @@ import Image from "react-bootstrap/Image";
 const ProductDetail = () => {
     const params = useParams();
     const id = params.id;
+    console.log(id);
 
     const {
         data: { message, data: product } = [],
         isLoading,
         error,
     } = useGetProductQuery({ id });
+    console.log(message)
+    console.log(product, isLoading, error);
 
-    const [quantity, setQuantity] = useState(0);
     const navigateTo = useNavigate();
-
-    function increaseQuantity(event) {
-        event.preventDefault();
-        if (quantity == product.stock) {
-            return;
-        } else {
-            setQuantity(quantity + 1);
-        }
-    }
-    function decreaseQuantity(event) {
-        event.preventDefault();
-        if (quantity <= 0) {
-            return;
-        } else {
-            setQuantity(quantity - 1);
-        }
-    }
-
-    useEffect(() => {
-        return () => {
-            setQuantity(quantity);
-        };
-    }, []);
 
     const dispatch = useDispatch();
 
@@ -64,25 +43,6 @@ const ProductDetail = () => {
     const handleSecondTab = () => {
         setActiveTab("secondTab");
     };
-
-    // const highlights = [
-
-    //     Color: "Black",
-    //     Battery: "Polymer",
-    //     Capacity: "50000 mAh",
-    //     "Working Temp": "-10c to 40c",
-    //     "Input/Output": {
-    //         "Micro IN": "5v/2A , 9v/2A",
-    //         "TypeC IN": "5v/3A, 9v/2A",
-    //         "Lightning IN": "5v/2A",
-    //         "USB1 OUT": "5v/3A",
-    //         "USB2 OUT": "4.5v/5A, 5v/4.5A, 9v/2A, 12v/1.5A",
-    //         "USB3 OUT": "5v/3A",
-    //         "PD OUT": "5v/3A, 9v/2A, 12v/1.5A",
-    //         "Fast Charging": "Yes",
-    //         "PD Charging": "Yes",
-    //     },
-    // ]
     const highlights = `PRODUCT DETAILS : \n\nModel: M512\nCharging type: Fast Charging, 22.5W, PD, QC 3.0\nColour: Black\nBattery: Lithium Polymer\nMaterial: ABS Fire-Proof VO level\nCapacity: 50000 mAh\nWorking Temp: -10c to 40c\nInput/Output:\nMicro IN : DC 5V/2A 9V/2A 12V/1.5A\nTypeC IN : DC 5V/2A 9V/2A 12V/1.5A\nLightning IN: DC 5V/2A 9V/2A 12V/1.5A\nUSB1 OUT : 5v/3A\nUSB2 OUT: 4.5v/5A, 5v/4.5A, 9v/2A, 12v/1.5A\nUSB3 OUT: 5v/3A\nPD OUT (Type c ) : 5v/3A, 9v/2A, 12v/1.5A\nFast Charging: Yes\nPD Charging: Yes\nLED Light: Yes\nDigital Display: Yes\nSupporting Device: All Smartphones\nWarranty: Yes, 1 Year\n`;
 
     if (isLoading) {
@@ -91,9 +51,7 @@ const ProductDetail = () => {
                 <Spinner />
             </div>
         );
-    }
-
-    if (!product.name) {
+    } else if (!product.name) {
         return (
             <div className="d-flex justify-content-center align-items-center mt-4">
                 <h4>Product with provided id doesn't exist</h4>
@@ -473,10 +431,12 @@ function ImageViewer({ images }) {
                                         }
                                         bg={`${
                                             selectedImage ===
-                                                `${
-                                                    import.meta.env
-                                                        .VITE_MEDIA_BASE_URL
-                                                }/${item}` ? "dark-green" : "info"
+                                            `${
+                                                import.meta.env
+                                                    .VITE_MEDIA_BASE_URL
+                                            }/${item}`
+                                                ? "dark-green"
+                                                : "info"
                                         }`}
                                     >
                                         <Image

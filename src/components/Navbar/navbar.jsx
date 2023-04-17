@@ -49,11 +49,10 @@ export const Navbar = () => {
         if (token === undefined) {
             navigateTo("/login");
         }
-        return () => {};
     }, []);
 
     useEffect(() => {
-        if (data && data.length > 0) {
+        if (data) {
             updateCart(data);
         }
     }, [data]);
@@ -66,9 +65,19 @@ export const Navbar = () => {
             return { admin, exp };
         }
     };
-    const { admin, exp } = getAdminStatus() || false;
 
-    // console.log((exp*1000)<dayjs().unix()*1000);
+    const adminPanel = () => {
+        const { admin, exp } = getAdminStatus() || false;
+        if (admin) {
+            return (
+                <LinkContainer to="/admin">
+                    <Nav.Link className="text-white">
+                        <strong>Admin Panel</strong>
+                    </Nav.Link>
+                </LinkContainer>
+            );
+        }
+    };
 
     const getTotalQuantity = () => {
         let total = 0;
@@ -86,21 +95,14 @@ export const Navbar = () => {
         navigateTo("/login");
     };
 
-    useEffect(() => {
-        if (exp * 1000 <= dayjs().unix() * 1000) {
-            logout();
-        }
+    // useEffect(() => {
+    //     if (exp * 1000 <= dayjs().unix() * 1000) {
+    //         logout();
+    //     }
 
-        return () => {};
-    }, [exp]);
+    //     return () => {};
+    // }, [exp]);
 
-    if (isError) {
-        return (
-            <div className="d-flex justify-content-center align-items-center">
-                Error
-            </div>
-        );
-    }
     if (isLoading) {
         return (
             <div className="d-flex justify-content-center align-items-center">
@@ -141,15 +143,7 @@ export const Navbar = () => {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="off-canvas-nav justify-content-end flex-grow-1 pe-3 gap-4 align-items-center">
-                            {admin ? (
-                                <LinkContainer to="/admin">
-                                    <Nav.Link className="text-white">
-                                        <strong>Admin Panel</strong>
-                                    </Nav.Link>
-                                </LinkContainer>
-                            ) : (
-                                <></>
-                            )}
+                            {adminPanel()}
                             <LinkContainer to="/contact">
                                 <Nav.Link className="text-white">
                                     <strong>Contact</strong>
@@ -209,8 +203,8 @@ export const Navbar = () => {
                                             logout();
                                         }}
                                     >
-                                        <BiLogOut size={25} color="red" /> &nbsp;
-                                        Logout
+                                        <BiLogOut size={25} color="red" />{" "}
+                                        &nbsp; Logout
                                     </NavDropdown.Item>
                                 </NavDropdown>
                             ) : (

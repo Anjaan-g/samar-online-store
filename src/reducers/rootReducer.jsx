@@ -5,6 +5,7 @@ import { userHistorySlice } from "../store/historySlice";
 import { userReturnsSlice } from "../store/returnsSlice";
 import { userDataSlice } from "../store/userDataSlice";
 import { cartReducer } from "../store/cartSlice";
+import { productSlice } from "../store/productSlice";
 
 const rootReducer = combineReducers({
     deliveryAddress: deliveryAddress,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     [userHistorySlice.reducerPath]: userHistorySlice.reducer,
     [userReturnsSlice.reducerPath]: userReturnsSlice.reducer,
     [userDataSlice.reducerPath]: userDataSlice.reducer,
+    [productSlice.reducerPath]: productSlice.reducer,
 });
 
 export default rootReducer;

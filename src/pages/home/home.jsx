@@ -12,6 +12,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 export default function Home() {
     const { data: products, isLoading, isError } = useGetAllProductsQuery();
+    console.log(products);
     if (isLoading) {
         return (
             <div className="d-flex align-items-center justify-content-center">
@@ -21,20 +22,19 @@ export default function Home() {
     }
 
     if (isError) {
-        return(
+        return (
             <div className="d-flex align-items-center justify-content-center">
                 <p>Error...</p>
             </div>
-        )
+        );
     }
     return (
         <div className="home">
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    {" "}
                     Samar Supplier | Home | Surround your life with authentic
-                    gadgets{" "}
+                    gadgets
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta
