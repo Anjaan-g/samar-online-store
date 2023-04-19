@@ -9,6 +9,7 @@ export const userHistorySlice = apiSlice.injectEndpoints({
                 method: "GET",
                 headers: authHeader,
             }),
+            keepUnusedDataFor: 5,
             providesTags: ["MyReturns"],
         }),
     }),

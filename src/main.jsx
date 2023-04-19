@@ -28,20 +28,11 @@ import {
     REHYDRATE,
 } from "redux-persist";
 
-import storage from "redux-persist/lib/storage";
 import { apiSlice } from "./store/apiSlice";
 
-const persistConfig = {
-    key: "root",
-    version: 1,
-    storage,
-    blacklist: ["cart"],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {

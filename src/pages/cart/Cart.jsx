@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
-    console.log(cart);
+    // console.log(cart);
 
     const dispatch = useDispatch();
     const [discount, setDiscount] = useState(0);
@@ -103,7 +103,7 @@ const Cart = () => {
                                             >
                                                 <td>
                                                     <img
-                                                        src={item.img}
+                                                        src={item.image}
                                                         className="cart-image img-fluid rounded "
                                                     />
                                                     <Link

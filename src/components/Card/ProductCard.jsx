@@ -23,7 +23,7 @@ export default function ProductCard({
     ...props
 }) {
     const dispatch = useDispatch();
-    const image = `http://localhost:8888${img}?auto=compress&h=350`;
+    const image = `http://localhost:8888${img}`;
 
     return (
         <Card className="product-card" key={id}>
@@ -67,13 +67,13 @@ export default function ProductCard({
                             );
                         } else {
                             dispatch(
-                                addToCart(
-                                    (product_id = id),
+                                addToCart({
+                                    product_id: id,
                                     name,
-                                    img,
+                                    image,
                                     price,
-                                    stock
-                                )
+                                    stock,
+                                })
                             );
                         }
                     } else {
