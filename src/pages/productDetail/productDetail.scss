@@ -2,10 +2,24 @@
 
 .product-detail {
 
+    .product-description {
+        min-height: 725px;
+    }
+
     .product-image{
         min-width: 420px;
         height: 600px;
-        object-fit: cover;
+        object-fit: contain;
+    }
+
+    .image-selector{
+        max-width: 550px;
+        min-width: 60px;
+    }
+    
+    .image-carousel {
+        width: 500px;
+        overflow: auto;
     }
 
     .product-desc {

@@ -23,7 +23,7 @@ export default function ProductCard({
     ...props
 }) {
     const dispatch = useDispatch();
-    const image = `http://localhost:8888${img}`;
+    const image = `${import.meta.env.VITE_MEDIA_BASE_URL}${img}`;
 
     return (
         <Card className="product-card" key={id}>
@@ -90,9 +90,7 @@ export default function ProductCard({
             <Card.Body className="card-body">
                 <div className="description cover">
                     <Link to={`/detail/${id}`}>
-                        <Card.Title className="card-title text-dark">
-                            {name}
-                        </Card.Title>
+                        <h6 className="text-dark ">{name.length>27 ? `${name.substring(0,27)}...`: name}</h6>
                     </Link>
                     {discountedPrice != price && (
                         <div>

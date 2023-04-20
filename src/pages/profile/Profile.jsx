@@ -147,41 +147,10 @@ const Profile = () => {
 
 /* Done with this too */
 function Account({ user }) {
-    const { data = [], error, loading } = useGetDataQuery();
+    const { data = [], error, isLoading } = useGetDataQuery();
     const { message, data: user_info = [] } = data;
+
     const [editing, setEditing] = useState(false);
-    const [file, setFile] = useState(null);
-    const [fileDataURL, setFileDataURL] = useState(null);
-
-    const changeHandler = (e) => {
-        const file = e.target.files[0];
-        if (!file.type.match(imageMimeType)) {
-            alert("Image mime type is not valid");
-            return;
-        }
-        setFile(file);
-    };
-
-    useEffect(() => {
-        let fileReader,
-            isCancel = false;
-        if (file) {
-            fileReader = new FileReader();
-            fileReader.onload = (e) => {
-                const { result } = e.target;
-                if (result && !isCancel) {
-                    setFileDataURL(result);
-                }
-            };
-            fileReader.readAsDataURL(file);
-        }
-        return () => {
-            isCancel = true;
-            if (fileReader && fileReader.readyState === 1) {
-                fileReader.abort();
-            }
-        };
-    }, [file]);
 
     const [values, setValues] = useState({
         fullName: "",
@@ -193,6 +162,7 @@ function Account({ user }) {
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
+    const fullName = user_info.first_name + " " + user_info.last_name;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -200,7 +170,21 @@ function Account({ user }) {
         const email = e.target.elements.email.value;
         const phone = e.target.elements.phone.value;
         const avatar = e.target.elements.avatar.value;
+
+        const splitName = fullName.split(" ");
+        const firstName = splitName[0];
+        const lastName = splitName.slice(1, splitName.length()).join(" ");
+
+        console.log(firstName, lastName);
     };
+
+    if (isLoading){
+        return(
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        )
+    }
 
     return (
         <div className="account">
@@ -237,9 +221,9 @@ function Account({ user }) {
                             <Card>
                                 <Card.Body>
                                     <Form.Group>
-                                        {!fileDataURL ? (
-                                            <FaUserAstronaut size={200} />
-                                        ) : null}
+                                        <FaUserAstronaut size={200} />
+                                        {/* {!fileDataURL ? (
+                                        ) : null} */}
                                     </Form.Group>
                                 </Card.Body>
                             </Card>
@@ -261,7 +245,7 @@ function Account({ user }) {
                                         plaintext={!editing}
                                         readOnly={!editing}
                                         className=""
-                                        defaultValue={user_info.first_name}
+                                        defaultValue={fullName}
                                     />
                                 </Col>
                             </Form.Group>
@@ -336,11 +320,18 @@ function Account({ user }) {
 
 // DONE with address book
 function AddressBook() {
-    const { data = [], error, loading } = useGetAddressQuery();
+    const { data = [], error, isLoading } = useGetAddressQuery();
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(undefined);
     const [showDeleteModal, setShowDeleteModal] = useState(undefined);
 
+    if(isLoading){
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        )
+    }
     return (
         <div className="addressBook">
             <Helmet>
@@ -461,14 +452,22 @@ function AddressBook() {
 }
 
 function OrderHistory() {
-    const { data = [], error, loading } = useGetHistoryQuery();
+    const { data = [], error, isLoading } = useGetHistoryQuery();
+
+    if(isLoading){
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        )
+    }
     return (
         <div className="history">
-            {loading && (
+            {/* {loading && (
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden"> Loading...</span>
                 </Spinner>
-            )}
+            )} */}
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
