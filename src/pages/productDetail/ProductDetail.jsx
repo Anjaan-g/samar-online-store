@@ -8,6 +8,7 @@ import {
 import { BsShieldFillCheck, BsTruck, BsShieldSlashFill } from "react-icons/bs";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import { useDispatch } from "react-redux";
@@ -77,21 +78,21 @@ const ProductDetail = () => {
                     />
                 )}
             </Helmet>
-            <div className="d-flex flex-column justify-content-between flex-wrap">
-                <div className="product-detail d-flex flex-wrap justify-content-between">
+            <Col className="d-flex flex-column justify-content-between ">
+                <Row className="product-detail">
                     <Col
                         lg={6}
                         md={12}
                         sm={12}
-                        className="product-image pt-5 pe-2"
+                        className="product-image pt-4 pe-2 "
                     >
                         <ImageViewer images={product.product_images} />
                     </Col>
-                    <Col lg={6} md={12} sm={12} className=" pt-5 ps-3">
+                    <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
                         <Card className="product-description">
                             <Card.Body>
                                 <div className="d-flex flex-column justify-content-between">
-                                    <div className="d-flex flex-column">
+                                    <Col className="d-flex flex-column">
                                         {product?.status && (
                                             <div className="d-flex flex-row">
                                                 <span
@@ -101,12 +102,12 @@ const ProductDetail = () => {
                                                 </span>
                                             </div>
                                         )}
-                                        <div className="d-flex flex-row">
+                                        <Row className="">
                                             <h3 className="">
                                                 {product?.name}
                                             </h3>
-                                        </div>
-                                        <div className="d-flex flex-row ">
+                                        </Row>
+                                        <Row className="">
                                             {product.discounted_price !=
                                                 product.sell_price && (
                                                 <>
@@ -129,24 +130,24 @@ const ProductDetail = () => {
                                                     NRS.{product?.sell_price}
                                                 </p>
                                             )}
-                                        </div>
-                                        <div className="d-flex flex-row">
+                                        </Row>
+                                        <Row className="">
                                             {product?.stock && (
                                                 <strong className="">
                                                     {product.stock} in Stock
                                                 </strong>
                                             )}
-                                        </div>
-                                        <div className="d-flex flex-row">
+                                        </Row>
+                                        <Row className="">
                                             {product?.vendor !== "-" && (
                                                 <i>From: {product.vendor}</i>
                                             )}
-                                        </div>
+                                        </Row>
                                         &nbsp;
                                         <div className="d-flex flex-column">
                                             <pre className="display-7">{`${product?.highlights}`}</pre>
                                         </div>
-                                    </div>
+                                    </Col>
                                     <div className="d-flex flex-column">
                                         <hr />
                                         <div className="d-flex flex-row justify-content-between align-items-center d-grid gap-2">
@@ -198,8 +199,8 @@ const ProductDetail = () => {
                             </Card.Body>
                         </Card>
                     </Col>
-                </div>
-                <div className="mt-4 pt-5">
+                </Row>
+                <Row className="mt-4 pt-5">
                     <hr />
                     <div className="features d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <Col
@@ -304,9 +305,9 @@ const ProductDetail = () => {
                         </Col>
                     </div>
                     <hr />
-                </div>
+                </Row>
                 <div className="description-tabs d-flex justify-content-center">
-                    <div className="tabs card col-lg-12 col-sm-12 col-md-10">
+                    <Col lg={12} sm={12} md={12} className="tabs card Row">
                         <ul className="nav card-header">
                             <li
                                 className={`tab mb-0 ${
@@ -339,9 +340,9 @@ const ProductDetail = () => {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </Col>
                 </div>
-            </div>
+            </Col>
         </Container>
     );
 };
@@ -362,38 +363,6 @@ function Reviews({}) {
     );
 }
 
-function ColorSelector({ colors }) {
-    return (
-        <div className="d-flex flex-row justify-content-between">
-            <div className="colors">
-                <h4>Colors</h4>
-            </div>
-            <div className="color-data d-flex flex-row justify-content-end align-items-center gap-2">
-                {colors?.map((item) => {
-                    return (
-                        <div
-                            className={`form-check color-selector ${item}`}
-                            key={item}
-                        >
-                            <input
-                                className={`form-check-input ${item}`}
-                                id={item}
-                                type="checkbox"
-                                value={item}
-                                name={item}
-                            />
-                            <label
-                                className="form-check-label"
-                                htmlFor={item}
-                            ></label>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}
-
 function ImageViewer({ images }) {
     const [selectedImage, setSelectedImage] = useState(
         `${import.meta.env.VITE_MEDIA_BASE_URL}${images[0]}`
@@ -401,7 +370,7 @@ function ImageViewer({ images }) {
     return (
         <Card>
             <Card.Body>
-                <Card>
+                <Card className="">
                     <Image
                         src={selectedImage}
                         alt="product image"
@@ -413,7 +382,7 @@ function ImageViewer({ images }) {
                     <span></span>
                 </Card>
                 <Card className="px-2 py-2 mt-2">
-                    <div className="d-flex flex-row justify-content-start align-items-center image-carousel">
+                    <div className="d-flex justify-content-start align-items-center image-carousel ">
                         {images.map((item, index) => {
                             return (
                                 <Card
@@ -450,6 +419,7 @@ function ImageViewer({ images }) {
                                         height={60}
                                         width={60}
                                         rounded
+                                        // fluid
                                     />
                                 </Card>
                             );

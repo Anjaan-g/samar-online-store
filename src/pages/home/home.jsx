@@ -12,7 +12,6 @@ import Spinner from "react-bootstrap/Spinner";
 
 export default function Home() {
     const { data: products, isLoading, isError } = useGetAllProductsQuery();
-    console.log(products);
     if (isLoading) {
         return (
             <div className="d-flex align-items-center justify-content-center">
@@ -74,7 +73,7 @@ export default function Home() {
                                                     item.discounted_price
                                                 }
                                                 warranty={item.warranty}
-                                                img={item.images[0].image_url}
+                                                img={item.image}
                                             />
                                         );
                                     })}

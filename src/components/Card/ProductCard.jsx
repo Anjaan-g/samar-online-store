@@ -24,6 +24,7 @@ export default function ProductCard({
 }) {
     const dispatch = useDispatch();
     const image = `${import.meta.env.VITE_MEDIA_BASE_URL}${img}`;
+    /* ? This Eroor is due to the path difference from the backend, fix'll hvae to be done from backend */
 
     return (
         <Card className="product-card" key={id}>
