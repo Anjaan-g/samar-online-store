@@ -18,6 +18,7 @@ import Container from "react-bootstrap/Container";
 import { useGetProductQuery } from "../../store/productSlice";
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image";
+import { useSelector } from "react-redux";
 
 const ProductDetail = () => {
     const params = useParams();
@@ -28,6 +29,7 @@ const ProductDetail = () => {
         isLoading,
         error,
     } = useGetProductQuery({ id });
+    console.log(product);
 
     const navigateTo = useNavigate();
 
@@ -78,13 +80,13 @@ const ProductDetail = () => {
                     />
                 )}
             </Helmet>
-            <Col className="d-flex flex-column justify-content-between ">
-                <Row className="product-detail">
+            <div className="d-flex flex-column justify-content-between ">
+                <div className="product-detail d-flex flex-wrap">
                     <Col
                         lg={6}
                         md={12}
                         sm={12}
-                        className="product-image pt-4 pe-2 "
+                        className=" pt-4 pe-2"
                     >
                         <ImageViewer images={product.product_images} />
                     </Col>
@@ -93,15 +95,22 @@ const ProductDetail = () => {
                             <Card.Body>
                                 <div className="d-flex flex-column justify-content-between">
                                     <Col className="d-flex flex-column">
-                                        {product?.status && (
-                                            <div className="d-flex flex-row">
+                                        {product.status && (
+                                            <Row className="d-flex flex-row ps-3">
                                                 <span
-                                                    className={`status ${product?.status}`}
+                                                    className={`status ${product.status}`}
                                                 >
                                                     {product?.status}
                                                 </span>
-                                            </div>
+                                            </Row>
                                         )}
+                                        {/* {product.status && (
+                                            <span
+                                                className={`status ${product.status}`}
+                                            >
+                                                {product.status}
+                                            </span>
+                                        )} */}
                                         <Row className="">
                                             <h3 className="">
                                                 {product?.name}
@@ -199,8 +208,9 @@ const ProductDetail = () => {
                             </Card.Body>
                         </Card>
                     </Col>
-                </Row>
-                <Row className="mt-4 pt-5">
+                </div>
+                {/* <br /> */}
+                <Row className="mt-5 pt-5 product-status">
                     <hr />
                     <div className="features d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <Col
@@ -250,7 +260,7 @@ const ProductDetail = () => {
                             lg={3}
                             sm={12}
                             md={12}
-                            className="d-flex flex-column align-items-center justify-content-center  pe-2 ps-2"
+                            className="d-flex flex-column align-items-center  pe-2 ps-2"
                         >
                             <div className="icon d-flex justify-content-center align-items-center mb-2 mt-2">
                                 <BsTruck size="40px" color="purple" />
@@ -268,7 +278,7 @@ const ProductDetail = () => {
                             lg={3}
                             md={12}
                             sm={12}
-                            className="d-flex flex-column align-items-center justify-content-center  pe-2 ps-2"
+                            className="d-flex flex-column align-items-center  pe-2 ps-2"
                         >
                             {product.warranty !== "-" ? (
                                 <>
@@ -288,7 +298,7 @@ const ProductDetail = () => {
                                 </>
                             ) : (
                                 <>
-                                    <div className="icon d-flex justify-content-center align-items-center mb-2 mt-2">
+                                    <div className="icon d-flex align-items-center mb-2 mt-2">
                                         <BsShieldSlashFill
                                             size="40px"
                                             color="red"
@@ -307,7 +317,7 @@ const ProductDetail = () => {
                     <hr />
                 </Row>
                 <div className="description-tabs d-flex justify-content-center">
-                    <Col lg={12} sm={12} md={12} className="tabs card Row">
+                    <Col className="tabs card Row">
                         <ul className="nav card-header">
                             <li
                                 className={`tab mb-0 ${
@@ -342,7 +352,7 @@ const ProductDetail = () => {
                         </div>
                     </Col>
                 </div>
-            </Col>
+            </div>
         </Container>
     );
 };
@@ -370,7 +380,7 @@ function ImageViewer({ images }) {
     return (
         <Card>
             <Card.Body>
-                <Card className="">
+                <Card className="full-image">
                     <Image
                         src={selectedImage}
                         alt="product image"
@@ -382,12 +392,12 @@ function ImageViewer({ images }) {
                     <span></span>
                 </Card>
                 <Card className="px-2 py-2 mt-2">
-                    <div className="d-flex justify-content-start align-items-center image-carousel ">
+                    <div className="d-flex flex-row justify-content-start align-items-center image-carousel gap-1">
                         {images.map((item, index) => {
                             return (
                                 <Card
                                     key={index}
-                                    className={`ms-2 image-selector ${
+                                    className={`image-selector ${
                                         selectedImage ===
                                             `${
                                                 import.meta.env
@@ -412,14 +422,13 @@ function ImageViewer({ images }) {
                                     }`}
                                 >
                                     <Image
+                                        className=""
                                         src={`${
                                             import.meta.env.VITE_MEDIA_BASE_URL
                                         }${item}`}
                                         alt="image"
-                                        height={60}
-                                        width={60}
+                                        fluid
                                         rounded
-                                        // fluid
                                     />
                                 </Card>
                             );

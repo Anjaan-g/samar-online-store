@@ -7,11 +7,30 @@ import {
 } from "react-icons/bs";
 import { MdDevicesOther } from "react-icons/md";
 import Form from "react-bootstrap/Form";
+import { useGetAllCategoriesQuery } from "../../store/categoriesSlice";
+import { useGetAllBrandsQuery } from "../../store/brandsSlice";
+import { useState } from "react";
 
 export default function Sidebar() {
+    const {
+        data: categories = [],
+        isLoading: isLoadingCategories,
+        isError: isErrorCat,
+        error: errorCat,
+    } = useGetAllCategoriesQuery();
+
+    const {
+        data: brands = [],
+        isLoading: isLoadingBrands,
+        isError: isErrorBrands,
+        error: errorBrands,
+    } = useGetAllBrandsQuery();
+
+    const [checkedValues, setCheckedValues] = useState([]);
+
     return (
         <>
-            <Form>
+            <>
                 <div className="card mx-2 my-2">
                     <div className="card-body">
                         <h4 className="card-heading  text-dark ">
@@ -39,7 +58,7 @@ export default function Sidebar() {
                             </li>
                             <br />
                             <li className="subcategory">
-                                <MdDevicesOther />{" "}
+                                <MdDevicesOther />
                                 <a href="#">Other Equipment</a>
                             </li>
                         </ul>
@@ -49,31 +68,26 @@ export default function Sidebar() {
                     <div className="card-body">
                         <h4 className="card-heading text-dark">Brands</h4>
                     </div>
-                    <div className="brands-list">
-                        <ul className="brands">
-                            <li className="brand-names">
-                                <a href="#">Samsung</a>
-                            </li>
-                            <br />
-                            <li className="brand-names">
-                                <a href="#">Redmi</a>
-                            </li>
-                            <br />
-                            <li className="brand-names">
-                                <a href="#">My Power</a>
-                            </li>
-                            <br />
-                            <li className="brand-names">
-                                <a href="#">Apple</a>
-                            </li>
-                            <br />
-                            <li className="brand-names">
-                                <a href="#">Huwaei</a>
-                            </li>
-                        </ul>
+                    <div className="brands-list ps-2">
+                        {/* <ul className="brands"> */}
+                        {brands?.map((item) => {
+                            return (
+                                <>
+                                    <Form.Check
+                                        type={"checkbox"}
+                                        id={`${item.name}-checkbox`}
+                                        label={`${item.name}`}
+                                        onChange={() => onChange}
+                                    />
+
+                                    <br />
+                                </>
+                            );
+                        })}
+                        {/* </ul> */}
                     </div>
                 </div>
-            </Form>
+            </>
         </>
     );
 }

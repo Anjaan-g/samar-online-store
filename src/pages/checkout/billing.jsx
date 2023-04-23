@@ -23,12 +23,7 @@ import {
 } from "../../store/userCartSlice";
 
 const Billing = () => {
-    // const {
-    //     data: cartData = [],
-    //     isLoading,
-    //     isError,
-    //     error: cartError,
-    // } = useGetCartItemsQuery();
+ 
 
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
