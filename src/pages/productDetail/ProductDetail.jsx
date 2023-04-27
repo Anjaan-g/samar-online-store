@@ -19,6 +19,7 @@ import { useGetProductQuery } from "../../store/productSlice";
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image";
 import { useSelector } from "react-redux";
+import { addToCart } from "../../store/cartSlice";
 
 const ProductDetail = () => {
     const params = useParams();
@@ -29,7 +30,6 @@ const ProductDetail = () => {
         isLoading,
         error,
     } = useGetProductQuery({ id });
-    console.log(product);
 
     const navigateTo = useNavigate();
 
@@ -82,12 +82,7 @@ const ProductDetail = () => {
             </Helmet>
             <div className="d-flex flex-column justify-content-between ">
                 <div className="product-detail d-flex flex-wrap">
-                    <Col
-                        lg={6}
-                        md={12}
-                        sm={12}
-                        className=" pt-4 pe-2"
-                    >
+                    <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
                         <ImageViewer images={product.product_images} />
                     </Col>
                     <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
@@ -397,7 +392,7 @@ function ImageViewer({ images }) {
                             return (
                                 <Card
                                     key={index}
-                                    className={`image-selector ${
+                                    className={`image-selector d-flex align-items-center ${
                                         selectedImage ===
                                             `${
                                                 import.meta.env
@@ -422,7 +417,7 @@ function ImageViewer({ images }) {
                                     }`}
                                 >
                                     <Image
-                                        className=""
+                                        className="align-items-center"
                                         src={`${
                                             import.meta.env.VITE_MEDIA_BASE_URL
                                         }${item}`}
