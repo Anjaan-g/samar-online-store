@@ -44,23 +44,22 @@ export const userSlice = apiSlice.injectEndpoints({
                 address,
                 contactNo,
             }) => ({
-                url: `auth/admin/vendors/${id}`,
+                url: `auth/admin/vendors/${id}/`,
                 method: "PATCH",
                 headers: authHeader,
                 body: {
-                    name,
-                    contactPerson,
-                    email,
-                    phone,
-                    address,
-                    contactNo,
+                    name: name,
+                    contact_person: contactPerson,
+                    email: email,
+                    address: address,
+                    contact_no: contactNo,
                 },
             }),
             invalidatesTags: ["AllVendors"],
         }),
         deleteVendor: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: `auth/admin/vendors/${id}`,
+            query: ({ id }) => ({
+                url: `auth/admin/vendors/${id}/`,
                 method: "DELETE",
                 headers: authHeader,
             }),

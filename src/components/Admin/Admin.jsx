@@ -825,7 +825,13 @@ function Vendors() {
     const [showEditModal, setShowEditModal] = useState(undefined);
     const [showDeleteModal, setShowDeleteModal] = useState(undefined);
 
-    
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -862,7 +868,7 @@ function Vendors() {
                         data={data.find((x) => x.id === showEditModal)}
                     />
                     <DeleteVendorModal
-                        show={showEditModal}
+                        show={showDeleteModal}
                         onHide={() => setShowDeleteModal(undefined)}
                         data={data.find((x) => x.id === showDeleteModal)}
                     />
@@ -917,7 +923,6 @@ const AddVendorModal = ({ data, ...props }) => {
         name: "",
         contactPerson: "",
         email: "",
-        phone: "",
         address: "",
         contactNo: "",
     });
@@ -934,7 +939,6 @@ const AddVendorModal = ({ data, ...props }) => {
         const name = values["name"];
         const contactPerson = values["contactPerson"];
         const email = values["email"];
-        const phone = values["phone"];
         const address = values["address"];
         const contactNo = values["contactNo"];
 
@@ -943,7 +947,6 @@ const AddVendorModal = ({ data, ...props }) => {
                 name,
                 contactPerson,
                 email,
-                phone,
                 address,
                 contactNo,
             });
@@ -1039,23 +1042,6 @@ const AddVendorModal = ({ data, ...props }) => {
                     </Form.Group>
                     <Form.Group
                         as={Row}
-                        controlId="phone"
-                        className="mb-2 align-items-center"
-                    >
-                        <Form.Label column sm="4">
-                            <h6>Phone</h6>
-                        </Form.Label>
-                        <Col>
-                            <Form.Control
-                                name="phone"
-                                htmlFor="phone"
-                                defaultValue={values["phone"]}
-                                onChange={onChange}
-                            />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group
-                        as={Row}
                         controlId="address"
                         className="mb-2 align-items-center"
                     >
@@ -1111,7 +1097,6 @@ const EditVendorModal = ({ data, ...props }) => {
         name: "",
         contactPerson: "",
         email: "",
-        phone: "",
         address: "",
         contactNo: "",
     });
@@ -1120,11 +1105,10 @@ const EditVendorModal = ({ data, ...props }) => {
         if (data) {
             setValues({
                 name: data.name,
-                contactPerson: data.contactPerson,
+                contactPerson: data.contact_person,
                 email: data.email,
-                phone: data.phone,
                 address: data.address,
-                contactNo: data.contactNo,
+                contactNo: data.contact_no,
             });
         }
     }, [data]);
@@ -1138,19 +1122,19 @@ const EditVendorModal = ({ data, ...props }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const id = data.id;
         const name = values["name"];
         const contactPerson = values["contactPerson"];
         const email = values["email"];
-        const phone = values["phone"];
         const address = values["address"];
         const contactNo = values["contactNo"];
 
         try {
             const response = await editVendor({
+                id,
                 name,
                 contactPerson,
                 email,
-                phone,
                 address,
                 contactNo,
             });
@@ -1189,7 +1173,7 @@ const EditVendorModal = ({ data, ...props }) => {
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title>Add Vendor</Modal.Title>
+                <Modal.Title>Edit Vendor</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -1246,23 +1230,6 @@ const EditVendorModal = ({ data, ...props }) => {
                     </Form.Group>
                     <Form.Group
                         as={Row}
-                        controlId="phone"
-                        className="mb-2 align-items-center"
-                    >
-                        <Form.Label column sm="4">
-                            <h6>Phone</h6>
-                        </Form.Label>
-                        <Col>
-                            <Form.Control
-                                name="phone"
-                                htmlFor="phone"
-                                value={values && values["phone"]}
-                                onChange={onChange}
-                            />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group
-                        as={Row}
                         controlId="address"
                         className="mb-2 align-items-center"
                     >
@@ -1313,7 +1280,74 @@ const EditVendorModal = ({ data, ...props }) => {
     );
 };
 
-const DeleteVendorModal = ({ data, ...props }) => {};
+const DeleteVendorModal = ({ data, ...props }) => {
+
+    const [deleteVendor, {isLoading: isLoadingDeleteVendor}] = useDeleteVendorMutation()
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const id = data.id;
+        try {
+            const response = await deleteVendor({
+                id,
+            });
+            const notify = () => {
+                toast.success("Successfully deleted Vendor!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error("Some error occured!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    }
+
+    if (isLoadingDeleteVendor) {
+        <div className="d-flex justify-content-center align-items-center">
+            <Spinner />
+        </div>
+    }
+
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="delete-vendor-modal"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title> Delete Vendor? </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <p>Are you sure you want to delete this Vendor?</p>
+            </Modal.Body>
+
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Confirm
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+
+};
 
 /* 
     TODO: Add different modals for Categories.
