@@ -20,15 +20,33 @@ export const userSlice = apiSlice.injectEndpoints({
             providesTags: ["AllAdmins"],
         }),
         addAdmin: builder.mutation({
-            query: ({data}) => ({
+            query: ({
+                firstName,
+                lastName,
+                email,
+                phoneNo,
+                vendor,
+                password,
+            }) => ({
                 url: "auth/admin/admins/",
-                method: "GET",
+                method: "POST",
                 headers: authHeader,
-                body: {data}
+                body: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone_no: phoneNo,
+                    vendor: vendor,
+                    password: password,
+                },
             }),
             invalidatesTags: ["AllAdmins"],
         }),
     }),
 });
 
-export const { useGetAllUsersQuery, useGetAllAdminsQuery, useAddAdminMutation } = userSlice;
+export const {
+    useGetAllUsersQuery,
+    useGetAllAdminsQuery,
+    useAddAdminMutation,
+} = userSlice;

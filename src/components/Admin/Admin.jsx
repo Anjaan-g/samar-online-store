@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -23,9 +23,20 @@ import Modal from "react-bootstrap/Modal";
 import "./Admin.scss";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
-import { useGetAllVendorsQuery } from "../../store/vendorSlice";
+import {
+    useGetAllVendorsQuery,
+    useAddVendorsMutation,
+    useEditVendorMutation,
+    useDeleteVendorMutation,
+} from "../../store/vendorSlice";
 import { useGetAllCategoriesQuery } from "../../store/categoriesSlice";
-import { useGetAllBrandsQuery } from "../../store/brandsSlice";
+import {
+    useGetAllBrandsQuery,
+    useAddBrandMutation,
+    useDeleteBrandMutation,
+    useEditBrandMutation,
+} from "../../store/brandsSlice";
+import { toast } from "react-toastify";
 
 const Admin = () => {
     const [activeTab, setActiveTab] = useState("products");
@@ -601,17 +612,11 @@ const AddAdminModal = ({ data, ...props }) => {
         lastName: "",
         email: "",
         phoneNo: "",
-        vendor: null,
+        vendor: "",
         password: "",
     });
     const onChange = (e) => {
-        // console.log(e)
-        if (e.target.name == "vendor") {
-            setValues({ ...values, [e.target.name]: e.currentTarget.value });
-        } else {
-            setValues({ ...values, [e.target.name]: e.target.value });
-        }
-        console.log(values);
+        setValues({ ...values, [e.target.name]: e.target.value });
     };
 
     const [addAdmin, { isLoading: isLoadingAddAdmin }] = useAddAdminMutation();
@@ -622,6 +627,45 @@ const AddAdminModal = ({ data, ...props }) => {
         isError,
         error,
     } = useGetAllVendorsQuery();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const firstName = values["firstName"];
+        const lastName = values["lastName"];
+        const email = values["email"];
+        const phoneNo = values["phoneNo"];
+        const vendor = values["vendor"];
+        const password = values["password"];
+
+        try {
+            const response = await addAdmin({
+                firstName,
+                lastName,
+                email,
+                phoneNo,
+                vendor,
+                password,
+            });
+            console.log(response);
+            const notify = () => {
+                toast.success(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast_message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    };
 
     if (isLoading) {
         return (
@@ -709,6 +753,24 @@ const AddAdminModal = ({ data, ...props }) => {
                             />
                         </Col>
                     </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="password"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Password</h6>
+                        </Form.Label>
+                        <Col cm="8">
+                            <Form.Control
+                                name="password"
+                                htmlFor="password"
+                                type="alphanumeric"
+                                defaultValue={values["password"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
 
                     <Form.Group
                         as={Row}
@@ -727,7 +789,7 @@ const AddAdminModal = ({ data, ...props }) => {
                             >
                                 {vendorsData.map((item) => {
                                     return (
-                                        <option value="" key={item.id}>
+                                        <option value={item.id} key={item.id}>
                                             {item.name}
                                         </option>
                                     );
@@ -745,21 +807,41 @@ const AddAdminModal = ({ data, ...props }) => {
                 >
                     Close
                 </Button>
-                <Button variant="success">Save</Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Save
+                </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
+/*
+  TODO: Add different modals for vendors (add, edit, delete)
+*/
 function Vendors() {
     const { data = [], loading, error } = useGetAllVendorsQuery();
+
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(undefined);
+    const [showDeleteModal, setShowDeleteModal] = useState(undefined);
+
+    
+
     return (
         <>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h5 className="d-flex">All Vendors</h5>
-                <Button variant="success" size="md">
+                <Button
+                    variant="success"
+                    size="md"
+                    onClick={() => setShowAddModal(true)}
+                >
                     <FiPlus size={20} /> Add New Vendor
                 </Button>
+                <AddVendorModal
+                    show={showAddModal}
+                    onHide={() => setShowAddModal(false)}
+                />
             </div>
             <Table striped bordered className="text-center">
                 <thead>
@@ -774,6 +856,16 @@ function Vendors() {
                     </tr>
                 </thead>
                 <tbody>
+                    <EditVendorModal
+                        show={showEditModal}
+                        onHide={() => setShowEditModal(undefined)}
+                        data={data.find((x) => x.id === showEditModal)}
+                    />
+                    <DeleteVendorModal
+                        show={showEditModal}
+                        onHide={() => setShowDeleteModal(undefined)}
+                        data={data.find((x) => x.id === showDeleteModal)}
+                    />
                     {data.map((item, index) => {
                         return (
                             <tr key={index}>
@@ -791,10 +883,22 @@ function Vendors() {
                                 </td>
                                 <td>
                                     <div className="d-flex justify-content-around align-items-center">
-                                        <Button variant="secondary" size="sm">
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            onClick={() =>
+                                                setShowEditModal(item.id)
+                                            }
+                                        >
                                             <FiEdit3 size={15} />
                                         </Button>
-                                        <Button variant="danger" size="sm">
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            onClick={() =>
+                                                setShowDeleteModal(item.id)
+                                            }
+                                        >
                                             <FiTrash size={15} />
                                         </Button>
                                     </div>
@@ -808,6 +912,413 @@ function Vendors() {
     );
 }
 
+const AddVendorModal = ({ data, ...props }) => {
+    const [values, setValues] = useState({
+        name: "",
+        contactPerson: "",
+        email: "",
+        phone: "",
+        address: "",
+        contactNo: "",
+    });
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    const [addVendor, { isLoading: isLoadingAddVendor }] =
+        useAddVendorsMutation();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const name = values["name"];
+        const contactPerson = values["contactPerson"];
+        const email = values["email"];
+        const phone = values["phone"];
+        const address = values["address"];
+        const contactNo = values["contactNo"];
+
+        try {
+            const response = await addVendor({
+                name,
+                contactPerson,
+                email,
+                phone,
+                address,
+                contactNo,
+            });
+            const notify = () => {
+                toast.success(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast_message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    };
+
+    if (isLoadingAddVendor) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="add-vendor-modal"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>Add Vendor</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group
+                        as={Row}
+                        controlId="name"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Name</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="name"
+                                htmlFor="name"
+                                defaultValue={values["name"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="contactPerson"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Contact Person</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="contactPerson"
+                                htmlFor="contactPerson"
+                                defaultValue={values["contactPerson"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="email"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Email</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="email"
+                                htmlFor="email"
+                                defaultValue={values["email"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="phone"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Phone</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="phone"
+                                htmlFor="phone"
+                                defaultValue={values["phone"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="address"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Address</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="address"
+                                htmlFor="address"
+                                defaultValue={values["address"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="contactNo"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Contact No.</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="contactNo"
+                                htmlFor="contactNo"
+                                defaultValue={values["contactNo"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Close
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+const EditVendorModal = ({ data, ...props }) => {
+    const [values, setValues] = useState({
+        name: "",
+        contactPerson: "",
+        email: "",
+        phone: "",
+        address: "",
+        contactNo: "",
+    });
+
+    useEffect(() => {
+        if (data) {
+            setValues({
+                name: data.name,
+                contactPerson: data.contactPerson,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                contactNo: data.contactNo,
+            });
+        }
+    }, [data]);
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    const [editVendor, { isLoading: isLoadingEditVendor }] =
+        useEditVendorMutation();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const name = values["name"];
+        const contactPerson = values["contactPerson"];
+        const email = values["email"];
+        const phone = values["phone"];
+        const address = values["address"];
+        const contactNo = values["contactNo"];
+
+        try {
+            const response = await editVendor({
+                name,
+                contactPerson,
+                email,
+                phone,
+                address,
+                contactNo,
+            });
+            const notify = () => {
+                toast.success(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast_message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    };
+
+    if (isLoadingEditVendor) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="add-vendor-modal"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>Add Vendor</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group
+                        as={Row}
+                        controlId="name"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Name</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="name"
+                                htmlFor="name"
+                                value={values && values["name"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="contactPerson"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Contact Person</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="contactPerson"
+                                htmlFor="contactPerson"
+                                value={values && values["contactPerson"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="email"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Email</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="email"
+                                htmlFor="email"
+                                value={values && values["email"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="phone"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Phone</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="phone"
+                                htmlFor="phone"
+                                value={values && values["phone"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="address"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Address</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="address"
+                                htmlFor="address"
+                                value={values && values["address"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        controlId="contactNo"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Contact No.</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="contactNo"
+                                htmlFor="contactNo"
+                                value={values && values["contactNo"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Close
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+const DeleteVendorModal = ({ data, ...props }) => {};
+
+/* 
+    TODO: Add different modals for Categories.
+    * DONE: Categories add, edit, delete modals 
+*/
 function Categories() {
     const { data = [], loading, error } = useGetAllCategoriesQuery();
     return (
@@ -859,15 +1370,31 @@ function Categories() {
     );
 }
 
+/* 
+    TODO: Add different modals for brands.
+    * DONE: Brands add, edit, delete modals 
+*/
 function Brands() {
     const { data = [], loading, error } = useGetAllBrandsQuery();
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(undefined);
+    const [showDeleteModal, setShowDeleteModal] = useState(undefined);
+
     return (
         <>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h5 className="d-flex">All Brands</h5>
-                <Button variant="success" size="md">
+                <Button
+                    variant="success"
+                    size="md"
+                    onClick={() => setShowAddModal(true)}
+                >
                     <FiPlus size={20} /> Add New Brand
                 </Button>
+                <AddBrandModal
+                    show={showAddModal}
+                    onHide={() => setShowAddModal(false)}
+                />
             </div>
             <Table striped bordered className="text-center">
                 <thead>
@@ -878,16 +1405,38 @@ function Brands() {
                     </tr>
                 </thead>
                 <tbody>
+                    <EditBrandModal
+                        show={showEditModal !== undefined}
+                        onHide={() => setShowEditModal(undefined)}
+                        data={data.find((x) => x.id === showEditModal)}
+                    />
+                    <DeleteBrandModal
+                        show={showDeleteModal !== undefined}
+                        onHide={() => setShowDeleteModal(undefined)}
+                        data={data.find((x) => x.id === showDeleteModal)}
+                    />
                     {data.map((item, index) => {
                         return (
                             <tr key={index}>
                                 <td colSpan={3}>{item.name}</td>
                                 <td>
                                     <div className="d-flex justify-content-around align-items-center">
-                                        <Button variant="secondary" size="sm">
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            onClick={() =>
+                                                setShowEditModal(item.id)
+                                            }
+                                        >
                                             <FiEdit3 size={15} />
                                         </Button>
-                                        <Button variant="danger" size="sm">
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            onClick={() =>
+                                                setShowDeleteModal(item.id)
+                                            }
+                                        >
                                             <FiTrash size={15} />
                                         </Button>
                                     </div>
@@ -900,4 +1449,247 @@ function Brands() {
         </>
     );
 }
+
+const AddBrandModal = ({ data, ...props }) => {
+    const [values, setValues] = useState({
+        name: "",
+    });
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    const [addBrand, { isLoading: isLoadingBrand }] = useAddBrandMutation();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const name = values["name"];
+
+        try {
+            const response = await addBrand({
+                name,
+            });
+            const notify = () => {
+                toast.success(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast_message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    };
+
+    if (isLoadingBrand) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner />
+            </div>
+        );
+    }
+    return (
+        <Modal {...props} size="lg" aria-labelledby="add-brand-modal" centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Add Brand</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group
+                        as={Row}
+                        controlId="name"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Name</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="name"
+                                htmlFor="name"
+                                defaultValue={values["name"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Close
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+const EditBrandModal = ({ data, ...props }) => {
+    const [values, setValues] = useState({ name: "" });
+
+    useEffect(() => {
+        if (data) {
+            setValues({
+                name: data.name,
+            });
+        }
+    }, [data]);
+
+    const [updateBrand, { isLoading: isLoadingBrandUpdate }] =
+        useEditBrandMutation();
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const name = values["name"];
+        const id = data.id;
+        console.log(id, name);
+        try {
+            const response = await updateBrand({
+                id,
+                name,
+            });
+            const notify = () => {
+                toast.success(response.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            props.onHide;
+        } catch (error) {
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            props.onHide;
+        }
+        document.getElementById("closeButton").click();
+    }
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="edit-brand-modal"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>Edit Brand</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group
+                        as={Row}
+                        controlId="name"
+                        className="mb-2 align-items-center"
+                    >
+                        <Form.Label column sm="4">
+                            <h6>Name</h6>
+                        </Form.Label>
+                        <Col>
+                            <Form.Control
+                                name="name"
+                                htmlFor="name"
+                                value={values && values["name"]}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Close
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+const DeleteBrandModal = ({ data, ...props }) => {
+    const [deleteBrand, { isLoading: isLoadingDeleteBrand }] =
+        useDeleteBrandMutation();
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const id = data.id;
+        try {
+            const response = await deleteBrand({
+                id,
+            });
+            const notify = () => {
+                toast.success("Successfully deleted brand!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        } catch (error) {
+            const notify = () => {
+                toast.error("Some error occured!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            document.getElementById("closeButton").click();
+        }
+    }
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="delete-brand-modal"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title> Delete Brand? </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <p>Are you sure you want to delete this brand?</p>
+            </Modal.Body>
+
+            <Modal.Footer className="justify-content-between">
+                <Button
+                    onClick={props.onHide}
+                    id="closeButton"
+                    variant="danger"
+                >
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} variant="success">
+                    Confirm
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
 export default Admin;

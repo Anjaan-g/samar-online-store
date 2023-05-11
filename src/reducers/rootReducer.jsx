@@ -6,6 +6,7 @@ import { userReturnsSlice } from "../store/returnsSlice";
 import { userDataSlice } from "../store/userDataSlice";
 import { cartReducer } from "../store/cartSlice";
 import { productSlice } from "../store/productSlice";
+import { brandsSlice } from "../store/brandsSlice";
 import {
     FLUSH,
     PAUSE,
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     [userReturnsSlice.reducerPath]: userReturnsSlice.reducer,
     [userDataSlice.reducerPath]: userDataSlice.reducer,
     [productSlice.reducerPath]: productSlice.reducer,
+    [brandsSlice.reducerPath]: brandsSlice.reducer,
 });
 
 export default rootReducer;

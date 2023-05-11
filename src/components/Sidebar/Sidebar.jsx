@@ -77,7 +77,7 @@ export default function Sidebar() {
                                         type={"checkbox"}
                                         id={`${item.name}-checkbox`}
                                         label={`${item.name}`}
-                                        onChange={() => onChange}
+                                        // onChange={() => onChange}
                                     />
 
                                     <br />

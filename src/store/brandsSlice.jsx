@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 import authHeader from "../services/auth-header";
 
-export const userSlice = apiSlice.injectEndpoints({
+export const brandsSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllBrands: builder.query({
             query: () => ({
@@ -12,29 +12,29 @@ export const userSlice = apiSlice.injectEndpoints({
             providesTags: ["AllBrands"],
         }),
         addBrand: builder.mutation({
-            query: ({ data }) => ({
+            query: ({ name }) => ({
                 url: "inventory/brands/",
                 method: "POST",
                 headers: authHeader,
-                body: { data },
+                body: { name },
             }),
             invalidatesTags: ["AllBrands"],
         }),
         editBrand: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: "inventory/brands/",
+            query: ({ id, name }) => ({
+                url: `inventory/brands/${id}/`,
                 method: "PATCH",
                 headers: authHeader,
-                body: { ...data },
+                body: { name },
             }),
             invalidatesTags: ["AllBrands"],
         }),
         deleteBrand: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: "inventory/brands/",
+            query: ({ id }) => ({
+                url: `inventory/brands/${id}/`,
                 method: "DELETE",
                 headers: authHeader,
-                body: { ...data },
+                // body: { ...data },
             }),
             invalidatesTags: ["AllBrands"],
         }),
@@ -46,4 +46,4 @@ export const {
     useAddBrandMutation,
     useEditBrandMutation,
     useDeleteBrandMutation,
-} = userSlice;
+} = brandsSlice;
