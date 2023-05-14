@@ -42,6 +42,28 @@ export const userSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["AllAdmins"],
         }),
+        updateAdmin: builder.mutation({
+            query: ({
+                id,
+                firstName,
+                lastName,
+                email,
+                phoneNo,
+                vendor,
+            }) => ({
+                url: `auth/admin/admins/${id}/`,
+                method: "PATCH",
+                headers: authHeader,
+                body: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone_no: phoneNo,
+                    vendor: vendor
+                }
+            }),
+            invalidatesTags: ["AllAdmins"]
+        })
     }),
 });
 
@@ -49,4 +71,5 @@ export const {
     useGetAllUsersQuery,
     useGetAllAdminsQuery,
     useAddAdminMutation,
+    useUpdateAdminMutation,
 } = userSlice;
