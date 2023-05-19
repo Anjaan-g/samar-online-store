@@ -6,7 +6,7 @@ import { MdCancel } from "react-icons/md";
 import "./search.scss";
 // import {useResultContext} from "../../contexts/ResultContextProvider"
 
-export const Search = () => {
+export const Search = ({searchTerm, setSearchTerm}) => {
     const [text, setText] = useState("");
     const [debounceValue] = useDebounce(text, 300);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProductCard from "../../components/Card/ProductCard";
@@ -9,9 +9,31 @@ import Container from "react-bootstrap/Container";
 import { Helmet } from "react-helmet";
 import { useGetAllProductsQuery } from "../../store/productSlice";
 import Spinner from "react-bootstrap/Spinner";
+import { useDebounce } from "use-debounce";
+import { AiOutlineSearch } from "react-icons/ai";
+import { MdCancel } from "react-icons/md";
 
 export default function Home() {
-    const { data: products, isLoading, isError } = useGetAllProductsQuery();
+    const [searchTerm, setSearchTerm] = useState("");
+    const { data = [], isLoading, isError } = useGetAllProductsQuery();
+    const products = data.data;
+
+    // useEffect(() => {
+    //     if (searchTerm !== "") {
+    //         let products = products.filter(function (el) {
+    //             return (
+    //                 el.name.includes(searchTerm) ||
+    //                 el.brand.includes(searchTerm) ||
+    //                 el.category.includes(searchTerm)
+    //             );
+    //         });
+    //     } else {
+    //         let products = products;
+    //     }
+
+    //     return () => {};
+    // }, [searchTerm, products]);
+
     if (isLoading) {
         return (
             <div className="d-flex align-items-center justify-content-center">
@@ -56,27 +78,74 @@ export default function Home() {
                     <div className="container-fluid">
                         <div className="d-flex flex-column flex-wrap">
                             <div className="mt-4 ">
-                                <Search />
+                                <div className="search d-flex justify-content-center align-items-center">
+                                    <AiOutlineSearch className="searchIcon" />
+                                    <input
+                                        value={searchTerm}
+                                        type="text"
+                                        placeholder="Searching for..."
+                                        onChange={(e) =>
+                                            setSearchTerm(e.target.value)
+                                        }
+                                    />
+                                    <span className="d-inline">
+                                        {searchTerm && (
+                                            <button
+                                                type="button"
+                                                className="btn"
+                                                onClick={() =>
+                                                    setSearchTerm("")
+                                                }
+                                            >
+                                                <MdCancel size={20} />
+                                            </button>
+                                        )}
+                                    </span>
+                                </div>
                             </div>
                             <div className="products">
                                 <div className="d-flex flex-wrap justify-content-start align-items-center gap-2  mt-4">
-                                    {products?.map((item) => {
-                                        return (
-                                            <ProductCard
-                                                key={item.id}
-                                                id={item.id}
-                                                name={item.name}
-                                                stock={item.stock}
-                                                status={item.status}
-                                                price={item.sell_price}
-                                                discountedPrice={
-                                                    item.discounted_price
-                                                }
-                                                warranty={item.warranty}
-                                                img={item.image}
-                                            />
-                                        );
-                                    })}
+                                    {products
+                                        .filter((product) => {
+                                            if (searchTerm === "") {
+                                                return product;
+                                            } else if (
+                                                product.name
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        searchTerm.toLowerCase()
+                                                    ) ||
+                                                product.brand
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        searchTerm.toLowerCase()
+                                                    ) ||
+                                                product.category
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        searchTerm.toLowerCase()
+                                                    )
+                                            ) {
+                                                return product;
+                                            }
+                                        })
+                                        ?.map((item) => {
+                                            return (
+                                                <ProductCard
+                                                    key={item.id}
+                                                    id={item.id}
+                                                    name={item.name}
+                                                    stock={item.stock}
+                                                    status={item.status}
+                                                    price={item.sell_price}
+                                                    discountedPrice={
+                                                        item.discounted_price
+                                                    }
+                                                    warranty={item.warranty}
+                                                    img={item.image}
+                                                />
+                                            );
+                                        })}
                                 </div>
                             </div>
                         </div>

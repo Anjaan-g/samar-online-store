@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./navbar.scss";
-import Shoppee from "../../../assets/logo_3.png";
 import { BiShoppingBag, BiLogOut } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import Container from "react-bootstrap/Container";
@@ -12,15 +11,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import {
-    useGetCartItemsQuery,
-    useUpdateCartMutation,
-} from "../../store/userCartSlice";
-import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart, clearCart } from "../../store/cartSlice";
 import dayjs from "dayjs";
-import { apiSlice } from "../../store/apiSlice";
+import Logo from "../../../assets/site-logo-gb.svg";
 
 export const Navbar = () => {
     const token = Cookies.get("token");
@@ -46,6 +40,7 @@ export const Navbar = () => {
             return { admin, exp };
         }
     };
+
     const { admin, exp } = getAdminStatus() || false;
 
     const getTotalQuantity = () => {
@@ -79,7 +74,7 @@ export const Navbar = () => {
             <Container>
                 <LinkContainer to="/" className="mb-1">
                     <NavBar.Brand className="site-logo">
-                        <img src={Shoppee} alt="shopee" />
+                        <img src={Logo} alt="shopee" width={65} />
                     </NavBar.Brand>
                 </LinkContainer>
                 <NavBar.Toggle

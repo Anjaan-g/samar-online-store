@@ -44,10 +44,11 @@ export default function ProductCard({
             <span className="box">
                 <span className="wrapper d-flex align-items-center justify-content-center">
                     <img
-                        height={300}
+                        height={285}
                         src={image}
-                        className="card-img-top enable-rounded p-2"
+                        className="card-img-top rounded p-2"
                         alt={name}
+                        rounded
                     />
                 </span>
             </span>
@@ -88,10 +89,10 @@ export default function ProductCard({
                 <span className={`warranty`}>{warranty}</span>
             )}
             {status && <span className={`status ${status}`}>{status}</span>}
-            <Card.Body className="card-body">
-                <div className="description cover">
+            <Card.Body>
+                <div className="d-flex flex-column flex-wrap">
                     <Link to={`/detail/${id}`}>
-                        <h6 className="text-dark ">{name.length>27 ? `${name.substring(0,27)}...`: name}</h6>
+                        <h6 className="text-dark pe-4"> {name} </h6>
                     </Link>
                     {discountedPrice != price && (
                         <div>

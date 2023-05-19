@@ -161,6 +161,7 @@ const Admin = () => {
 
 function Products({ superUser }) {
     const { data = [], error, loading } = useGetAllProductsQuery();
+    const products = data.data
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -204,7 +205,7 @@ function Products({ superUser }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.map((item) => {
+                    {products?.map((item) => {
                         return (
                             <tr key={item.id}>
                                 <td>{item.name}</td>
@@ -863,7 +864,7 @@ const EditAdminModal = ({ data, ...props }) => {
         isError,
         error,
     } = useGetAllVendorsQuery();
-    console.log(vendorsData)
+    console.log(vendorsData);
     useEffect(() => {
         if (data) {
             setValues({
