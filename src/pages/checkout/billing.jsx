@@ -14,23 +14,22 @@ import {
     selectAddress,
     removeAddress,
 } from "../../store/deliveryAddressSlice";
+import AddAddressModal from "../../components/Modals/AddAddressModal";
+
 import { Helmet } from "react-helmet";
 import { useGetAddressQuery } from "../../store/addressSlice";
-import AddAddressModal from "../../components/Modals/AddAddressModal";
 import {
     useGetCartItemsQuery,
     useUpdateCartMutation,
 } from "../../store/userCartSlice";
 
 const Billing = () => {
- 
-
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
 
     const [discount, setDiscount] = useState(0);
 
-    // const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const { data: addressData = [], error, loading } = useGetAddressQuery();
 
     const cart = useSelector((state) => state.cart);
@@ -150,22 +149,11 @@ const Billing = () => {
                                     </Button>
                                 </Link>
                             </div>
-                            <div className="add-new">
-                                <Button
-                                    variant="info"
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    <FiPlus size={25} /> Add new Address
-                                </Button>
-                            </div>
-                            <AddAddressModal
-                                show={showModal}
-                                onHide={() => setShowModal(false)}
-                            />
+                            
                         </div>;
                     })}
 
-                    <div className="mt-5 mb-5 mx-2">
+                    <div className="mt-5 mb-5 mx-2 d-flex justify-content-between align-items-center">
                         <Link to="/cart">
                             <Button
                                 variant="outline"
@@ -177,6 +165,18 @@ const Billing = () => {
                                 </div>
                             </Button>
                         </Link>
+                        <div className="add-new">
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => setShowModal(true)}
+                                >
+                                    <FiPlus size={25} /> Add new Address
+                                </Button>
+                            </div>
+                            <AddAddressModal
+                                show={showModal}
+                                onHide={() => setShowModal(false)}
+                            />
                     </div>
                 </Col>
                 <Col lg={4} md={12} sm={12} xs={12} className="ps-2 mt-2">

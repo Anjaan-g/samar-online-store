@@ -1,14 +1,13 @@
-import "./footer.scss";
-
+import React from "react";
 import {
     FaFacebook,
     FaInstagram,
     FaTwitter,
     FaLinkedin,
 } from "react-icons/fa";
-export const Footer = () => {
+export const AdminFooter = () => {
     return (
-        <footer className="py-5 bg-dark-green text-white mt-5">
+        <footer className="bg-dark text-white py-4">
             <div className="container">
                 <div className="footer-area">
                     <div className="row">
@@ -27,7 +26,7 @@ export const Footer = () => {
                                 <h2 className="widget-title">Get in Touch</h2>
                                 <ul>
                                     <li>Kathmandu, Nepal</li>
-                                    <li>support@s.com</li>
+                                    <li>support@samarmart.com</li>
                                     <li>+977 984 700 4480</li>
                                 </ul>
                             </div>
@@ -41,10 +40,10 @@ export const Footer = () => {
                             <p className="text-white">
                                 Copyrights &copy; 2022 &nbsp;
                                 <a
-                                    href="https://sagargaire.com.np/ "
-                                    target="_blank"
+                                    href="https://samarmart.com/ "
+                                    // target="_blank"
                                 >
-                                    Sagar Gaire
+                                    Samar Mart
                                 </a>
                                 , All Rights Reserved.
                                 <br />

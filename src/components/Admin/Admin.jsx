@@ -17,8 +17,14 @@ import {
     useGetAllAdminsQuery,
     useUpdateAdminMutation,
 } from "../../store/userSlice";
-import { FiEdit3, FiPlus, FiTrash, FiCheck, FiX } from "react-icons/fi";
-import { Helmet } from "react-helmet";
+import {
+    FiEdit3,
+    FiPlus,
+    FiTrash,
+    FiCheck,
+    FiX,
+    FiSearch,
+} from "react-icons/fi";
 import Modal from "react-bootstrap/Modal";
 import "./Admin.scss";
 import Cookies from "js-cookie";
@@ -161,10 +167,15 @@ const Admin = () => {
 
 function Products({ superUser }) {
     const { data = [], error, loading } = useGetAllProductsQuery();
-    const products = data.data
+    const products = data.data;
+    console.log(products)
+
     const [showAddModal, setShowAddModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    
+    const [showEditModal, setShowEditModal] = useState(undefined);
+    const [showDeleteModal, setShowDeleteModal] = useState(undefined);
+
     return (
         <div className="products">
             <div className="d-flex justify-content-between align-items-center">
@@ -173,12 +184,20 @@ function Products({ superUser }) {
                 ) : (
                     <h5>My Products</h5>
                 )}
-                <Button
-                    variant="success"
-                    onClick={() => setShowAddModal(true)}
-                >
-                    <FiPlus size={20} /> Add New Product
-                </Button>
+                <div className="d-flex justify-content-between align-items-center gap-4">
+                    <Button
+                        variant="success"
+                        onClick={() => setShowAddModal(true)}
+                    >
+                        <FiSearch size={20} /> Review Products
+                    </Button>
+                    <Button
+                        variant="success"
+                        onClick={() => setShowAddModal(true)}
+                    >
+                        <FiPlus size={20} /> Add New Product
+                    </Button>
+                </div>
                 <AddProductModal
                     show={showAddModal}
                     onHide={() => setShowAddModal(false)}
@@ -473,6 +492,13 @@ const AddProductModal = ({ data, ...props }) => {
         </Modal>
     );
 };
+
+const EditProductModal = ({data, ...props}) => {
+
+}
+const DeleteProductModal = ({data, ...props}) => {
+    
+}
 
 // function Customers() {
 //     const { data = [], loading, error } = useGetAllUsersQuery();

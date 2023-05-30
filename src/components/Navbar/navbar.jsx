@@ -58,7 +58,7 @@ export const Navbar = () => {
         dispatch(clearCart());
         localStorage.clear();
         navigateTo("/login");
-        dispatch(baseApi.util.resetApiState());
+        // dispatch(baseApi.util.resetApiState());
     };
 
     useEffect(() => {

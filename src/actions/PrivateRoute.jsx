@@ -1,17 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 export const PrivateRoute = ({
     isAllowed,
-    redirectPath = "/login",
+    redirectPath = "/",
     children,
 }) => {
     const isAuthenticated = Cookies.get("token");
 
     if (!isAuthenticated) {
-        toast.success("Please Login to view your Cart", {
+        toast.success("Authentication credentials not met", {
             position: toast.POSITION.TOP_RIGHT,
             className: "toast-message",
         });

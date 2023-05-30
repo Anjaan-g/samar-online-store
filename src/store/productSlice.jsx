@@ -19,6 +19,35 @@ export const productSlice = apiSlice.injectEndpoints({
             providesTags: ["ProductDetail"],
         }),
 
+        listImages: builder.mutation({
+            query: (id) => ({
+                url: `inventory/product/${id}/list_images/`,
+                method: "GET",
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Products"],
+        }),
+
+        addImages: builder.mutation({
+            query: (id, images) => ({
+                url: `inventory/product/${id}/upload_images/`,
+                method: "POST",
+                body: { images: images },
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Products"],
+        }),
+
+        deleteImage: builder.mutation({
+            query: (id) => ({
+                url: `inventory/admin/product/images/${id}/`,
+                method: "DELETE",
+                // body: { images: images },
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Products"],
+        }),
+
         addProducts: builder.mutation({
             query: ({
                 name,
@@ -28,6 +57,8 @@ export const productSlice = apiSlice.injectEndpoints({
                 warranty,
                 status,
                 category,
+                highlights,
+                description,
                 images,
             }) => ({
                 url: "inventory/product/",
@@ -40,12 +71,48 @@ export const productSlice = apiSlice.injectEndpoints({
                     warranty: warranty,
                     status: status,
                     category: category,
+                    description: description,
+                    highlights: highlights,
                     images: images,
                 },
                 headers: authHeader,
             }),
             invalidatesTags: ["Products"],
         }),
+
+        editProduct: builder.mutation({
+            query: ({
+                id,
+                name,
+                buyPrice,
+                sellPrice,
+                stock,
+                warranty,
+                status,
+                category,
+                images,
+                description,
+                highlights,
+            }) => ({
+                url: `inventory/product/${id}`,
+                method: "POST",
+                body: {
+                    name: name,
+                    buy_price: buyPrice,
+                    sell_price: sellPrice,
+                    stock: stock,
+                    warranty: warranty,
+                    status: status,
+                    category: category,
+                    images: images,
+                    description: description,
+                    highlights: highlights,
+                },
+                headers: authHeader,
+            }),
+            invalidatesTags: ["Products"],
+        }),
+
         deleteProduct: builder.mutation({
             query: (id) => ({
                 url: `inventory/product/${id}`,
@@ -60,6 +127,10 @@ export const productSlice = apiSlice.injectEndpoints({
 export const {
     useGetAllProductsQuery,
     useGetProductQuery,
+    useEditProductMutation,
+    useListImagesMutation,
+    useAddImagesMutation,
+    useDeleteImageMutation,
     useAddProductsMutation,
     useDeleteProductMutation,
 } = productSlice;

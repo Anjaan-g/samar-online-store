@@ -30,7 +30,6 @@ import {
 
 import { apiSlice } from "./store/apiSlice";
 
-
 const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
@@ -53,10 +52,11 @@ const persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
-            <Router>
-                <Layout children={<App />} />
-                <ToastContainer />
-            </Router>
+            {/* <Router> */}
+            {/* <Layout children={<App />} /> */}
+            <App />
+            <ToastContainer />
+            {/* </Router> */}
         </PersistGate>
     </Provider>
 );

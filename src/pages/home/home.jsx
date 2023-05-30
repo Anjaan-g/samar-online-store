@@ -15,24 +15,9 @@ import { MdCancel } from "react-icons/md";
 
 export default function Home() {
     const [searchTerm, setSearchTerm] = useState("");
+    const [filterItems, setFilterItems] = useState([])
     const { data = [], isLoading, isError } = useGetAllProductsQuery();
     const products = data.data;
-
-    // useEffect(() => {
-    //     if (searchTerm !== "") {
-    //         let products = products.filter(function (el) {
-    //             return (
-    //                 el.name.includes(searchTerm) ||
-    //                 el.brand.includes(searchTerm) ||
-    //                 el.category.includes(searchTerm)
-    //             );
-    //         });
-    //     } else {
-    //         let products = products;
-    //     }
-
-    //     return () => {};
-    // }, [searchTerm, products]);
 
     if (isLoading) {
         return (

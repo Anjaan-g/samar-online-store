@@ -3,3 +3,11 @@
 .active-tab {
     background-color: $accent;
 }
+
+.custom-modal .modal-content {
+    background-color: $secondary;
+}
+
+.table-header {
+    border-width: 2px;
+}

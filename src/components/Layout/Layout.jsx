@@ -1,7 +1,11 @@
 import { Navbar } from "../Navbar/navbar";
+import { AdminNav } from "../Navbar/adminNav";
+import { AdminFooter } from "../Footer/adminFooter";
+import { AdminSidebar } from "../Sidebar/adminSidebar";
 import { Footer } from "../Footer/Footer";
 import { useState } from "react";
 import "./layout.scss";
+import { Outlet } from "react-router-dom";
 
 export const Layout = ({ children }) => {
     const [darkTheme, setDarkTheme] = useState(false);
@@ -9,11 +13,22 @@ export const Layout = ({ children }) => {
         <div className="layout d-flex flex-column ">
             <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
             <main className="d-flex justify-content-around flex-grow-1">
-                {children}
+                <Outlet />
             </main>
             <Footer />
         </div>
     );
 };
 
-// export default Layout;
+export const AdminLayout = () => {
+    return (
+        <div className="layout d-flex flex-column bg-secondary">
+            <AdminNav />
+            <main className="d-flex justify-content-start">
+                <AdminSidebar />
+                <Outlet />
+            </main>
+            <AdminFooter />
+        </div>
+    );
+};
