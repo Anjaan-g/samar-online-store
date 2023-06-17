@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 export default function CarouselContainer() {
     return (
-        <Carousel data-bs-ride="carousel">
+        <Carousel data-bs-ride="carousel" className=" w-100">
             <Carousel.Item data-bs-interval="5000">
                 <img
                     src="../../../assets/collection.jpg"
