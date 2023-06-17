@@ -36,24 +36,25 @@ export default function Home() {
     }
 
     return (
-        <div className="home">
+        <div className="home mb-3">
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Supplier | Home | Surround your life with authentic
-                    gadgets
+                    Samar Mart | Where trust meets quality
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta
                     name="description"
-                    content="Samar supplier is your one and only place to get authentic gadgets and accessories for your smart phone or computers. Online store in Butwal."
+                    content="Shop with confidence at Samar Mart, knowing that each purchase you make is an investment in authentic, 
+                        high-performance tech devices. Join our community of satisfied customers and explore the world of genuine 
+                        gadgets that will elevate your digital experience."
                 />
             </Helmet>
 
             <Container className="w-100">
                 <CarouselContainer />
                 <div className="d-flex d-sm-flex flex-row justify-content-around">
-                    <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex">
+                    <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex bg-light">
                         <div className="card-body">
                             <h3 className="card-header text-dark display-6">
                                 Filters
@@ -64,15 +65,16 @@ export default function Home() {
                     <div className="container-fluid">
                         <div className="d-flex flex-column flex-wrap">
                             <div className="mt-4 ">
-                                <div className="search d-flex justify-content-center align-items-center">
+                                <div className="search d-flex justify-content-center align-items-center bg-light ">
                                     <AiOutlineSearch className="searchIcon" />
                                     <input
                                         value={searchTerm}
                                         type="text"
-                                        placeholder="Searching for..."
+                                        placeholder="Search for..."
                                         onChange={(e) =>
                                             setSearchTerm(e.target.value)
                                         }
+                                        className="bg-light"
                                     />
                                     <span className="d-inline">
                                         {searchTerm && (

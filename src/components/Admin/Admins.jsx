@@ -52,7 +52,7 @@ export function Admins() {
         );
     }
     return (
-        <div className="d-flex flex-column w-100 m-3 align-items-center text-white">
+        <div className="d-flex flex-column w-100 m-3 align-items-center text-white ">
             <div className="d-flex justify-content-between w-100 align-items-center text-white mb-3">
                 <h5 className="d-flex">All Admins</h5>
                 <Button
@@ -69,9 +69,9 @@ export function Admins() {
             <Table
                 hover
                 bordered
-                className="text-center text-white border-dark"
+                className="  text-white border-dark"
             >
-                <thead className="table-header">
+                <thead className=" text-center table-header">
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
@@ -81,7 +81,7 @@ export function Admins() {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-center start-left">
                     <EditAdminModal
                         show={showEditModal}
                         onHide={() => setShowEditModal(undefined)}

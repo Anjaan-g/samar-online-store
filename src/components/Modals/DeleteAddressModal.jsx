@@ -13,16 +13,16 @@ const DeleteAddressModal = ({ data, ...props }) => {
             aria-labelledby="delete-address-modal"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="bg-light">
                 <Modal.Title>Are you sure?</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="bg-light">
                 <p className="lead">
                     Confirming the following action will remove this address
                     permanently. Are you sure you want to delete this address?
                 </p>
             </Modal.Body>
-            <Modal.Footer className="justify-content-between">
+            <Modal.Footer className="justify-content-between bg-light">
                 <Button
                     onClick={props.onHide}
                     id="closeButton"

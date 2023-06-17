@@ -27,7 +27,7 @@ export default function ProductCard({
     /* ? This Eroor is due to the path difference from the backend, fix'll hvae to be done from backend */
 
     return (
-        <Card className="product-card" key={id}>
+        <Card className="product-card bg-light" key={id}>
             {stock && (
                 <span
                     className={`stock ${

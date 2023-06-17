@@ -91,7 +91,7 @@ const Billing = () => {
                     {addressData?.map((item) => {
                         return (
                             <Card
-                                className="mt-2 w-100 me-1 pe-1"
+                                className="mt-2 w-100 me-1 pe-1 bg-light"
                                 key={item.id}
                             >
                                 <Card.Body>

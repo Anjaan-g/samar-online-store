@@ -2,6 +2,7 @@
 
 .navbar{
     min-width: 500px;
+    height: 65px;
 }
 .main-menu-wrap{
     display: flex;
@@ -34,9 +35,9 @@
 
 
 .site-logo {
-    height: 60px;
-    width: 60px;
-    object-fit: cover;
+    // height: 60px;
+    width: 500px;
+    object-fit: contain;
 }
 
 .item-count {

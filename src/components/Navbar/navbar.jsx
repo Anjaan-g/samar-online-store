@@ -73,8 +73,13 @@ export const Navbar = () => {
         <NavBar collapseOnSelect sticky="top" bg="dark-green" expand="md">
             <Container>
                 <LinkContainer to="/" className="mb-1">
-                    <NavBar.Brand className="site-logo">
-                        <img src={Logo} alt="shopee" width={65} />
+                    <NavBar.Brand className="site-logo ">
+                        <img
+                            src="https://samarmart.s3.ap-south-1.amazonaws.com/logo/logo-only.svg"
+                            alt="samarmart"
+                            width={110}
+                            // height={60}
+                        />
                     </NavBar.Brand>
                 </LinkContainer>
                 <NavBar.Toggle
@@ -140,18 +145,18 @@ export const Navbar = () => {
                                         />
                                     }
                                     id={`offcanvasNavbarDropdown-expand`}
-                                    className="avatar-dropdown"
+                                    className="avatar-dropdown "
                                     drop="down"
                                     align="end"
                                 >
-                                    <NavDropdown.Item>
+                                    <NavDropdown.Item className="bg-light">
                                         <LinkContainer to="/profile">
                                             <Nav.Link className="text-dark">
                                                 Profile
                                             </Nav.Link>
                                         </LinkContainer>
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item>
+                                    <NavDropdown.Item className="bg-light">
                                         <LinkContainer
                                             to={{
                                                 pathname: "/profile",
@@ -163,11 +168,12 @@ export const Navbar = () => {
                                             </Nav.Link>
                                         </LinkContainer>
                                     </NavDropdown.Item>
-                                    <NavDropdown.Divider />
+                                    <NavDropdown.Divider className="bg-light"/>
                                     <NavDropdown.Item
                                         onClick={(e) => {
                                             logout();
                                         }}
+                                        className="bg-light"
                                     >
                                         <BiLogOut size={25} color="red" />{" "}
                                         &nbsp; Logout

@@ -83,10 +83,10 @@ const EditAddressModal = ({ data, ...props }) => {
             aria-labelledby="add-address-modal"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="bg-light">
                 <Modal.Title id="add-new-address">Add New Address</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="bg-light">
                 <Form>
                     <Form.Group
                         as={Row}
@@ -176,7 +176,7 @@ const EditAddressModal = ({ data, ...props }) => {
                     </Form.Group>
                 </Form>
             </Modal.Body>
-            <Modal.Footer className="justify-content-between">
+            <Modal.Footer className="justify-content-between bg-light">
                 <Button
                     onClick={props.onHide}
                     id="closeButton"

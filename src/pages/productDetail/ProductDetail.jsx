@@ -86,7 +86,7 @@ const ProductDetail = () => {
                         <ImageViewer images={product.product_images} />
                     </Col>
                     <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
-                        <Card className="product-description">
+                        <Card className="product-description bg-light">
                             <Card.Body>
                                 <div className="d-flex flex-column justify-content-between">
                                     <Col className="d-flex flex-column">
@@ -312,7 +312,7 @@ const ProductDetail = () => {
                     <hr />
                 </Row>
                 <div className="description-tabs d-flex justify-content-center">
-                    <Col className="tabs card Row">
+                    <Col className="tabs card mb-3 bg-light">
                         <ul className="nav card-header">
                             <li
                                 className={`tab mb-0 ${
@@ -354,7 +354,7 @@ const ProductDetail = () => {
 
 function Description({ description }) {
     return (
-        <div className="mt-2 mb-2">
+        <div className="mt-2 mb-3">
             <pre>{description}</pre>
         </div>
     );
@@ -373,7 +373,7 @@ function ImageViewer({ images }) {
         `${import.meta.env.VITE_MEDIA_BASE_URL}${images[0]}`
     );
     return (
-        <Card>
+        <Card className="bg-light">
             <Card.Body>
                 <Card className="full-image">
                     <Image

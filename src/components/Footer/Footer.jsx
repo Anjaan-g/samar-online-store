@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 export const Footer = () => {
     return (
-        <footer className="py-5 bg-dark-green text-white mt-5">
+        <footer className="py-5 bg-dark-green text-white">
             <div className="container">
                 <div className="footer-area">
                     <div className="row">

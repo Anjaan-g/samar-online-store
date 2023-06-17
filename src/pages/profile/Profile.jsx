@@ -49,7 +49,7 @@ const Profile = () => {
             <h4 className="display-5">Profile</h4>
             <div className="d-flex flex-row justify-content-between mt-5 flex-wrap">
                 <Col lg={2} sm={2} xs={2} className="profile-sidebar">
-                    <Card>
+                    <Card className="bg-light">
                         <Card.Header>Manage Profile</Card.Header>
                         <Card.Body>
                             <Nav className="flex-column">
@@ -203,7 +203,7 @@ function Account({ user }) {
                     content="Setup your profile with authentic information to get your products easily and fast."
                 />
             </Helmet>
-            <Form>
+            <Form >
                 <div className="d-flex justify-content-start align-items-center">
                     <h3 className="pe-5"> My Account </h3>
                     {!editing && (
@@ -218,7 +218,7 @@ function Account({ user }) {
                 <div className="d-flex justify-content-between align-items-start pe-4 flex-wrap">
                     <Col lg={4} md={2} sm={12} xs={12}>
                         <div className="d-flex flex-column align-items-start mt-4 mb-4">
-                            <Card>
+                            <Card className="bg-light">
                                 <Card.Body>
                                     <Form.Group>
                                         <FaUserAstronaut size={200} />
@@ -373,7 +373,7 @@ function AddressBook() {
 
                 {data?.map((item) => {
                     return (
-                        <Card className="mt-2 w-100" key={item.id}>
+                        <Card className="mt-2 w-100 bg-light" key={item.id}>
                             <Card.Body>
                                 <div className="d-flex justify-content-between">
                                     <div className="d-flex flex-column">
@@ -486,15 +486,15 @@ function OrderHistory() {
             </Helmet>
             <h3> Order History </h3>
             <div className="d-flex justify-content-center flex-column">
-                <Accordion defaultActiveKey="0">
+                <Accordion defaultActiveKey="0" >
                     {data?.map((item) => {
                         return (
                             <Accordion.Item
                                 eventKey={item.id}
                                 key={item.id}
-                                className="mt-4 mb-4 rounded"
+                                className="mt-4 mb-4 rounded bg-light"
                             >
-                                <Accordion.Header>
+                                <Accordion.Header className="bg-light">
                                     <h5>{item.timestamp}</h5>
                                 </Accordion.Header>
                                 <Accordion.Body>

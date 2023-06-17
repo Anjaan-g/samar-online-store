@@ -109,7 +109,7 @@ const Payment = () => {
             <Form>
                 <div className="d-flex flex-row justify-content-between mt-5 flex-wrap ">
                     <Col lg={8} sm={12} xs={12}>
-                        <Card>
+                        <Card className="bg-light">
                             <Card.Body>
                                 <h4 className="mx-2">Delivery Options</h4>
                                 <div className="d-flex flex-wrap justify-content-between mt-2">
@@ -121,6 +121,7 @@ const Payment = () => {
                                                         "free"
                                                     )
                                                 }
+                                                className="bg-light"
                                             >
                                                 <Card.Body>
                                                     <Form.Check>
@@ -184,6 +185,7 @@ const Payment = () => {
                                                         "fast"
                                                     )
                                                 }
+                                                className="bg-light"
                                             >
                                                 <Card.Body>
                                                     <Form.Check>
@@ -243,14 +245,15 @@ const Payment = () => {
                         </Card>
 
                         <div className="d-flex flex-column mt-5 mx-2 ">
-                            <Card>
+                            <Card className="bg-light">
                                 <Card.Body>
                                     <h4>Payment Options</h4>
                                     <Card
-                                        className="mt-3"
+                                        className="mt-3 bg-light"
                                         onClick={() =>
                                             handlePaymentOption("khalti")
                                         }
+                                        
                                     >
                                         <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
@@ -323,7 +326,7 @@ const Payment = () => {
                                     </Card>
 
                                     <Card
-                                        className="mt-3"
+                                        className="mt-3 bg-light"
                                         onClick={() =>
                                             handlePaymentOption("esewa")
                                         }
@@ -399,7 +402,7 @@ const Payment = () => {
                                     </Card>
 
                                     <Card
-                                        className="mt-3"
+                                        className="mt-3 bg-light"
                                         onClick={() =>
                                             handlePaymentOption("ips")
                                         }
@@ -470,7 +473,7 @@ const Payment = () => {
                                     </Card>
 
                                     <Card
-                                        className="mt-3"
+                                        className="mt-3 bg-light"
                                         onClick={() =>
                                             handlePaymentOption("cod")
                                         }
@@ -549,7 +552,7 @@ const Payment = () => {
                                     className="text-dark-green back-button"
                                 >
                                     <div className="d-flex flex-row justify-content-center align-items-center">
-                                        <BiArrowBack size={25} />
+                                        <BiArrowBack size={30} />
                                         <h4>&nbsp; Back</h4>
                                     </div>
                                 </Button>
@@ -558,7 +561,7 @@ const Payment = () => {
                     </Col>
                     <Col lg={4} md={12} sm={12} xs={12}>
                         <div className="d-flex flex-column gap-4 justify-content-around mb-4 mx-4">
-                            <Card>
+                            <Card className="bg-light">
                                 <Card.Body>
                                     <div className="d-flex flex-column justify-content-between">
                                         <div className="d-flex flex-row justify-content-between align-items-center">

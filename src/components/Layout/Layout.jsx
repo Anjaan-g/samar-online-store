@@ -12,7 +12,7 @@ export const Layout = ({ children }) => {
     return (
         <div className="layout d-flex flex-column ">
             <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
-            <main className="d-flex justify-content-around flex-grow-1">
+            <main className="d-flex justify-content-around flex-grow-1 user-layout">
                 <Outlet />
             </main>
             <Footer />
@@ -24,7 +24,7 @@ export const AdminLayout = () => {
     return (
         <div className="layout d-flex flex-column bg-secondary">
             <AdminNav />
-            <main className="d-flex justify-content-start">
+            <main className="d-flex justify-content-start admin-layout">
                 <AdminSidebar />
                 <Outlet />
             </main>

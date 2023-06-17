@@ -35,7 +35,7 @@ export default function Sidebar() {
     return (
         <>
             <Form onSubmit={() => handleSubmit}>
-                <div className="card mx-2 my-2">
+                <div className="card mx-2 my-2 bg-light">
                     <div className="card-body">
                         <h4 className="card-heading  text-dark ">
                             Categories
@@ -68,7 +68,7 @@ export default function Sidebar() {
                         </ul>
                     </div>
                 </div>
-                <div className="card mx-2 my-2">
+                <div className="card mx-2 my-2 bg-light">
                     <div className="card-body">
                         <h4 className="card-heading text-dark">Brands</h4>
                     </div>

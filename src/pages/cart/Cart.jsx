@@ -79,7 +79,7 @@ const Cart = () => {
             </div>
             <div className="table-content d-flex flex-row justify-content-between mt-5 flex-wrap">
                 <Col lg={8} sm={12} xs={12} md={12} className="pe-2">
-                    <Card className="me-1 pe-1">
+                    <Card className="me-1 bg-light">
                         <Card.Header className="pt-4">
                             <h4>Cart ({totalQuantity()} Items)</h4>
                         </Card.Header>

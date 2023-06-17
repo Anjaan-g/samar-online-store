@@ -9,7 +9,7 @@ const InputField = ({ label, errorMessage, onChange, id, ...inputProps }) => {
     };
 
     return (
-        <div className="form-row mt-4">
+        <div className="form-row mt-4 ">
             <div className="row">
                 <div className="col-lg-5 col-sm-6 ">
                     <label
@@ -20,7 +20,7 @@ const InputField = ({ label, errorMessage, onChange, id, ...inputProps }) => {
                     </label>
                 </div>
 
-                <div className="col-lg-7 col-sm-6">
+                <div className="col-lg-7 col-sm-6 ">
                     <input
                         className="form-control"
                         onChange={onChange}

@@ -42,11 +42,11 @@ const Contact = () => {
             <h3 className="display-5">Contact</h3>
             <div className="d-flex justify-content-between mt-4">
                 <div className="col-sm-6">
-                    <Card className="w-75 ">
+                    <Card className="w-75 mb-3">
                         <Card.Header>
                             <h4>Contact Us</h4>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body className="bg-light">
                             <Form
                                 className="mt-4 mb-4 mx-4"
                                 onSubmit={handleSubmit}
@@ -110,11 +110,11 @@ const Contact = () => {
                         <Card.Header>
                             <h4>FAQ</h4>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body className="bg-light">
                             {faqs.map((item) => {
                                 return (
                                     <li key={item.id}>
-                                        <Accordion>
+                                        <Accordion className="bg-light mt-3">
                                             <Accordion.Item eventKey={item.id}>
                                                 <Accordion.Header>
                                                     {item.question}

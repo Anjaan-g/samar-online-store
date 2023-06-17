@@ -18,7 +18,7 @@ const Checkout = ({
     const deliveryCharge = totalPrice >= 10000 ? 0 : 100;
     return (
         <Col>
-            <Card>
+            <Card className="bg-light mb-4">
                 <Card.Header className="pt-4">
                     <div className="d-flex justify-content-between align-items center">
                         <h4>Order Summary</h4>

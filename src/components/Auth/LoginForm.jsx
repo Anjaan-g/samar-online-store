@@ -47,7 +47,7 @@ const LoginForm = ({ onSubmit, title }) => {
     return (
         <div className="login-container mt-5 mb-5">
             <figure className="header_image mb-4 mt-3">
-                <img src={Logo} alt="logo" />
+                <img src="https://samarmart.s3.ap-south-1.amazonaws.com/logo/logo-only.svg" alt="logo" />
             </figure>
             <h2 className="mb-4">{title}</h2>
             <Form onSubmit={handleSubmit}>
