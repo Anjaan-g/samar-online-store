@@ -47,7 +47,11 @@ const routesConfig = [
             },
             {
                 path: "/cart",
-                element: <Cart />,
+                element: (
+                    <PrivateRoute redirectPath="/login">
+                        <Cart />
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/contact",
@@ -55,7 +59,11 @@ const routesConfig = [
             },
             {
                 path: "/profile",
-                element: <Profile />,
+                element: (
+                    <PrivateRoute redirectPath="/login">
+                        <Profile />
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/detail/:id",
@@ -63,11 +71,19 @@ const routesConfig = [
             },
             {
                 path: "/payment",
-                element: <Payment />,
+                element: (
+                    <PrivateRoute redirectPath="/login">
+                        <Payment />
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/billing",
-                element: <Billing />,
+                element: (
+                    <PrivateRoute redirectPath="/login">
+                        <Billing />
+                    </PrivateRoute>
+                ),
             },
         ],
     },
@@ -123,7 +139,111 @@ const router = createBrowserRouter(routesConfig);
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
 
-    return <RouterProvider router={router} />;
+    return (
+        <RouterProvider router={router} />
+        // <div className={` app w-100 ${darkTheme && "app__dark"}`}>
+        //     <Routes>
+        //         <Route
+        //             path="/"
+        //             element={
+        //                 <Layout>
+        //                     <Home />
+        //                 </Layout>
+        //             }
+        //         />
+        //         <Route
+        //             path="/login"
+        //             element={
+        //                 <Layout>
+        //                     <Login />
+        //                 </Layout>
+        //             }
+        //         />
+        //         <Route
+        //             path="/register"
+        //             element={
+        //                 <Layout>
+        //                     <Register />
+        //                 </Layout>
+        //             }
+        //         />
+        //         <Route
+        //             path="/contact"
+        //             element={
+        //                 <Layout>
+        //                     <Contact />
+        //                 </Layout>
+        //             }
+        //         />
+        //         <Route
+        //             path="/cart"
+        //             element={
+        //                 <PrivateRoute>
+        //                     <Layout>
+        //                         <Cart />
+        //                     </Layout>
+        //                 </PrivateRoute>
+        //             }
+        //         />
+        //         <Route
+        //             path="/detail/:id"
+        //             element={
+        //                 <Layout>
+        //                     <ProductDetail />
+        //                 </Layout>
+        //             }
+        //         />
+        //         <Route
+        //             path="/billing"
+        //             element={
+        //                 <PrivateRoute>
+        //                     <Layout>
+        //                         <Billing />
+        //                     </Layout>
+        //                 </PrivateRoute>
+        //             }
+        //         />
+        //         <Route
+        //             path="/payment"
+        //             element={
+        //                 <PrivateRoute>
+        //                     <Layout>
+        //                         <Payment />
+        //                     </Layout>
+        //                 </PrivateRoute>
+        //             }
+        //         />
+        //         <Route
+        //             path="/profile"
+        //             element={
+        //                 <PrivateRoute>
+        //                     <Layout>
+        //                         <Profile />
+        //                     </Layout>
+        //                 </PrivateRoute>
+        //             }
+        //         />
+        //         <Route
+        //             path="/admin"
+        //             element={
+        //                 <PrivateRoute>
+        //                     <AdminLayout>
+        //                         <Admin />
+        //                     </AdminLayout>
+        //                 </PrivateRoute>
+        //             }
+        //         />
+        //         <Route
+        //             path="*"
+        //             element={
+        //                 <Layout>
+        //                     <NotFound />
+        //                 </Layout>
+        //             }
+        //         />
+        //     </Routes>
+        // </div>
+    );
 }
 
 export default App;

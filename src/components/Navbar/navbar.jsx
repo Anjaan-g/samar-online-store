@@ -25,13 +25,6 @@ export const Navbar = () => {
 
     const cart = useSelector((state) => state.cart) || {};
 
-    useEffect(() => {
-        if (token === undefined) {
-            navigateTo("/login");
-        }
-        return () => {};
-    }, []);
-
     const getAdminStatus = () => {
         if (token !== undefined) {
             const decodedData = jwt_decode(token);
@@ -168,7 +161,7 @@ export const Navbar = () => {
                                             </Nav.Link>
                                         </LinkContainer>
                                     </NavDropdown.Item>
-                                    <NavDropdown.Divider className="bg-light"/>
+                                    <NavDropdown.Divider className="bg-light" />
                                     <NavDropdown.Item
                                         onClick={(e) => {
                                             logout();

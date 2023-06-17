@@ -49,7 +49,7 @@ const Profile = () => {
             <h4 className="display-5">Profile</h4>
             <div className="d-flex flex-row justify-content-between mt-5 flex-wrap">
                 <Col lg={2} sm={2} xs={2} className="profile-sidebar">
-                    <Card className="bg-light">
+                    <Card className="bg-light mb-3">
                         <Card.Header>Manage Profile</Card.Header>
                         <Card.Body>
                             <Nav className="flex-column">
