@@ -6,6 +6,7 @@ $royal-blue : #09108E;
 $royal-yellow : #FCE880;
 $dark-green : #346F64;
 $accent:#C2ECF2;
+$raisin: #1A1924;
 
 $theme-colors: (
   "primary": $royal-green,
@@ -13,6 +14,7 @@ $theme-colors: (
   // "danger": $danger,
   "dark": $royal-blue,
   "light": $white,
+  "raisin": $raisin,
 );
 
 $custom-colors: (
@@ -23,6 +25,7 @@ $custom-colors: (
   "accent": $accent,
   "white": $white,
   "black": #000,
+  "raisin": #1A1924,
 );
 
 
