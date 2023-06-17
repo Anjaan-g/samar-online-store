@@ -25,19 +25,22 @@ import { AdminLayout } from "./components/Layout/Layout";
 import { Products } from "./components/Admin/Products";
 import { Admins } from "./components/Admin/Admins";
 import { Categories } from "./components/Admin/Categories";
+import { Orders } from "./components/Admin/Orders";
+import { Logo } from "./components/Admin/Logo";
+import { Info } from "./components/Admin/Info";
 
 const routesConfig = [
     {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
         element: <Layout />,
         children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
             {
                 path: "/",
                 element: <Home />,
@@ -94,6 +97,18 @@ const routesConfig = [
             {
                 path: "/admin/categories",
                 element: <Categories />,
+            },
+            {
+                path: "/admin/orders",
+                element: <Orders />,
+            },
+            {
+                path: "/admin/site/info",
+                element: <Info />,
+            },
+            {
+                path: "/admin/site/logo",
+                element: <Logo />,
             },
         ],
     },
