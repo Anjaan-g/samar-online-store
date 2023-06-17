@@ -15,7 +15,7 @@ import { MdCancel } from "react-icons/md";
 
 export default function Home() {
     const [searchTerm, setSearchTerm] = useState("");
-    const [filterItems, setFilterItems] = useState([])
+    const [filterItems, setFilterItems] = useState([]);
     const { data = [], isLoading, isError } = useGetAllProductsQuery();
     const products = data.data;
 
@@ -34,6 +34,7 @@ export default function Home() {
             </div>
         );
     }
+
     return (
         <div className="home">
             <Helmet>
@@ -48,9 +49,9 @@ export default function Home() {
                     content="Samar supplier is your one and only place to get authentic gadgets and accessories for your smart phone or computers. Online store in Butwal."
                 />
             </Helmet>
-            <CarouselContainer />
 
-            <Container>
+            <Container className="w-100">
+                <CarouselContainer />
                 <div className="d-flex d-sm-flex flex-row justify-content-around">
                     <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex">
                         <div className="card-body">
