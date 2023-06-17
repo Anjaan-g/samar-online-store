@@ -78,7 +78,7 @@ export function Categories() {
                                 </td>
                                 <td>
                                     <div className="d-flex justify-content-around align-items-center">
-                                        <Button variant="secondary" size="sm">
+                                        <Button variant="primary" size="sm">
                                             <FiEdit3 size={15} />
                                         </Button>
                                         <Button variant="danger" size="sm">
