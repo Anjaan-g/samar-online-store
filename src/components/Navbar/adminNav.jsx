@@ -26,7 +26,7 @@ export const AdminNav = () => {
         navigateTo("/login");
     };
     return (
-        <NavBar sticky="top" bg="dark" expand="md" className="w-100">
+        <NavBar sticky="top" bg="raisin" expand="md" className="w-100">
             <div className="d-flex px-3 w-100 justify-content-between align-items-center">
                 <div className="">
                     <LinkContainer to="/" className="mb-1">

@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 export const AdminFooter = () => {
     return (
-        <footer className="bg-dark text-white py-4">
+        <footer className="bg-raisin text-white py-4">
             <div className="container">
                 <div className="footer-area">
                     <div className="row">
@@ -15,16 +15,27 @@ export const AdminFooter = () => {
                             <div className="footer-box about-widget">
                                 <h2 className="widget-title">About us</h2>
                                 <p className="text-white">
-                                    We are online/offline electronics gadgets
-                                    seller. We have all latest technologies
-                                    available in the market.
+                                    Shop with confidence at Samar Mart, knowing
+                                    that each purchase you make is an
+                                    investment in authentic, high-performance
+                                    tech devices. Join our community of
+                                    satisfied customers and explore the world
+                                    of genuine gadgets that will elevate your
+                                    digital experience.
+                                </p>
+                                <p>
+                                    Have questions or need assistance? Our
+                                    friendly and knowledgeable customer support
+                                    team is always ready to help. Contact us
+                                    today and experience the Samar Mart
+                                    difference.
                                 </p>
                             </div>
                         </div>
                         <div className="col-lg-6 col-md-8">
                             <div className="footer-box get-in-touch">
                                 <h2 className="widget-title">Get in Touch</h2>
-                                <ul>
+                                <ul className="p-0">
                                     <li>Kathmandu, Nepal</li>
                                     <li>support@samarmart.com</li>
                                     <li>+977 984 700 4480</li>

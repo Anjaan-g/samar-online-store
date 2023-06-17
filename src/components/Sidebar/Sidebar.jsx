@@ -28,9 +28,13 @@ export default function Sidebar() {
 
     const [checkedValues, setCheckedValues] = useState([]);
 
+    const handleSubmit = ({categories, brands}) => {
+
+    }
+
     return (
         <>
-            <>
+            <Form onSubmit={() => handleSubmit}>
                 <div className="card mx-2 my-2">
                     <div className="card-body">
                         <h4 className="card-heading  text-dark ">
@@ -87,7 +91,7 @@ export default function Sidebar() {
                         {/* </ul> */}
                     </div>
                 </div>
-            </>
+            </Form>
         </>
     );
 }

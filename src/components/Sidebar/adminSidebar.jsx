@@ -2,14 +2,19 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaProductHunt } from "react-icons/fa";
-import { BiCategoryAlt } from "react-icons/bi";
-import { AiOutlineDashboard } from "react-icons/ai";
-
+import { BiCategoryAlt, BiImages } from "react-icons/bi";
+import {
+    AiOutlineDashboard,
+    AiFillControl,
+    AiOutlineInfoCircle,
+} from "react-icons/ai";
+import { Dropdown } from "../Dropdown/Dropdown";
 import {
     BsShieldLockFill,
     BsShareFill,
     BsFillBootstrapFill,
 } from "react-icons/bs";
+import { MdRequestQuote } from "react-icons/md";
 
 import "./sidebar.scss";
 import Cookies from "js-cookie";
@@ -22,7 +27,7 @@ export const AdminSidebar = () => {
 
     return (
         <div
-            className={`side-menu bg-dark text-white w-full d-flex flex-column gap-3 p-3 ${
+            className={`side-menu bg-raisin text-white w-full d-flex flex-column gap-3 p-3 ${
                 open && "active"
             }`}
         >
@@ -56,6 +61,28 @@ export const AdminSidebar = () => {
                     <LinkContainer to="/admin/brands">
                         <Nav.Link>
                             <BsFillBootstrapFill size={20} /> &nbsp; Brands
+                        </Nav.Link>
+                    </LinkContainer>
+
+                    <Dropdown
+                        header={"Site Data"}
+                        items={[
+                            <LinkContainer to="/admin/site/info">
+                                <Nav.Link>
+                                    <AiOutlineInfoCircle size={20} /> &nbsp;
+                                    Basic Info
+                                </Nav.Link>
+                            </LinkContainer>,
+                            <LinkContainer to="/admin/site/logo">
+                                <Nav.Link>
+                                    <BiImages size={20} /> &nbsp; Images
+                                </Nav.Link>
+                            </LinkContainer>,
+                        ]}
+                    />
+                    <LinkContainer to="/admin/orders">
+                        <Nav.Link>
+                            <MdRequestQuote size={20} /> &nbsp; Orders
                         </Nav.Link>
                     </LinkContainer>
                 </>
