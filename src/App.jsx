@@ -26,7 +26,7 @@ import { Products } from "./components/Admin/Products";
 import { Admins } from "./components/Admin/Admins";
 import { Categories } from "./components/Admin/Categories";
 import { Orders } from "./components/Admin/Orders";
-import { Logo } from "./components/Admin/Logo";
+import { Banner } from "./components/Admin/Banner";
 import { Info } from "./components/Admin/Info";
 
 const routesConfig = [
@@ -123,8 +123,8 @@ const routesConfig = [
                 element: <Info />,
             },
             {
-                path: "/admin/site/logo",
-                element: <Logo />,
+                path: "/admin/site/banner",
+                element: <Banner />,
             },
         ],
     },

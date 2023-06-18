@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProductCard from "../../components/Card/ProductCard";
-import { Search } from "../../components/Search/search";
 import CarouselContainer from "../../components/Carousel/Carousel";
 import "./home.scss";
 import Container from "react-bootstrap/Container";
 import { Helmet } from "react-helmet";
 import { useGetAllProductsQuery } from "../../store/productSlice";
 import Spinner from "react-bootstrap/Spinner";
-import { useDebounce } from "use-debounce";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
-
+import { useGetBannersQuery } from "../../store/bannersSlice";
 export default function Home() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterItems, setFilterItems] = useState([]);
     const { data = [], isLoading, isError } = useGetAllProductsQuery();
     const products = data.data;
+
+    const {
+        data: bannersData = [],
+        isLoadingBanners,
+        isErrorBanners,
+    } = useGetBannersQuery();
+    const banners = bannersData.data;
 
     if (isLoading) {
         return (
@@ -39,9 +44,7 @@ export default function Home() {
         <div className="home mb-3">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>
-                    Samar Mart | Where trust meets quality
-                </title>
+                <title>Samar Mart | Where trust meets quality</title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta
                     name="description"
@@ -52,7 +55,7 @@ export default function Home() {
             </Helmet>
 
             <Container className="w-100">
-                <CarouselContainer />
+                <CarouselContainer carouselItems={banners} />
                 <div className="d-flex d-sm-flex flex-row justify-content-around">
                     <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex bg-light">
                         <div className="card-body">
