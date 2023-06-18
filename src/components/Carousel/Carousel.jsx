@@ -1,9 +1,20 @@
 import "./Carousel.scss";
 import Carousel from "react-bootstrap/Carousel";
 
-export default function CarouselContainer() {
+export default function CarouselContainer({ carouselItems }) {
     return (
         <Carousel data-bs-ride="carousel" className=" w-100">
+            {carouselItems.map((item) => {
+                return (
+                    <Carousel.Item data-bs-interval="5000" key={item.id}>
+                        <img
+                            src={item.image}
+                            alt={item.name}
+                            className="d-block w-100 carousel-image"
+                        />
+                    </Carousel.Item>
+                );
+            })}
             <Carousel.Item data-bs-interval="5000">
                 <img
                     src="../../../assets/collection.jpg"

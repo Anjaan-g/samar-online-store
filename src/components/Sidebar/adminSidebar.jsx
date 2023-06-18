@@ -73,9 +73,9 @@ export const AdminSidebar = () => {
                                     Basic Info
                                 </Nav.Link>
                             </LinkContainer>,
-                            <LinkContainer to="/admin/site/logo">
+                            <LinkContainer to="/admin/site/banner">
                                 <Nav.Link>
-                                    <BiImages size={20} /> &nbsp; Images
+                                    <BiImages size={20} /> &nbsp; Banners
                                 </Nav.Link>
                             </LinkContainer>,
                         ]}

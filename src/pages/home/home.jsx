@@ -94,8 +94,8 @@ export default function Home() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="products">
-                                <div className="d-flex flex-wrap justify-content-start align-items-center gap-2  mt-4">
+                            <div className="products ">
+                                <div className="d-flex flex-wrap justify-content-start align-items-center gap-3  mt-4">
                                     {products
                                         .filter((product) => {
                                             if (searchTerm === "") {
@@ -136,7 +136,8 @@ export default function Home() {
                                                     img={item.image}
                                                 />
                                             );
-                                        })}
+                                        })
+                                    }
                                 </div>
                             </div>
                         </div>

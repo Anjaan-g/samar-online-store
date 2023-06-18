@@ -12,9 +12,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart, clearCart } from "../../store/cartSlice";
+import { clearCart } from "../../store/cartSlice";
 import dayjs from "dayjs";
-import Logo from "../../../assets/site-logo-gb.svg";
 
 export const Navbar = () => {
     const token = Cookies.get("token");
@@ -67,12 +66,14 @@ export const Navbar = () => {
             <Container>
                 <LinkContainer to="/" className="mb-1">
                     <NavBar.Brand className="site-logo ">
-                        <img
-                            src="https://samarmart.s3.ap-south-1.amazonaws.com/logo/logo-only.svg"
-                            alt="samarmart"
-                            width={110}
-                            // height={60}
-                        />
+                        <div className="logo">
+                            <img
+                                src="https://samarmart.s3.ap-south-1.amazonaws.com/logo/logo-only.svg"
+                                alt="samarmart"
+                                width={100}
+                                // height={60}
+                            />
+                        </div>
                     </NavBar.Brand>
                 </LinkContainer>
                 <NavBar.Toggle
