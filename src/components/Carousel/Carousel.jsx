@@ -15,7 +15,7 @@ export default function CarouselContainer({ carouselItems }) {
                     </Carousel.Item>
                 );
             })}
-            <Carousel.Item data-bs-interval="5000">
+            {/* <Carousel.Item data-bs-interval="5000">
                 <img
                     src="../../../assets/collection.jpg"
                     alt="..."
@@ -59,7 +59,7 @@ export default function CarouselContainer({ carouselItems }) {
                     <p className="text-white display-6 text-left">Pay</p>
                     <p className="text-white display-6 text-left">Receive</p>
                 </Carousel.Caption>
-            </Carousel.Item>
+            </Carousel.Item> */}
         </Carousel>
     );
 }
