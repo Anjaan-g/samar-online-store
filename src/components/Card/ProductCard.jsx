@@ -48,7 +48,7 @@ export default function ProductCard({
                         src={image}
                         className="card-img-top rounded p-2"
                         alt={name}
-                        rounded
+                        // rounded
                     />
                 </span>
             </span>

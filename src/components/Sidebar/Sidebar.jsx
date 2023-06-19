@@ -11,7 +11,7 @@ import { useGetAllCategoriesQuery } from "../../store/categoriesSlice";
 import { useGetAllBrandsQuery } from "../../store/brandsSlice";
 import { useState } from "react";
 
-export default function Sidebar() {
+export default function Sidebar({ products, setProducts }) {
     const {
         data: categories = [],
         isLoading: isLoadingCategories,
@@ -28,14 +28,12 @@ export default function Sidebar() {
 
     const [checkedValues, setCheckedValues] = useState([]);
 
-    const handleSubmit = ({categories, brands}) => {
-
-    }
+    const handleSubmit = ({ categories, brands }) => {};
 
     return (
         <>
             <Form onSubmit={() => handleSubmit}>
-                <div className="card mx-2 my-2 bg-light">
+                {/* <div className="card mx-2 my-2 bg-light">
                     <div className="card-body">
                         <h4 className="card-heading  text-dark ">
                             Categories
@@ -67,16 +65,16 @@ export default function Sidebar() {
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> */}
                 <div className="card mx-2 my-2 bg-light">
                     <div className="card-body">
                         <h4 className="card-heading text-dark">Brands</h4>
                     </div>
                     <div className="brands-list ps-2">
                         {/* <ul className="brands"> */}
-                        {brands?.map((item) => {
+                        {brands?.map((item, index) => {
                             return (
-                                <>
+                                <div key={index}>
                                     <Form.Check
                                         type={"checkbox"}
                                         id={`${item.name}-checkbox`}
@@ -85,7 +83,7 @@ export default function Sidebar() {
                                     />
 
                                     <br />
-                                </>
+                                </div>
                             );
                         })}
                         {/* </ul> */}

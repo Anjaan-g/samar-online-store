@@ -20,8 +20,12 @@ export const Dropdown = ({ header, items }) => {
                 <>
                     <hr />
                     <div className="d-flex flex-column">
-                        {items.map((item) => {
-                            return <div className="ps-2" key={item}>{item}</div>;
+                        {items.map((item, index) => {
+                            return (
+                                <div className="ps-2" key={index}>
+                                    {item}
+                                </div>
+                            );
                         })}
                     </div>
                     <hr />

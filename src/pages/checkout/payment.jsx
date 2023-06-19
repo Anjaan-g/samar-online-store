@@ -255,9 +255,9 @@ const Payment = () => {
                                         }
                                         
                                     >
-                                        <Card.Body>
+                                        <Card.Body >
                                             <div className="d-flex flex-row justify-content-between align-items-center">
-                                                <Form.Check>
+                                                <Form.Check disabled>
                                                     <div
                                                         className="d-flex flex-row align-items-center gap-4"
                                                         onClick={() =>
@@ -279,6 +279,7 @@ const Payment = () => {
                                                                     "khalti"
                                                                 )}
                                                                 readOnly
+                                                                disabled
                                                             />
                                                         </div>
                                                         <div className="">
@@ -355,6 +356,7 @@ const Payment = () => {
                                                                     "esewa"
                                                                 )}
                                                                 readOnly
+                                                                disabled
                                                             />
                                                         </div>
                                                         <div className="">
@@ -424,12 +426,14 @@ const Payment = () => {
                                                                     "ips"
                                                                 )}
                                                                 readOnly
+                                                                disabled
                                                             />
                                                         </div>
                                                         <div className="">
                                                             <Form.Check.Label
                                                                 htmlFor="ips"
                                                                 type="checkbox"
+                                                                
                                                             >
                                                                 <div className="d-flex flex-column justify-content-start">
                                                                     <h6>

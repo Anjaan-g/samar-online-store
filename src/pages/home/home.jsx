@@ -24,7 +24,16 @@ export default function Home() {
     } = useGetBannersQuery();
     const banners = bannersData.data;
 
+    const [productData, setProductData] = useState("");
+
     if (isLoading) {
+        return (
+            <div className="d-flex align-items-center justify-content-center">
+                <Spinner />
+            </div>
+        );
+    }
+    if (isLoadingBanners) {
         return (
             <div className="d-flex align-items-center justify-content-center">
                 <Spinner />
@@ -62,7 +71,7 @@ export default function Home() {
                             <h3 className="card-header text-dark display-6">
                                 Filters
                             </h3>
-                            <Sidebar />
+                            <Sidebar productData setProductData/>
                         </div>
                     </div>
                     <div className="container-fluid">
@@ -136,8 +145,7 @@ export default function Home() {
                                                     img={item.image}
                                                 />
                                             );
-                                        })
-                                    }
+                                        })}
                                 </div>
                             </div>
                         </div>
