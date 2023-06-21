@@ -12,13 +12,13 @@ export const Layout = ({ children }) => {
     const [darkTheme, setDarkTheme] = useState(false);
     return (
         <div className="layout d-flex flex-column ">
-            <ErrorBoundary fallback="There was an error">
-                <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
-                <main className="d-flex justify-content-around flex-grow-1 user-layout">
+            <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
+            <main className="d-flex justify-content-around flex-grow-1 user-layout">
+                <ErrorBoundary fallback="There was an error">
                     <Outlet />
-                </main>
-                <Footer />
-            </ErrorBoundary>
+                </ErrorBoundary>
+            </main>
+            <Footer />
         </div>
     );
 };
@@ -26,14 +26,14 @@ export const Layout = ({ children }) => {
 export const AdminLayout = () => {
     return (
         <div className="layout d-flex flex-column bg-secondary">
-            <ErrorBoundary fallback="Some error occured!">
-                <AdminNav />
-                <main className="d-flex justify-content-start admin-layout">
-                    <AdminSidebar />
+            <AdminNav />
+            <main className="d-flex justify-content-start admin-layout">
+                <AdminSidebar />
+                <ErrorBoundary fallback="Some error occured!">
                     <Outlet />
-                </main>
-                <AdminFooter />
-            </ErrorBoundary>
+                </ErrorBoundary>
+            </main>
+            <AdminFooter />
         </div>
     );
 };

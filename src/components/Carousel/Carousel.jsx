@@ -4,7 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 export default function CarouselContainer({ carouselItems }) {
     return (
         <Carousel data-bs-ride="carousel" className=" w-100">
-            {carouselItems.map((item) => {
+            {carouselItems?.map((item) => {
                 return (
                     <Carousel.Item data-bs-interval="5000" key={item.id}>
                         <img

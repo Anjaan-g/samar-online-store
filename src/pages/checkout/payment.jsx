@@ -6,15 +6,15 @@ import Spinner from "react-bootstrap/Spinner";
 import { FiCheckCircle, FiCircle, FiEdit3 } from "react-icons/fi";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { CiDeliveryTruck } from "react-icons/ci";
 import Checkout from "./summary";
 import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
 import { Helmet } from "react-helmet";
-import { useGetCartItemsQuery } from "../../store/userCartSlice";
 import dayjs from "dayjs";
+import { useAddHistoryMutation } from "../../store/historySlice";
 
 const Payment = () => {
     const deliveryAddress = useSelector((state) => state.deliveryAddress);
@@ -46,7 +46,7 @@ const Payment = () => {
     };
 
     const cart = useSelector((state) => state.cart);
-    console.log(cart)
+    console.log(cart);
 
     const totalQuantity = () => {
         let totalQuantity = 0;
@@ -62,14 +62,42 @@ const Payment = () => {
         });
         return totalPrice;
     };
+    const deliveryCharge = deliveryOption === "free" ? 0 : 200;
 
     const [discount, setDiscount] = useState(0);
     const a = dayjs();
-    const freeDeliveryDate = a.add(7, "day").format("dddd, YYYY/MM/DD");
     const fastDeliveryDate = a.add(3, "day").format("dddd, YYYY/MM/DD");
+    const freeDeliveryDate = a.add(7, "day").format("dddd, YYYY/MM/DD");
+
+    const [addHistory, { isLoading }] = useAddHistoryMutation();
+
+    // const items = []
+    const items = cart.data.map(({product_id, qty, price}) => {
+        return{
+            product: product_id,
+            quantity: qty,
+            price: price
+        }
+    })
+    console.log(items)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await addHistory({
+                items,
+                deliveryCharge,
+                paid: paymentOption !== "cod" ? true : false,
+                source: paymentOption
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
-        <Container>
+        <Container className="mb-3">
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
@@ -86,7 +114,7 @@ const Payment = () => {
                 />
             </Helmet>
             <h3 className="display-5">Payment</h3>
-            <div className="tracker d-flex container align-items-center justify-content-center mt-5 w-75">
+            <div className="tracker d-flex container align-items-center justify-content-center mt-5 w-75 ">
                 <Link to="/cart">
                     <h5>
                         <FiCheckCircle size={25} color="green" fill="white" />
@@ -253,9 +281,8 @@ const Payment = () => {
                                         onClick={() =>
                                             handlePaymentOption("khalti")
                                         }
-                                        
                                     >
-                                        <Card.Body >
+                                        <Card.Body>
                                             <div className="d-flex flex-row justify-content-between align-items-center">
                                                 <Form.Check disabled>
                                                     <div
@@ -433,7 +460,6 @@ const Payment = () => {
                                                             <Form.Check.Label
                                                                 htmlFor="ips"
                                                                 type="checkbox"
-                                                                
                                                             >
                                                                 <div className="d-flex flex-column justify-content-start">
                                                                     <h6>
@@ -501,7 +527,7 @@ const Payment = () => {
                                                                 readOnly
                                                             />
                                                         </div>
-                                                        <div className="">
+                                                        <div >
                                                             <Form.Check.Label
                                                                 htmlFor="cod"
                                                                 type="checkbox"
@@ -595,6 +621,7 @@ const Payment = () => {
                             <Checkout
                                 totalPrice={totalPrice()}
                                 totalQuantity={totalQuantity()}
+                                deliveryCharge={deliveryCharge}
                                 discount={discount}
                                 setDiscount={setDiscount}
                                 page="payment"
@@ -603,7 +630,7 @@ const Payment = () => {
 
                         <div className="d-flex justify-content-center align-items-center mx-4 mt-4">
                             <Link>
-                                <Button variant="success" className="btn-lg">
+                                <Button variant="success" className="btn-lg" onClick={handleSubmit}>
                                     Complete Order
                                 </Button>
                             </Link>

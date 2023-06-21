@@ -28,6 +28,7 @@ import { Categories } from "./components/Admin/Categories";
 import { Orders } from "./components/Admin/Orders";
 import { Banner } from "./components/Admin/Banner";
 import { Info } from "./components/Admin/Info";
+import Order from "./pages/checkout/order";
 
 const routesConfig = [
     {
@@ -74,6 +75,14 @@ const routesConfig = [
                 element: (
                     <PrivateRoute redirectPath="/login">
                         <Payment />
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/checkout/:unique_id",
+                element: (
+                    <PrivateRoute redirectPath="/login">
+                        <Order />
                     </PrivateRoute>
                 ),
             },

@@ -183,6 +183,7 @@ const Billing = () => {
                     <Checkout
                         totalPrice={totalPrice()}
                         totalQuantity={totalQuantity()}
+                        deliveryCharge={0}
                         discount={discount}
                         setDiscount={setDiscount}
                         page="billing"

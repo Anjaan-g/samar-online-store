@@ -45,6 +45,7 @@ const Cart = () => {
         });
         return totalPrice;
     };
+    const deliveryCharge = 0
 
     return (
         <Container className="w-full">
@@ -226,6 +227,7 @@ const Cart = () => {
                     <Checkout
                         totalPrice={totalPrice()}
                         totalQuantity={totalQuantity()}
+                        deliveryCharge={deliveryCharge}
                         discount={discount}
                         setDiscount={setDiscount}
                         page="cart"

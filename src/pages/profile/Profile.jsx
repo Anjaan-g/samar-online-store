@@ -8,7 +8,7 @@ import "./profile.scss";
 import { FaUserAstronaut } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
-import { FiEdit3, FiPlus, FiTrash } from "react-icons/fi";
+import { FiEdit3, FiPlus, FiTrash, FiCheck, FiX } from "react-icons/fi";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { useGetAddressQuery } from "../../store/addressSlice";
@@ -16,7 +16,7 @@ import AddAddressModal from "../../components/Modals/AddAddressModal";
 import EditAddressModal from "../../components/Modals/EditAddressModal";
 import { toast } from "react-toastify";
 import DeleteAddressModal from "../../components/Modals/DeleteAddressModal";
-import { useGetHistoryQuery } from "../../store/historySlice";
+import { useGetAllHistoryQuery } from "../../store/historySlice";
 import Accordion from "react-bootstrap/Accordion";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
@@ -178,12 +178,12 @@ function Account({ user }) {
         console.log(firstName, lastName);
     };
 
-    if (isLoading){
-        return(
+    if (isLoading) {
+        return (
             <div className="d-flex justify-content-center align-items-center">
                 <Spinner />
             </div>
-        )
+        );
     }
 
     return (
@@ -203,7 +203,7 @@ function Account({ user }) {
                     content="Setup your profile with authentic information to get your products easily and fast."
                 />
             </Helmet>
-            <Form >
+            <Form>
                 <div className="d-flex justify-content-start align-items-center">
                     <h3 className="pe-5"> My Account </h3>
                     {!editing && (
@@ -325,12 +325,12 @@ function AddressBook() {
     const [showEditModal, setShowEditModal] = useState(undefined);
     const [showDeleteModal, setShowDeleteModal] = useState(undefined);
 
-    if(isLoading){
+    if (isLoading) {
         return (
             <div className="d-flex justify-content-center align-items-center">
                 <Spinner />
             </div>
-        )
+        );
     }
     return (
         <div className="addressBook">
@@ -452,14 +452,15 @@ function AddressBook() {
 }
 
 function OrderHistory() {
-    const { data = [], error, isLoading } = useGetHistoryQuery();
+    const { data = [], error, isLoading } = useGetAllHistoryQuery();
+    console.log(data);
 
-    if(isLoading){
+    if (isLoading) {
         return (
             <div className="d-flex justify-content-center align-items-center">
                 <Spinner />
             </div>
-        )
+        );
     }
     return (
         <div className="history">
@@ -486,18 +487,35 @@ function OrderHistory() {
             </Helmet>
             <h3> Order History </h3>
             <div className="d-flex justify-content-center flex-column">
-                <Accordion defaultActiveKey="0" >
+                <Accordion defaultActiveKey="0">
                     {data?.map((item) => {
                         return (
                             <Accordion.Item
                                 eventKey={item.id}
-                                key={item.id}
+                                key={item.unique_id}
                                 className="mt-4 mb-4 rounded bg-light"
                             >
                                 <Accordion.Header className="bg-light">
                                     <h5>{item.timestamp}</h5>
                                 </Accordion.Header>
                                 <Accordion.Body>
+                                    <div className="d-flex justify-content-around align-items-center mb-2 mt-2">
+                                        <h6>
+                                            Payment Status: &nbsp;
+                                            {item.paid ? (
+                                                <FiCheck
+                                                    size={20}
+                                                    color="green"
+                                                />
+                                            ) : (
+                                                <FiX size={20} color="red" />
+                                            )}
+                                        </h6>
+                                        <h6>
+                                            Delivery Status: &nbsp;
+                                            {item.delivery_status}
+                                        </h6>
+                                    </div>
                                     <Table hover className="text-center">
                                         <thead>
                                             <th>Product</th>
@@ -526,12 +544,12 @@ function OrderHistory() {
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colSpan={1}>
+                                                <th>
                                                     Grand Total
                                                 </th>
                                                 <th></th>
                                                 <td>{item.total_items}</td>
-                                                <td>{item.grand_total}</td>
+                                                <td>{item.total_price}</td>
                                             </tr>
                                         </tfoot>
                                     </Table>

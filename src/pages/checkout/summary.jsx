@@ -9,13 +9,14 @@ import { FiEdit3 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const Checkout = ({
-    totalQuantity,
     totalPrice,
+    totalQuantity,
+    deliveryCharge,
     discount,
     setDiscount,
     page,
 }) => {
-    const deliveryCharge = totalPrice >= 10000 ? 0 : 100;
+
     return (
         <Col>
             <Card className="bg-light mb-4">
@@ -109,7 +110,7 @@ const Checkout = ({
                                     <Button
                                         variant="success"
                                         className="btn btn-dark-green btn-lg w-full"
-                                        disabled = {totalQuantity==0}
+                                        disabled={totalQuantity == 0}
                                     >
                                         Proceed to checkout
                                     </Button>
