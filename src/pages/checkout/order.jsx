@@ -6,6 +6,7 @@ import { useGetHistoryQuery } from "../../store/historySlice";
 import Spinner from "react-bootstrap/Spinner";
 import { Helmet } from "react-helmet";
 import confirmOrder from "../../../assets/order-confirm.svg";
+import Empty from "../../../assets/empty.svg";
 import Card from "react-bootstrap/Card";
 import { FiCheck, FiX, FiInfo } from "react-icons/fi";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -33,7 +34,7 @@ export default function Order() {
         isError: isErrorOrder,
         error: errorOrder,
     } = useGetHistoryQuery({ unique_id });
-    // console.log(order);
+    console.log(order);
 
     const selectedAddress = addresses?.find(
         (item) => item.id === order?.address
@@ -53,6 +54,23 @@ export default function Order() {
                 <Spinner />
             </div>
         );
+    }
+    if(errorOrder) {
+        return(
+            <div className="d-flex flex-column justify-content-center align-items-center m-3">
+                <h4>Order ID doesn't match to any orders. Please check the ID and retry!</h4>
+                <div className="d-flex justify-content-center aligh-items-center mt-3 mb-3">
+                    <img
+                        src={Empty}
+                        alt="confirm-order"
+                        style={{
+                            minWidth: "40%",
+                            maxWidth: "50%",
+                        }}
+                    />
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -90,7 +108,7 @@ export default function Order() {
                             </Card.Header>
                             <Card.Body>
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <b className="">Tracking Id:</b>
+                                    <b className="">Tracking ID:</b>
                                     <div className="d-flex justify-content-between align-items-top gap-2">
                                         <p className="text-success">
                                             {order?.unique_id}
@@ -135,7 +153,19 @@ export default function Order() {
                                     </p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center p-0 m-0">
-                                    <b className="dispaly-6">Paid for:</b>
+                                    <b className="dispaly-6">Source of Payment:</b>
+                                    <p>
+                                        {order.source ==="E-SEWA" ? (
+                                            "E-SEWA"
+                                        ) : order.source ==="IPS" ? (
+                                            "Connect IPS"
+                                        ): order.source ==="Khalti" ? (
+                                            "Khalti"
+                                        ): "Cash on Delivery"}
+                                    </p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center p-0 m-0">
+                                    <b className="dispaly-6">Payment Status:</b>
                                     <p>
                                         {order.paid ? (
                                             <FiCheck size={25} color="green" />

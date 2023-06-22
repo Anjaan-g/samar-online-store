@@ -50,6 +50,8 @@ const Payment = () => {
     };
 
     const cart = useSelector((state) => state.cart);
+    const address = useSelector((state) => state.deliveryAddress);
+    console.log(address);
     // console.log(cart);
 
     const totalQuantity = () => {
@@ -93,10 +95,11 @@ const Payment = () => {
             const response = await addHistory({
                 items,
                 deliveryCharge,
+                address: address.id,
                 paid: paymentOption !== "cod" ? true : false,
-                source: paymentOption,
+                source: paymentOption.toUpperCase(),
             });
-            console.log(response?.data);
+            console.log(response);
             const data = response?.data["data"];
             const notify = () => {
                 toast.success(response?.data["message"], {
@@ -108,6 +111,13 @@ const Payment = () => {
             dispatch(clearCart());
             navigateTo(`/checkout/${data.unique_id}`);
         } catch (error) {
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
             console.log(error);
         }
     };

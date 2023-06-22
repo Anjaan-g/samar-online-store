@@ -10,7 +10,7 @@ export const PrivateRoute = ({
     const isAuthenticated = Cookies.get("token");
 
     if (!isAuthenticated) {
-        toast.success("Authentication credentials not met", {
+        toast.error("Authentication credentials not met", {
             position: toast.POSITION.TOP_RIGHT,
             className: "toast-message",
         });

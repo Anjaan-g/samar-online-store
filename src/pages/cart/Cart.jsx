@@ -101,7 +101,7 @@ const Cart = () => {
                                                 key={item.product_id}
                                                 className="text-center "
                                             >
-                                                <td>
+                                                <td className="w-25">
                                                     <img
                                                         src={item.image}
                                                         className="cart-image img-fluid rounded "

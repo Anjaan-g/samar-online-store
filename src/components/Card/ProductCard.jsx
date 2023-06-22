@@ -71,7 +71,7 @@ export default function ProductCard({
                             dispatch(
                                 addToCart({
                                     product_id: id,
-                                    name,
+                                    product_name: name,
                                     image,
                                     price,
                                     stock,

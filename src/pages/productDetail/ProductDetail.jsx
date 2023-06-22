@@ -30,6 +30,15 @@ const ProductDetail = () => {
         isLoading,
         error,
     } = useGetProductQuery({ id });
+    console.log(product);
+
+    // const {} = product
+    const name = product?.name;
+    const price = product?.discounted_price;
+    const stock = product?.stock;
+    const image = `${import.meta.env.VITE_MEDIA_BASE_URL}${
+        product?.product_images[0]
+    }`;
 
     const navigateTo = useNavigate();
 
@@ -83,14 +92,14 @@ const ProductDetail = () => {
             <div className="d-flex flex-column justify-content-between ">
                 <div className="product-detail d-flex flex-wrap">
                     <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
-                        <ImageViewer images={product.product_images} />
+                        <ImageViewer images={product?.product_images} />
                     </Col>
                     <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
                         <Card className="product-description bg-light">
                             <Card.Body>
                                 <div className="d-flex flex-column justify-content-between">
                                     <Col className="d-flex flex-column">
-                                        {product.status && (
+                                        {product?.status && (
                                             <Row className="d-flex flex-row ps-3">
                                                 <span
                                                     className={`status ${product.status}`}
@@ -99,21 +108,14 @@ const ProductDetail = () => {
                                                 </span>
                                             </Row>
                                         )}
-                                        {/* {product.status && (
-                                            <span
-                                                className={`status ${product.status}`}
-                                            >
-                                                {product.status}
-                                            </span>
-                                        )} */}
                                         <Row className="">
                                             <h3 className="">
                                                 {product?.name}
                                             </h3>
                                         </Row>
                                         <Row className="">
-                                            {product.discounted_price !=
-                                                product.sell_price && (
+                                            {product?.discounted_price !=
+                                                product?.sell_price && (
                                                 <>
                                                     <span className="discount del">
                                                         NRS.
@@ -129,7 +131,7 @@ const ProductDetail = () => {
                                                 </>
                                             )}
                                             {product?.discounted_price ==
-                                                product.sell_price && (
+                                                product?.sell_price && (
                                                 <p className="">
                                                     NRS.{product?.sell_price}
                                                 </p>
@@ -138,13 +140,13 @@ const ProductDetail = () => {
                                         <Row className="">
                                             {product?.stock && (
                                                 <strong className="">
-                                                    {product.stock} in Stock
+                                                    {product?.stock} in Stock
                                                 </strong>
                                             )}
                                         </Row>
                                         <Row className="">
                                             {product?.vendor !== "-" && (
-                                                <i>From: {product.vendor}</i>
+                                                <i>From: {product?.vendor}</i>
                                             )}
                                         </Row>
                                         &nbsp;
@@ -161,13 +163,13 @@ const ProductDetail = () => {
                                                 className="col-6"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    e.preventDefault();
+                                                    // e.preventDefault();
                                                     dispatch(
                                                         addToCart({
-                                                            id,
-                                                            name,
-                                                            img,
-                                                            rate,
+                                                            product_id: id,
+                                                            product_name: name,
+                                                            image,
+                                                            price,
                                                             stock,
                                                         })
                                                     );
@@ -182,13 +184,13 @@ const ProductDetail = () => {
                                                 className="col-6"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    e.preventDefault();
+                                                    // e.preventDefault();
                                                     dispatch(
                                                         addToCart({
-                                                            id,
-                                                            name,
-                                                            img,
-                                                            rate,
+                                                            product_id: id,
+                                                            product_name: name,
+                                                            image,
+                                                            price,
                                                             stock,
                                                         })
                                                     );

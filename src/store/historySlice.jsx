@@ -24,7 +24,7 @@ export const userHistorySlice = apiSlice.injectEndpoints({
         }),
 
         addHistory: builder.mutation({
-            query: ({ items, deliveryCharge, paid, source }) => ({
+            query: ({ items, deliveryCharge, address, paid, source }) => ({
                 url: `auth/user/order-history/`,
                 method: "POST",
                 headers: authHeader,
@@ -33,6 +33,7 @@ export const userHistorySlice = apiSlice.injectEndpoints({
                     delivery_charge: deliveryCharge,
                     paid: paid,
                     source: source,
+                    address: address,
                 },
             }),
             invalidatesTags: ["MyOrders"],

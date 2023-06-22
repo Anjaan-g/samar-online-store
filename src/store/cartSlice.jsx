@@ -10,7 +10,7 @@ const cartSlice = createSlice({
         // },
 
         clearCart: (state, action) => {
-            state.data = null;
+            state.data = [];
         },
 
         addToCart: (state, action) => {
