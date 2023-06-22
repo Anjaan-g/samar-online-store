@@ -53,14 +53,14 @@ export default function Home() {
         <div className="home mb-3">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>Samar Mart | Where trust meets quality</title>
-                <link rel="canonical" href="http://samarsuppliers.com/home" />
+                <title>Samar Mart | Where trust meets quality | Authentic gadgets at your fingertips</title>
+                <link rel="canonical" href="http://samarsuppliers.com" />
                 <meta
                     name="description"
-                    content="Shop with confidence at Samar Mart, knowing that each purchase you make is an investment in authentic, 
-                        high-performance tech devices. Join our community of satisfied customers and explore the world of genuine 
-                        gadgets that will elevate your digital experience."
+                    content="Explore a wide range of authentic gadgets and tech products at Samar Mart. Shop from the comfort of your home and experience
+                    the convenience of online shopping. Get the latest gadgets delivered to your doorstep with secure and reliable shiping. Browse now!"
                 />
+                <meta name="keywords" content="butwal online, online store, buy online, earphones, headphones," />
             </Helmet>
 
             <Container className="w-100">
@@ -71,7 +71,7 @@ export default function Home() {
                             <h3 className="card-header text-dark display-6">
                                 Filters
                             </h3>
-                            <Sidebar productData setProductData/>
+                            <Sidebar productData setProductData />
                         </div>
                     </div>
                     <div className="container-fluid">

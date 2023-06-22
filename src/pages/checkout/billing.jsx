@@ -54,8 +54,7 @@ const Billing = () => {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Supplier | Billing | Add new address or select and
-                    address
+                Samar Mart | Where Trust Meets Quality | Billing | Add or use existing address
                 </title>
                 <link
                     rel="canonical"
@@ -92,26 +91,26 @@ const Billing = () => {
                         return (
                             <Card
                                 className="mt-2 w-100 me-1 pe-1 bg-light"
-                                key={item.id}
+                                key={item?.id}
                             >
                                 <Card.Body>
                                     <div className="d-flex justify-content-between">
                                         <div className="d-flex flex-column">
                                             <div className="d-flex align-items-center">
-                                                <h5>{item.contact_person}</h5>
+                                                <h5>{item?.contact_person}</h5>
                                                 <span className="d-inline text-dark">
-                                                    ( {item.tag} )
+                                                    ( {item?.tag} )
                                                 </span>
-                                                {item.default && (
+                                                {item?.default && (
                                                     <span className="d-inline text-white bg-dark-green rounded">
                                                         Default
                                                     </span>
                                                 )}
                                             </div>
                                             <i className="text-highlight fs-6">
-                                                {item.address}
+                                                {item?.address}
                                             </i>
-                                            <p>{item.phone_no}</p>
+                                            <p>{item?.phone_no}</p>
                                         </div>
                                         <div className="d-flex flex-column justify-content-end align-items-center">
                                             <Button

@@ -53,7 +53,7 @@ const LoginPage = () => {
         <div className="container col-lg-6 max-h-vh">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title> Samar Supplier | Login </title>
+                <title> Samar Mart | Where Trust Meets Quality | Login </title>
                 <link rel="canonical" href="http://samarsuppliers.com/login" />
                 <meta
                     name="description"

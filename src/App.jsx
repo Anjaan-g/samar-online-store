@@ -47,6 +47,10 @@ const routesConfig = [
                 element: <Home />,
             },
             {
+                path: "/home",
+                element: <Home />,
+            },
+            {
                 path: "/cart",
                 element: (
                     <PrivateRoute redirectPath="/login">

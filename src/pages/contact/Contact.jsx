@@ -30,7 +30,7 @@ const Contact = () => {
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title> Samar Supplier | Contact | Submit your queries about anything here </title>
+                <title> Samar Mart | Contact | Submit your queries about anything here </title>
                 <link rel="canonical" href="http://samarsuppliers.com/contact" />
                 <meta
                     name="description"

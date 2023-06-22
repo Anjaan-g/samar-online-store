@@ -51,7 +51,7 @@ const ProductDetail = () => {
                 <Spinner />
             </div>
         );
-    } else if (!product.name) {
+    } else if (!product?.name) {
         return (
             <div className="d-flex justify-content-center align-items-center mt-4">
                 <h4>Product with provided id doesn't exist</h4>
@@ -63,15 +63,15 @@ const ProductDetail = () => {
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>{`Samar Supplier | ${product?.name} Details`}</title>
+                <title>{`Samar Mart | ${product?.name} Details`}</title>
                 <link
                     rel="canonical"
-                    href="http://samarsuppliers.com/detail"
+                    href={`http://samarsuppliers.com/detail/${product?.name}`}
                 />
                 {product ? (
                     <meta
                         name="description"
-                        content={`Samar supplier provides you with authentic ${product.name} for your daily usage. Buy ${product.name} in Butwal, Online. `}
+                        content={`Samar Mart provides you with authentic ${product?.name} for your daily usage. Buy ${product?.name} in Butwal, Online. `}
                     />
                 ) : (
                     <meta

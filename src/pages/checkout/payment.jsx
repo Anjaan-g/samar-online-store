@@ -15,8 +15,12 @@ import "./checkout.scss";
 import { Helmet } from "react-helmet";
 import dayjs from "dayjs";
 import { useAddHistoryMutation } from "../../store/historySlice";
+import { toast } from "react-toastify";
+import { clearCart } from "../../store/cartSlice";
 
 const Payment = () => {
+    const dispatch = useDispatch();
+
     const deliveryAddress = useSelector((state) => state.deliveryAddress);
 
     const [deliveryOption, setDeliveryOption] = useState("free");
@@ -46,7 +50,7 @@ const Payment = () => {
     };
 
     const cart = useSelector((state) => state.cart);
-    console.log(cart);
+    // console.log(cart);
 
     const totalQuantity = () => {
         let totalQuantity = 0;
@@ -72,14 +76,16 @@ const Payment = () => {
     const [addHistory, { isLoading }] = useAddHistoryMutation();
 
     // const items = []
-    const items = cart.data.map(({product_id, qty, price}) => {
-        return{
+    const items = cart.data.map(({ product_id, qty, price }) => {
+        return {
             product: product_id,
             quantity: qty,
-            price: price
-        }
-    })
-    console.log(items)
+            price: price,
+        };
+    });
+    // console.log(items);
+
+    const navigateTo = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,9 +94,19 @@ const Payment = () => {
                 items,
                 deliveryCharge,
                 paid: paymentOption !== "cod" ? true : false,
-                source: paymentOption
+                source: paymentOption,
             });
-            console.log(response);
+            console.log(response?.data);
+            const data = response?.data["data"];
+            const notify = () => {
+                toast.success(response?.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+            dispatch(clearCart());
+            navigateTo(`/checkout/${data.unique_id}`);
         } catch (error) {
             console.log(error);
         }
@@ -101,8 +117,8 @@ const Payment = () => {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Supplier | Payment | Choose a payment method to order
-                    now
+                    Samar Mart | Where Trust Meets Quality | Payment | Choose
+                    delivery and payment options
                 </title>
                 <link
                     rel="canonical"
@@ -138,8 +154,10 @@ const Payment = () => {
                 <div className="d-flex flex-row justify-content-between mt-5 flex-wrap ">
                     <Col lg={8} sm={12} xs={12}>
                         <Card className="bg-light">
-                            <Card.Body>
+                            <Card.Header>
                                 <h4 className="mx-2">Delivery Options</h4>
+                            </Card.Header>
+                            <Card.Body>
                                 <div className="d-flex flex-wrap justify-content-between mt-2">
                                     <Col lg={6} sm={12} xs={12}>
                                         <div className="input mb-3 mx-2">
@@ -274,8 +292,10 @@ const Payment = () => {
 
                         <div className="d-flex flex-column mt-5 mx-2 ">
                             <Card className="bg-light">
-                                <Card.Body>
+                                <Card.Header>
                                     <h4>Payment Options</h4>
+                                </Card.Header>
+                                <Card.Body>
                                     <Card
                                         className="mt-3 bg-light"
                                         onClick={() =>
@@ -527,7 +547,7 @@ const Payment = () => {
                                                                 readOnly
                                                             />
                                                         </div>
-                                                        <div >
+                                                        <div>
                                                             <Form.Check.Label
                                                                 htmlFor="cod"
                                                                 type="checkbox"
@@ -592,27 +612,23 @@ const Payment = () => {
                     <Col lg={4} md={12} sm={12} xs={12}>
                         <div className="d-flex flex-column gap-4 justify-content-around mb-4 mx-4">
                             <Card className="bg-light">
+                                <Card.Header>
+                                    <div className="d-flex flex-row justify-content-between align-items-center">
+                                        <h4>Billing Address</h4>
+                                        <Link to="/billing">
+                                            <FiEdit3 size={25} color="green" />
+                                        </Link>
+                                    </div>
+                                </Card.Header>
                                 <Card.Body>
-                                    <div className="d-flex flex-column justify-content-between">
-                                        <div className="d-flex flex-row justify-content-between align-items-center">
-                                            <h4>Billing Address</h4>
-                                            <Link to="/billing">
-                                                <FiEdit3
-                                                    size={25}
-                                                    color="green"
-                                                />
-                                            </Link>
-                                        </div>
-                                        <hr />
-                                        <div className="d-flex flex-column justify-content-between align-items-start mt-2">
-                                            <p>
-                                                <strong>
-                                                    {deliveryAddress.name}
-                                                </strong>
-                                            </p>
-                                            <p>{deliveryAddress.address}</p>
-                                            <p>{deliveryAddress.contact}</p>
-                                        </div>
+                                    <div className="d-flex flex-column justify-content-between align-items-start mt-2">
+                                        <p>
+                                            <strong>
+                                                {deliveryAddress?.name}
+                                            </strong>
+                                        </p>
+                                        <p>{deliveryAddress?.address}</p>
+                                        <p>{deliveryAddress?.contact}</p>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -630,7 +646,11 @@ const Payment = () => {
 
                         <div className="d-flex justify-content-center align-items-center mx-4 mt-4">
                             <Link>
-                                <Button variant="success" className="btn-lg" onClick={handleSubmit}>
+                                <Button
+                                    variant="success"
+                                    className="btn-lg"
+                                    onClick={handleSubmit}
+                                >
                                     Complete Order
                                 </Button>
                             </Link>

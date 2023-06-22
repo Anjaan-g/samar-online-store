@@ -191,7 +191,7 @@ function Account({ user }) {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Supplier | Profile | Manage your account, address
+                    Samar Mart | Profile | Manage your account, address
                     book and history
                 </title>
                 <link
@@ -338,7 +338,7 @@ function AddressBook() {
                 <meta charSet="utf-8" />
                 <title>
                     {" "}
-                    Samar Supplier | Address Book | Manage your billing address
+                    Samar Mart | Address Book | Manage your billing address
                     here{" "}
                 </title>
                 <link
@@ -473,7 +473,7 @@ function OrderHistory() {
                 <meta charSet="utf-8" />
                 <title>
                     {" "}
-                    Samar Supplier | Order History | All your buy history will
+                    Samar Mart | Order History | All your buy history will
                     appear here{" "}
                 </title>
                 <link
@@ -575,7 +575,7 @@ function Returns() {
                 <meta charSet="utf-8" />
                 <title>
                     {" "}
-                    Samar Supplier | My Returns | List your returns of any
+                    Samar Mart | My Returns | List your returns of any
                     products{" "}
                 </title>
                 <link
@@ -599,7 +599,7 @@ function Reviews() {
                 <meta charSet="utf-8" />
                 <title>
                     {" "}
-                    Samar Supplier | My Reviews | Track your reviews on any
+                    Samar Mart | My Reviews | Track your reviews on any
                     products here.{" "}
                 </title>
                 <link

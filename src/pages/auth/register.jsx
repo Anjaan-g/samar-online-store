@@ -51,7 +51,7 @@ export default function Register() {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Supplier | Register | Come join us for authentic
+                    Samar Mart | Where Trust Meets Quality | Register 
                     gadgets
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />

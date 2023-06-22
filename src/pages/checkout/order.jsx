@@ -7,7 +7,9 @@ import Spinner from "react-bootstrap/Spinner";
 import { Helmet } from "react-helmet";
 import confirmOrder from "../../../assets/order-confirm.svg";
 import Card from "react-bootstrap/Card";
-import { FiCheck, FiX } from "react-icons/fi";
+import { FiCheck, FiX, FiInfo } from "react-icons/fi";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import { toast } from "react-toastify";
 import Col from "react-bootstrap/Col";
@@ -31,12 +33,12 @@ export default function Order() {
         isError: isErrorOrder,
         error: errorOrder,
     } = useGetHistoryQuery({ unique_id });
-    console.log(order);
+    // console.log(order);
 
-    const selectedAddress = addresses.find(
+    const selectedAddress = addresses?.find(
         (item) => item.id === order?.address
     );
-    console.log(selectedAddress);
+    // console.log(selectedAddress);
 
     if (isLoadingOrder) {
         return (
@@ -57,7 +59,7 @@ export default function Order() {
         <Container>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>{`Samar Mart | Order `}</title>
+                <title>{`Samar Mart | Where Trust Meets Quality | Checkout  `}</title>
                 <link rel="canonical" href="http://samarmart.com/checkout" />
 
                 <meta
@@ -74,16 +76,12 @@ export default function Order() {
                         src={confirmOrder}
                         alt="confirm-order"
                         style={{
-                            width: "40%",
+                            minWidth: "40%",
+                            maxWidth: "50%",
                         }}
                     />
                 </div>
-                {/* <div className="d-flex justify-content-center align-items-center mt-3 mb-3">
-                    <div className="d-flex flex-column">
-                        <p>Your order id is:</p>
-                        <u className="text-dark-green">{order.unique_id}</u>
-                    </div>
-                </div> */}
+
                 <div className="d-flex justify-content-top align-items-start mt-3 mb-3 flex-wrap">
                     <Col lg={8} md={12} sm={12} xs={12} className="mb-3 pe-2">
                         <Card className="bg-light">
@@ -91,19 +89,50 @@ export default function Order() {
                                 <h4>Order Details</h4>
                             </Card.Header>
                             <Card.Body>
-                                <div className="d-flex justify-content-between align-items-center p-0 m-0">
-                                    <b className="dispaly-6">Tracking Id:</b>
-                                    <p>{order.unique_id}</p>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <b className="">Tracking Id:</b>
+                                    <div className="d-flex justify-content-between align-items-top gap-2">
+                                        <p className="text-success">
+                                            {order?.unique_id}
+                                        </p>
+                                        <OverlayTrigger
+                                            overlay={
+                                                <Tooltip id="tooltip">
+                                                    Copy this ID to track your
+                                                    order!
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <span className="d-inline-block">
+                                                <FiInfo
+                                                    size={20}
+                                                    color="blue"
+                                                />
+                                            </span>
+                                        </OverlayTrigger>
+                                    </div>
                                 </div>
-                                <div className="d-flex justify-content-between align-items-center p-0 m-0">
+                                <div className="d-flex justify-content-between align-items-center ">
                                     <b className="dispaly-6">Order Date:</b>
                                     <p>{order.timestamp}</p>
                                 </div>
-                                <div className="d-flex justify-content-between align-items-center p-0 m-0">
+                                <div className="d-flex justify-content-between align-items-center">
                                     <b className="dispaly-6">
                                         Delivery Status:
                                     </b>
-                                    <p>{order.delivery_status}</p>
+                                    <p
+                                        className={` class ${
+                                            order?.delivery_status ===
+                                            "SUCCESS"
+                                                ? "text-success"
+                                                : order?.delivery_status ===
+                                                  "PENDING"
+                                                ? "text-orange"
+                                                : "text-danger"
+                                        } `}
+                                    >
+                                        {order?.delivery_status}
+                                    </p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center p-0 m-0">
                                     <b className="dispaly-6">Paid for:</b>
@@ -137,11 +166,21 @@ export default function Order() {
                                                 return (
                                                     <tr key={index}>
                                                         <td className="w-50">
-                                                            {item.product.name}
+                                                            {
+                                                                item?.product
+                                                                    .name
+                                                            }
                                                         </td>
-                                                        <td>{item.quantity}</td>
-                                                        <td>Rs. {item.price}</td>
-                                                        <td>Rs. {item.total_price}</td>
+                                                        <td>
+                                                            {item?.quantity}
+                                                        </td>
+                                                        <td>
+                                                            Rs. {item?.price}
+                                                        </td>
+                                                        <td>
+                                                            Rs.
+                                                            {item?.total_price}
+                                                        </td>
                                                     </tr>
                                                 );
                                             }
@@ -150,12 +189,22 @@ export default function Order() {
                                     <tfoot>
                                         <tr>
                                             <th>Total</th>
-                                            <th>{order.total_items}</th>
+                                            <th>{order?.total_items}</th>
                                             <th></th>
-                                            <th>Rs. {order.total_price}</th>
+                                            <th>
+                                                Rs. {order?.total_price}
+                                                <sup>
+                                                    <b className="text-orange">
+                                                        *
+                                                    </b>
+                                                </sup>
+                                            </th>
                                         </tr>
                                     </tfoot>
                                 </Table>
+                                <p className="text-orange ms-2">
+                                    <b>*</b> All Prices are inclusive of VAT
+                                </p>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -167,19 +216,19 @@ export default function Order() {
                             <Card.Body>
                                 <div className="d-flex d-lg-block justify-content-between align-items-center">
                                     <b>Contact Person:</b>
-                                    <p>{selectedAddress.contact_person}</p>
+                                    <p>{selectedAddress?.contact_person}</p>
                                 </div>
                                 <div className="d-flex d-lg-block justify-content-between align-items-center">
                                     <b>Contact No.:</b>
-                                    <p>{selectedAddress.phone_no}</p>
+                                    <p>{selectedAddress?.phone_no}</p>
                                 </div>
                                 <div className="d-flex d-lg-block justify-content-between align-items-center">
                                     <b>Address:</b>
-                                    <p>{selectedAddress.address}</p>
+                                    <p>{selectedAddress?.address}</p>
                                 </div>
                                 <div className="d-flex d-lg-block justify-content-between align-items-center">
                                     <b>Tag:</b>
-                                    <p>{selectedAddress.tag}</p>
+                                    <p>{selectedAddress?.tag}</p>
                                 </div>
                             </Card.Body>
                         </Card>

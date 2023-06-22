@@ -52,8 +52,7 @@ const Cart = () => {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    {" "}
-                    Samar Supplier | Cart | Your Cart for all purposes{" "}
+                Samar Mart | Where Trust Meets Quality | Cart
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/cart" />
                 <meta
