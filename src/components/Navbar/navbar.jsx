@@ -27,8 +27,8 @@ export const Navbar = () => {
     const getAdminStatus = () => {
         if (token !== undefined) {
             const decodedData = jwt_decode(token);
-            const admin = decodedData.admin;
-            const exp = decodedData.exp;
+            const admin = decodedData?.admin;
+            const exp = decodedData?.exp;
             return { admin, exp };
         }
     };
@@ -101,7 +101,7 @@ export const Navbar = () => {
                     <Offcanvas.Body>
                         <Nav className="off-canvas-nav justify-content-end flex-grow-1 pe-3 gap-4 align-items-center">
                             {admin ? (
-                                <LinkContainer to="/admin">
+                                <LinkContainer to="/admin/dashboard">
                                     <Nav.Link className="text-white">
                                         <strong>Admin Panel</strong>
                                     </Nav.Link>

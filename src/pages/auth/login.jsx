@@ -14,7 +14,7 @@ const LoginPage = () => {
         const { email, password } = formState;
         try {
             const response = await login(email, password);
-            const token = response.data.token;
+            const token = response?.data?.token;
 
             const notify = () => {
                 if (response.status == 200) {

@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import api from "../../services/axios";
 import { Helmet } from "react-helmet";
 import { register } from "../../services/axios";
+import jwt_decode from "jwt-decode";
 
 export default function Register() {
     const navigateTo = useNavigate();
@@ -22,11 +23,12 @@ export default function Register() {
                 avatar,
                 password
             );
-            const token = response.data.token;
+            console.log(response);
+            const token = response?.data?.data?.token;
             console.log(token);
 
             const notify = () => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     toast.success(response.data["message"], {
                         position: toast.POSITION.TOP_RIGHT,
                         className: "toast-message",
@@ -38,9 +40,12 @@ export default function Register() {
                     });
                 }
             };
-            Cookies.set("token", token);
-            navigateTo("/");
             notify();
+            const decodedData = jwt_decode(token);
+            Cookies.set("token", token, {
+                expires: new Date(decodedData.exp * 1000),
+            });
+            navigateTo("/");
         } catch (error) {
             console.log(error);
         }
@@ -51,8 +56,7 @@ export default function Register() {
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>
-                    Samar Mart | Where Trust Meets Quality | Register 
-                    gadgets
+                    Samar Mart | Where Trust Meets Quality | Register gadgets
                 </title>
                 <link rel="canonical" href="http://samarsuppliers.com/home" />
                 <meta

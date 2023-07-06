@@ -19,7 +19,7 @@ export const login = async (email, password) => {
         return response;
     } catch (e) {
         console.log(e);
-        return;
+        return e.response;
     }
 };
 
@@ -51,7 +51,7 @@ export const register = async (
         return response;
     } catch (e) {
         console.log(e);
-        return;
+        return e.response;
     }
 };
 
