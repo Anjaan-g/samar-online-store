@@ -1,7 +1,9 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaProductHunt } from "react-icons/fa";
+import { BsDot, BsBoxSeam } from "react-icons/bs";
 import { BiCategoryAlt, BiImages } from "react-icons/bi";
 import {
     AiOutlineDashboard,
@@ -15,6 +17,7 @@ import {
     BsFillBootstrapFill,
 } from "react-icons/bs";
 import { MdRequestQuote } from "react-icons/md";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 import "./sidebar.scss";
 import Cookies from "js-cookie";
@@ -26,8 +29,8 @@ export const AdminSidebar = () => {
     const isSuperUser = decodedData.is_superuser;
 
     return (
-        <div
-            className={`side-menu bg-raisin text-white w-full d-flex flex-column gap-3 p-3 ${
+        <Nav
+            className={`side-menu bg-raisin d-flex flex-column gap-3 p-3 ${
                 open && "active"
             }`}
         >
@@ -36,11 +39,22 @@ export const AdminSidebar = () => {
                     <AiOutlineDashboard size={20} /> &nbsp; Dashboard
                 </Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/admin/products">
-                <Nav.Link>
-                    <FaProductHunt size={20} /> &nbsp; Products
-                </Nav.Link>
-            </LinkContainer>
+            <NavDropdown title="Products" menuVariant="dark" drop="right">
+                <NavDropdown.Item>
+                    <LinkContainer to="/admin/products/list">
+                        <Nav.Link>
+                            <BsDot size={25} /> List
+                        </Nav.Link>
+                    </LinkContainer>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                    <LinkContainer to="/admin/products/create">
+                        <Nav.Link>
+                            <BsDot size={25} /> Create
+                        </Nav.Link>
+                    </LinkContainer>
+                </NavDropdown.Item>
+            </NavDropdown>
             {isSuperUser && (
                 <>
                     <LinkContainer to="/admin/admins">
@@ -64,22 +78,38 @@ export const AdminSidebar = () => {
                         </Nav.Link>
                     </LinkContainer>
 
-                    <Dropdown
+                    {/* <Dropdown
                         header={"Site Data"}
                         items={[
                             <LinkContainer to="/admin/site/info">
                                 <Nav.Link>
-                                    <AiOutlineInfoCircle size={20} /> &nbsp;
+                                    <BsDot size={25} />
                                     Basic Info
                                 </Nav.Link>
                             </LinkContainer>,
                             <LinkContainer to="/admin/site/banner">
                                 <Nav.Link>
-                                    <BiImages size={20} /> &nbsp; Banners
+                                    <BsDot size={25} /> Banners
                                 </Nav.Link>
                             </LinkContainer>,
                         ]}
-                    />
+                    /> */}
+                    <NavDropdown title="Site Data" menuVariant="dark">
+                        <NavDropdown.Item>
+                            <LinkContainer to="/admin/site/info">
+                                <Nav.Link>
+                                    <BsDot size={25} /> Basic Info
+                                </Nav.Link>
+                            </LinkContainer>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                            <LinkContainer to="/admin/site/banner">
+                                <Nav.Link>
+                                    <BsDot size={25} /> Banners
+                                </Nav.Link>
+                            </LinkContainer>
+                        </NavDropdown.Item>
+                    </NavDropdown>
                     <LinkContainer to="/admin/orders">
                         <Nav.Link>
                             <MdRequestQuote size={20} /> &nbsp; Orders
@@ -87,6 +117,6 @@ export const AdminSidebar = () => {
                     </LinkContainer>
                 </>
             )}
-        </div>
+        </Nav>
     );
 };

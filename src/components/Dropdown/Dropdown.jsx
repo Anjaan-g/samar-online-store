@@ -18,7 +18,7 @@ export const Dropdown = ({ header, items }) => {
             </div>
             {isOpen && (
                 <>
-                    <hr />
+                    {/* <hr /> */}
                     <div className="d-flex flex-column">
                         {items.map((item, index) => {
                             return (
@@ -28,7 +28,6 @@ export const Dropdown = ({ header, items }) => {
                             );
                         })}
                     </div>
-                    <hr />
                 </>
             )}
         </div>

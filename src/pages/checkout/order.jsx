@@ -159,7 +159,7 @@ export default function Order() {
                                             "E-SEWA"
                                         ) : order.source ==="IPS" ? (
                                             "Connect IPS"
-                                        ): order.source ==="Khalti" ? (
+                                        ): order.source ==="KHALTI" ? (
                                             "Khalti"
                                         ): "Cash on Delivery"}
                                     </p>
