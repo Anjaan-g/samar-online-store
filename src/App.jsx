@@ -29,6 +29,9 @@ import { Orders } from "./components/Admin/Orders";
 import { Banner } from "./components/Admin/Banner";
 import { Info } from "./components/Admin/Info";
 import Order from "./pages/checkout/order";
+import Dashboard from "./pages/admin/Dashboard";
+import { ListProducts } from "./components/Admin/Products/List";
+import { Create } from "./components/Admin/Products/Create";
 
 const routesConfig = [
     {
@@ -104,8 +107,20 @@ const routesConfig = [
         element: <AdminLayout />,
         children: [
             {
+                path: "/admin/dashboard",
+                element: <Dashboard />,
+            },
+            {
                 path: "/admin/products",
                 element: <Products />,
+            },
+            {
+                path: "/admin/products/list",
+                element: <ListProducts />,
+            },
+            {
+                path: "/admin/products/create",
+                element: <Create />,
             },
             {
                 path: "/admin",
@@ -152,111 +167,7 @@ const router = createBrowserRouter(routesConfig);
 function App() {
     const [darkTheme, setDarkTheme] = useState(false);
 
-    return (
-        <RouterProvider router={router} />
-        // <div className={` app w-100 ${darkTheme && "app__dark"}`}>
-        //     <Routes>
-        //         <Route
-        //             path="/"
-        //             element={
-        //                 <Layout>
-        //                     <Home />
-        //                 </Layout>
-        //             }
-        //         />
-        //         <Route
-        //             path="/login"
-        //             element={
-        //                 <Layout>
-        //                     <Login />
-        //                 </Layout>
-        //             }
-        //         />
-        //         <Route
-        //             path="/register"
-        //             element={
-        //                 <Layout>
-        //                     <Register />
-        //                 </Layout>
-        //             }
-        //         />
-        //         <Route
-        //             path="/contact"
-        //             element={
-        //                 <Layout>
-        //                     <Contact />
-        //                 </Layout>
-        //             }
-        //         />
-        //         <Route
-        //             path="/cart"
-        //             element={
-        //                 <PrivateRoute>
-        //                     <Layout>
-        //                         <Cart />
-        //                     </Layout>
-        //                 </PrivateRoute>
-        //             }
-        //         />
-        //         <Route
-        //             path="/detail/:id"
-        //             element={
-        //                 <Layout>
-        //                     <ProductDetail />
-        //                 </Layout>
-        //             }
-        //         />
-        //         <Route
-        //             path="/billing"
-        //             element={
-        //                 <PrivateRoute>
-        //                     <Layout>
-        //                         <Billing />
-        //                     </Layout>
-        //                 </PrivateRoute>
-        //             }
-        //         />
-        //         <Route
-        //             path="/payment"
-        //             element={
-        //                 <PrivateRoute>
-        //                     <Layout>
-        //                         <Payment />
-        //                     </Layout>
-        //                 </PrivateRoute>
-        //             }
-        //         />
-        //         <Route
-        //             path="/profile"
-        //             element={
-        //                 <PrivateRoute>
-        //                     <Layout>
-        //                         <Profile />
-        //                     </Layout>
-        //                 </PrivateRoute>
-        //             }
-        //         />
-        //         <Route
-        //             path="/admin"
-        //             element={
-        //                 <PrivateRoute>
-        //                     <AdminLayout>
-        //                         <Admin />
-        //                     </AdminLayout>
-        //                 </PrivateRoute>
-        //             }
-        //         />
-        //         <Route
-        //             path="*"
-        //             element={
-        //                 <Layout>
-        //                     <NotFound />
-        //                 </Layout>
-        //             }
-        //         />
-        //     </Routes>
-        // </div>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;

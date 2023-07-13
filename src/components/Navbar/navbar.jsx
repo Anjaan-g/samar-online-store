@@ -71,7 +71,6 @@ export const Navbar = () => {
                                 src="https://samarmart.s3.ap-south-1.amazonaws.com/logo/logo-only.svg"
                                 alt="samarmart"
                                 width={100}
-                                // height={60}
                             />
                         </div>
                     </NavBar.Brand>

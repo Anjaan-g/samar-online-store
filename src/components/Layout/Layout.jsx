@@ -25,14 +25,16 @@ export const Layout = ({ children }) => {
 
 export const AdminLayout = () => {
     return (
-        <div className="layout d-flex flex-column bg-secondary">
+        <div>
             <AdminNav />
-            <main className="d-flex justify-content-start admin-layout">
+            <div className="layout d-flex  bg-dark">
                 <AdminSidebar />
-                <ErrorBoundary fallback="Some error occured!">
-                    <Outlet />
-                </ErrorBoundary>
-            </main>
+                <main className="d-flex flex-column justify-content-start admin-layout w-100">
+                    <ErrorBoundary fallback="Some error occured!">
+                        <Outlet />
+                    </ErrorBoundary>
+                </main>
+            </div>
             <AdminFooter />
         </div>
     );

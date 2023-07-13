@@ -39,7 +39,7 @@ export const Footer = () => {
                                 <ul className="p-0">
                                     <li>Butwal, Nepal</li>
                                     <li>shop@samarmart.com</li>
-                                    <li>+977 984-9287007</li>
+                                    <li>+977 9851335363</li>
                                 </ul>
                             </div>
                         </div>

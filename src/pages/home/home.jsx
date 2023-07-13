@@ -53,36 +53,41 @@ export default function Home() {
         <div className="home mb-3">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>Samar Mart | Where trust meets quality | Authentic gadgets at your fingertips</title>
+                <title>
+                    Samar Mart | Where trust meets quality | Authentic gadgets
+                    at your fingertips
+                </title>
                 <link rel="canonical" href="http://samarsuppliers.com" />
                 <meta
                     name="description"
                     content="Explore a wide range of authentic gadgets and tech products at Samar Mart. Shop from the comfort of your home and experience
                     the convenience of online shopping. Get the latest gadgets delivered to your doorstep with secure and reliable shiping. Browse now!"
                 />
-                <meta name="keywords" content="butwal online, online store, buy online, earphones, headphones," />
+                <meta
+                    name="keywords"
+                    content="butwal online, online store, buy online, earphones, headphones,"
+                />
             </Helmet>
 
             <Container className="w-100">
-                <CarouselContainer carouselItems={banners} />
                 <div className="d-flex d-sm-flex flex-row justify-content-around">
-                    <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex bg-light">
+                    {/* <div className="col-xxl-3 col-xl-3 col-lg-3 sidebar card mt-4 d-none d-lg-flex bg-light">
                         <div className="card-body">
                             <h3 className="card-header text-dark display-6">
                                 Filters
                             </h3>
                             <Sidebar productData setProductData />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="container-fluid">
-                        <div className="d-flex flex-column flex-wrap">
-                            <div className="mt-4 ">
-                                <div className="search d-flex justify-content-center align-items-center bg-light ">
+                        <div className="d-flex flex-column home-content w-100">
+                            <div className="mt-4 w-100">
+                                <div className="search d-flex justify-content-start align-items-center">
                                     <AiOutlineSearch className="searchIcon" />
                                     <input
                                         value={searchTerm}
                                         type="text"
-                                        placeholder="Search for..."
+                                        placeholder="Looking for anything specific?"
                                         onChange={(e) =>
                                             setSearchTerm(e.target.value)
                                         }
@@ -103,8 +108,9 @@ export default function Home() {
                                     </span>
                                 </div>
                             </div>
+                            <CarouselContainer carouselItems={banners}/>
                             <div className="products ">
-                                <div className="d-flex flex-wrap justify-content-start align-items-center gap-3  mt-4">
+                                <div className="d-flex flex-wrap align-items-center w-100 gap-2">
                                     {products
                                         .filter((product) => {
                                             if (searchTerm === "") {

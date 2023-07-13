@@ -1,9 +1,9 @@
 @import "../../global.scss";
 
 .carousel-image {
-    height:500px;
+    height:250px;
     width: auto;
-    object-fit: cover;
+    object-fit: fill;
 }
 .carousel-caption {
     top: 0;

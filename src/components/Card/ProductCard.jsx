@@ -27,7 +27,7 @@ export default function ProductCard({
     /* ? This Eroor is due to the path difference from the backend, fix'll hvae to be done from backend */
 
     return (
-        <Card className="product-card bg-light" key={id}>
+        <Card className="product-card bg-light mt-2 me-2" key={id}>
             {stock && (
                 <span
                     className={`stock ${
@@ -44,16 +44,16 @@ export default function ProductCard({
             <span className="box">
                 <span className="wrapper d-flex align-items-center justify-content-center">
                     <img
-                        height={285}
+                        height={185}
                         src={image}
-                        className="card-img-top rounded p-2"
+                        className="card-img-top "
                         alt={name}
                         // rounded
                     />
                 </span>
             </span>
             <Button
-                className="shop-icon"
+                className="shop-icon d-xs-none d-sm-none d-md-block"
                 onClick={() => {
                     if (stock != 0) {
                         if (discountedPrice) {
@@ -92,7 +92,11 @@ export default function ProductCard({
             <Card.Body>
                 <div className="d-flex flex-column flex-wrap">
                     <Link to={`/detail/${id}`}>
-                        <h6 className="text-dark pe-4"> {name} </h6>
+                        <h6 className="text-dark pe-4">
+                            {name.length > 25
+                                ? `${name.substring(0, 25)}...`
+                                : name}{" "}
+                        </h6>
                     </Link>
                     {discountedPrice != price && (
                         <div>

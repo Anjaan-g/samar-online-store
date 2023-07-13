@@ -6,14 +6,14 @@ $royal-blue : #05253C;
 $royal-yellow : #FCE880;
 $dark-green : #346F64;
 $accent:#C2ECF2;
-$raisin: #1A1924;
+$raisin: #222127;
 $orange: #F16022;
 
 $theme-colors: (
   "primary": $royal-green,
   "secondary":$royal-yellow,
   // "danger": $danger,
-  "dark": $royal-blue,
+  "dark": $raisin,
   "light": $white,
   "raisin": $raisin,
   "orange": $orange,
@@ -27,7 +27,7 @@ $custom-colors: (
   "accent": $accent,
   "white": $white,
   "black": #000,
-  "raisin": #1A1924,
+  "raisin": $raisin,
   "orange": $orange,
 );
 

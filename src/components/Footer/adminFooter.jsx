@@ -37,8 +37,8 @@ export const AdminFooter = () => {
                                 <h2 className="widget-title">Get in Touch</h2>
                                 <ul className="p-0">
                                     <li>Kathmandu, Nepal</li>
-                                    <li>support@samarmart.com</li>
-                                    <li>+977 984 700 4480</li>
+                                    <li>shop@samarmart.com</li>
+                                    <li>+977 9851335363</li>
                                 </ul>
                             </div>
                         </div>
