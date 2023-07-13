@@ -7,8 +7,9 @@
     // }
 
     .product-image{
-        min-width: 420px;
-        height: 600px;
+        min-width: 350px;
+        height: 500px;
+        object-fit: scale-down;
     }
     
     // .main-image {
@@ -40,7 +41,7 @@
 
     .product-description {
 
-        min-width: 450px;
+        min-width: 360px;
 
         .stock-data {
             display: block;
@@ -115,7 +116,7 @@
 .description-tabs {
     
     .tabs {
-        min-width: 450px;
+        min-width: 350px;
         .tab {
 
             cursor: pointer;

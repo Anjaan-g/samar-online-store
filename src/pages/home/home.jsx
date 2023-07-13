@@ -110,7 +110,7 @@ export default function Home() {
                             </div>
                             <CarouselContainer carouselItems={banners}/>
                             <div className="products ">
-                                <div className="d-flex flex-wrap align-items-center w-100 gap-2">
+                                <div className="d-flex flex-wrap justify-content-center align-items-center w-100 gap-2">
                                     {products
                                         .filter((product) => {
                                             if (searchTerm === "") {

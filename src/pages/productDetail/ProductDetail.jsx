@@ -97,7 +97,7 @@ const ProductDetail = () => {
                     <Col lg={6} md={12} sm={12} className=" pt-4 pe-2">
                         <Card className="product-description bg-light">
                             <Card.Body>
-                                <div className="d-flex flex-column justify-content-between">
+                                <div className="d-flex flex-column justify-content-between product-highlights">
                                     <Col className="d-flex flex-column">
                                         {product?.status && (
                                             <Row className="d-flex flex-row ps-3">
@@ -295,7 +295,7 @@ const ProductDetail = () => {
                                 </>
                             ) : (
                                 <>
-                                    <div className="icon d-flex align-items-center mb-2 mt-2">
+                                    <div className="icon d-flex justify-content-center align-items-center mb-2 mt-2">
                                         <BsShieldSlashFill
                                             size="40px"
                                             color="red"
@@ -305,7 +305,7 @@ const ProductDetail = () => {
                                         No Warranty
                                     </h4>
                                     <p className="text text-center mx-3">
-                                        Item not eligible for warranty.
+                                        This is item not eligible for warranty.
                                     </p>
                                 </>
                             )}
