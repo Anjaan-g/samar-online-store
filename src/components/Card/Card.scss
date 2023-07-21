@@ -9,11 +9,10 @@
 }
 
 .product-card {
-    width: 200px;
+    width: 195px;
     min-width: 100px;
-    min-height: 300px;
-    max-height: 300px;
-    z-index: 0;
+    min-height: 350px;
+    max-height: 350px;
     color:rgb(33,43, 54);
     overflow: hidden;
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 8px 0px;
@@ -30,17 +29,16 @@
     }
 
     .box {
-        // width: 100%;
-        line-height: 1;
         display: block;
         overflow: hidden;
         position: relative;
         border-radius: 12px;
+        // height: 175px;
         
         .wrapper {
             color: transparent;
             display: inline-block;
-
+            
             img {
                 opacity: 1;
                 transition: opacity .3s;
@@ -201,6 +199,11 @@
     .card-img-top {
         object-fit: cover;
         border-radius: 20px;
-        min-height: 215px;
+        min-height: 200px;
+    }
+
+    .product-price {
+        height: 100px;
+        padding-top: 30px;
     }
 }
