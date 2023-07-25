@@ -49,32 +49,11 @@ export const productSlice = apiSlice.injectEndpoints({
         }),
 
         addProducts: builder.mutation({
-            query: ({
-                name,
-                buyPrice,
-                sellPrice,
-                stock,
-                warranty,
-                status,
-                category,
-                highlights,
-                description,
-                images,
-            }) => ({
-                url: "inventory/product/",
+            query: (formData) => ({
+                url: "inventory/admin/product/",
                 method: "POST",
-                body: {
-                    name: name,
-                    buy_price: buyPrice,
-                    sell_price: sellPrice,
-                    stock: stock,
-                    warranty: warranty,
-                    status: status,
-                    category: category,
-                    description: description,
-                    highlights: highlights,
-                    images: images,
-                },
+                body: formData,
+                // formData: true,
                 headers: authHeader,
             }),
             invalidatesTags: ["Products"],

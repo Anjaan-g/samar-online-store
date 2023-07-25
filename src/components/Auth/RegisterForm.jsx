@@ -15,6 +15,7 @@ const RegisterForm = ({ onSubmit, title }) => {
         password: "",
         confirmPassword: "",
     });
+    console.log(values)
 
     const inputs = [
         {

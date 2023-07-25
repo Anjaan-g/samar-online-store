@@ -15,32 +15,55 @@ import { useAddProductsMutation } from "../../../store/productSlice";
 import { useGetAllBrandsQuery } from "../../../store/brandsSlice";
 import { useGetAllVendorsQuery } from "../../../store/vendorSlice";
 import { useGetAllCategoriesQuery } from "../../../store/categoriesSlice";
+import { toast } from "react-toastify";
 
 export const Create = () => {
     const [dragActive, setDragActive] = useState(false);
-    const [files, setFiles] = useState([]);
+
+    const [selectedFiles, setSelectedFiles] = useState([]); // Files are handled separately for RTK query
+
+    console.log("These are selected files under the useState method");
+    console.log(selectedFiles);
+
     const [values, setValues] = useState({
         name: "",
         buyPrice: 0,
         sellPrice: 0,
-        stock: 0,
+        stock: 1000,
         warranty: "",
         status: "",
         category: "",
-        hightlight: "",
+        highlight: "",
         description: "",
         publish: false,
+        brand: "",
     });
+    console.log(values);
 
-    const { data: brands = [], isError, isLoading } = useGetAllBrandsQuery();
-    console.log(brands);
+    const {
+        data: brands = [],
+        isError: brandsError,
+        isLoading: brandsLoading,
+    } = useGetAllBrandsQuery();
+
+    const {
+        data: categories = [],
+        isError: categoriesError,
+        isLoading: categoriesLoading,
+    } = useGetAllCategoriesQuery();
 
     const onChange = (e) => {
-        console.log(e);
-        setValues({ ...values, [e.target.name]: e.target.value });
+        // console.log(e);
+        if (e.target.name == "publish") {
+            setValues({ ...values, publish: e.target.checked });
+        } else {
+            setValues({ ...values, [e.target.name]: e.target.value });
+        }
     };
+
     const inputRef = useRef(null);
 
+    // When dragging an image or multiple images
     const handleDrag = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -51,13 +74,17 @@ export const Create = () => {
         }
     };
 
+    // Update the files array with files
     const handleFiles = (files) => {
         // Array.from(files).forEach(file => console.log(file))
-        Array.from(files).forEach((file) =>
-            setFiles((current) => [...current, file])
-        );
+        console.log("These are selected files under the handle files method");
+        console.log(files);
+        // Array.from(files).forEach((file) =>
+        setSelectedFiles([...selectedFiles, ...files]);
+        // );
     };
 
+    // Handle image dropped through dragging
     const handleDrop = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -67,6 +94,7 @@ export const Create = () => {
         }
     };
 
+    // Add files to the files state
     const handleChange = function (e) {
         e.preventDefault();
         if (e.target.files && e.target.files[0]) {
@@ -74,11 +102,107 @@ export const Create = () => {
         }
     };
 
-    const onButtonClick = () => {
-        inputRef.current.click();
+    // Remove all files from the files state
+    const removeAll = () => {
+        setSelectedFiles([]);
     };
 
-    const handleRemove = (index) => {};
+    // Remove single file from the list of files on clicking X icon
+    const handleRemove = (index) => {
+        setSelectedFiles(selectedFiles.filter((file, i) => i !== index));
+    };
+
+    if (brandsLoading) {
+        <div className="d-flex justify-content-center align-items-center">
+            <Spinner size={100} />
+        </div>;
+    }
+    if (categoriesLoading) {
+        <div className="d-flex justify-content-center align-items-center">
+            <Spinner size={100} />
+        </div>;
+    }
+
+    const [addProduct, { isLoading: isLoadingAddProduct }] =
+        useAddProductsMutation();
+
+    async function handleSubmit(event) {
+        // console.log("submit clicked");
+        event.preventDefault();
+        // const name = values["name"];
+        // const buyPrice = values["buyPrice"];
+        // const sellPrice = values["sellPrice"];
+        // const stock = values["stock"];
+        // const warranty = values["warranty"];
+        // const status = values["status"];
+        // const category = values["category"];
+        // const highlights = values["highlight"];
+        // const description = values["description"];
+        // const publish = values["publish"];
+        // const brand = values["brand"];
+        // const images = filesList;
+        // const images = { images };
+        const toSnakeCase = (str) =>
+            str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+        let formData = new FormData();
+
+        formData.append("name", values["name"]);
+        formData.append("buy_price", values["buyPrice"]);
+        formData.append("sell_price", values["sellPrice"]);
+        formData.append("stock", values["stock"]);
+        formData.append("warranty", values["warranty"]);
+        formData.append("status", values["status"]);
+        formData.append("category", values["category"]);
+        formData.append("highlights", values["highlight"]);
+        formData.append("description", values["description"]);
+        formData.append("publish", values["publish"]);
+        formData.append("brand", values["brand"]);
+
+        // Object.keys(formData).forEach((key) => {
+        //     formData.append(toSnakeCase(key), data[key]);
+        // });
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+            formData.append("images", selectedFiles[i]);
+        }
+
+        try {
+            // const {
+            //     name,
+            //     buyPrice,
+            //     sellPrice,
+            //     stock,
+            //     warranty,
+            //     status,
+            //     category,
+            //     highlights,
+            //     description,
+            //     publish,
+            //     brand,
+            //     images,
+            // } = formData;
+            // const { images } = formData;
+            const response = await addProduct(formData);
+            console.log(response);
+            const notify = () => {
+                toast.success(response?.data["message"], {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast-message",
+                });
+            };
+            notify();
+        } catch (error) {
+            console.log(error);
+            const notify = () => {
+                toast.error(error, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: "toast_message",
+                });
+            };
+            notify();
+        }
+    }
 
     return (
         <div className="d-flex flex-column align-items-start text-white m-3 ">
@@ -96,6 +220,7 @@ export const Create = () => {
                 </Breadcrumb>
             </div>
             <div className="bg-dark p-2 w-100">
+                {/* Details Name, highlight, content*/}
                 <div className="d-flex justify-content-between align-items-top flex-wrap gap-2 pt-2">
                     <Col lg={3} sm={12} md={12} className="pe-2">
                         <h4>Details</h4>
@@ -114,11 +239,11 @@ export const Create = () => {
                                     >
                                         <Col>
                                             <Form.Control
-                                                name="product-name"
+                                                name="name"
                                                 htmlFor="product-name"
                                                 className="bg-dark text-white"
                                                 placeholder="Product Name"
-                                                value={values["name"]}
+                                                defaultValue={values["name"]}
                                                 onChange={onChange}
                                             />
                                         </Col>
@@ -135,7 +260,7 @@ export const Create = () => {
                                         <Col>
                                             <Form.Control
                                                 as="textarea"
-                                                name="sub-description"
+                                                name="highlight"
                                                 htmlFor="sub-description"
                                                 className="bg-dark text-white sub-description"
                                                 placeholder="Main highlights for the product"
@@ -221,37 +346,45 @@ export const Create = () => {
                                         )}
                                     </Form.Group>
                                     <div className="d-flex flex-column mt-3">
-                                        <div className="d-flex">
-                                            {files?.map((item, index) => {
-                                                return (
-                                                    <div key={index}>
-                                                        <span className="d-inline-flex cross-button">
-                                                            <BsFillXCircleFill
-                                                                size={20}
-                                                                color="white"
+                                        <div className="d-flex flex-wrap">
+                                            {selectedFiles?.map(
+                                                (item, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            <span
+                                                                className="d-inline-flex cross-button"
+                                                                onClick={() =>
+                                                                    handleRemove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                            >
+                                                                <BsFillXCircleFill
+                                                                    size={20}
+                                                                    color="red"
+                                                                />
+                                                            </span>
+                                                            <img
+                                                                src={URL.createObjectURL(
+                                                                    item
+                                                                )}
+                                                                alt=""
+                                                                className="image-preview me-1 mt-2"
                                                             />
-                                                        </span>
-                                                        <img
-                                                            src={URL.createObjectURL(
-                                                                item
-                                                            )}
-                                                            alt=""
-                                                            className="image-preview me-1"
-                                                        />
-                                                    </div>
-                                                );
-                                            })}
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
                                         </div>
-                                        <div className="d-flex justify-content-end align-items-center">
-                                            {files.length >= 1 && (
-                                                <div className="d-flex ">
-                                                    <Button
-                                                        variant="outline-secondary"
-                                                        className="text-white"
-                                                    >
-                                                        Remove all
-                                                    </Button>
-                                                </div>
+                                        <div className="d-flex justify-content-end align-items-center flex-wrap">
+                                            {selectedFiles.length >= 1 && (
+                                                <Button
+                                                    variant="outline-secondary"
+                                                    className="text-white"
+                                                    onClick={() => removeAll()}
+                                                >
+                                                    Remove all
+                                                </Button>
                                             )}
                                         </div>
                                     </div>
@@ -261,6 +394,7 @@ export const Create = () => {
                     </Col>
                 </div>
 
+                {/* Properties: warranty, category, brand, status */}
                 <div className="d-flex justify-content-between align-items-top flex-wrap gap-2 mt-3">
                     <Col lg={3} sm={12} md={12} className="pe-2">
                         <h4>Properties</h4>
@@ -275,7 +409,7 @@ export const Create = () => {
                                     <Form.Group
                                         as={Row}
                                         controlId="warranty"
-                                        className="mb-2 align-items-center "
+                                        className="mb-2 align-items-center"
                                     >
                                         <Col>
                                             <Form.Control
@@ -292,25 +426,38 @@ export const Create = () => {
                                 <br />
                                 <div className="d-flex flex-column">
                                     <h6>Category</h6>
+                                    <Form.Group
+                                        as={Row}
+                                        controlId="category"
+                                        className="mb-2 align-items-center "
+                                    >
+                                        <Col>
+                                            <Form.Select
+                                                name="category"
+                                                htmlFor="category"
+                                                className="bg-dark text-white "
+                                                placeholder="Main highlights for the product"
+                                                value={values["category"]}
+                                                onChange={onChange}
+                                            >
+                                                <option value="null">
+                                                    {" "}
+                                                    ------Select one------{" "}
+                                                </option>
+                                                {categories?.map((item) => {
+                                                    return (
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.name}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </Form.Select>
+                                        </Col>
+                                    </Form.Group>
                                 </div>
-                                <Form.Group
-                                    as={Row}
-                                    controlId="category"
-                                    className="mb-2 align-items-center "
-                                >
-                                    <Col>
-                                        <Form.Select
-                                            name="category"
-                                            htmlFor="category"
-                                            className="bg-dark text-white "
-                                            placeholder="Main highlights for the product"
-                                            value={values["category"]}
-                                            onChange={onChange}
-                                        >
-                                            <option value=""></option>
-                                        </Form.Select>
-                                    </Col>
-                                </Form.Group>
                                 <br />
                                 <div className="d-flex flex-column">
                                     <h6> Brand </h6>
@@ -327,18 +474,26 @@ export const Create = () => {
                                                 className="bg-dark text-white "
                                                 placeholder="Whole product specifications"
                                                 // defaultValue={values["brand"]}
-                                                // onChange={onChange}
+                                                onChange={onChange}
                                             >
-                                                {brands?.map((item, index) => {
-                                                    return(
-                                                        <option value={item} key={index}>{item}</option>
-                                                    )
+                                                <option value="null">
+                                                    {" "}
+                                                    ------Select one------{" "}
+                                                </option>
+                                                {brands?.map((item) => {
+                                                    return (
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.name}
+                                                        </option>
+                                                    );
                                                 })}
                                             </Form.Select>
                                         </Col>
                                     </Form.Group>
                                 </div>
-                                <br />
                                 <br />
                                 <div className="d-flex flex-column">
                                     <h6> Status </h6>
@@ -349,14 +504,29 @@ export const Create = () => {
                                         className="mb-2 align-items-center "
                                     >
                                         <Col>
-                                            <Form.Control
+                                            <Form.Select
                                                 name="status"
                                                 htmlFor="status"
                                                 className="bg-dark text-white "
-                                                placeholder="Whole product specifications"
                                                 defaultValue={values["status"]}
                                                 onChange={onChange}
-                                            />
+                                            >
+                                                <option value="null">
+                                                    ------Select one------
+                                                </option>
+                                                {["NEW", "HOT", "SALE"]?.map(
+                                                    (item, index) => {
+                                                        return (
+                                                            <option
+                                                                value={item}
+                                                                key={index}
+                                                            >
+                                                                {item}
+                                                            </option>
+                                                        );
+                                                    }
+                                                )}
+                                            </Form.Select>
                                         </Col>
                                     </Form.Group>
                                 </div>
@@ -366,6 +536,7 @@ export const Create = () => {
                     </Col>
                 </div>
 
+                {/* Pricing details */}
                 <div className="d-flex justify-content-between align-items-top flex-wrap gap-2 mt-3">
                     <Col lg={3} sm={12} md={12} className="pe-2">
                         <h4>Pricing</h4>
@@ -379,16 +550,19 @@ export const Create = () => {
 
                                     <Form.Group
                                         as={Row}
-                                        controlId="buy-price"
+                                        controlId="buyPrice"
                                         className="mb-2 align-items-center "
                                     >
                                         <Col>
                                             <Form.Control
-                                                name="buy-price"
-                                                htmlFor="buy-price"
+                                                type="number"
+                                                name="buyPrice"
+                                                htmlFor="buyPrice"
                                                 className="bg-dark text-white"
                                                 placeholder="Buy Price"
-                                                value={values["buyPrice"]}
+                                                defaultValue={
+                                                    values["buyPrice"]
+                                                }
                                                 onChange={onChange}
                                             />
                                         </Col>
@@ -400,13 +574,14 @@ export const Create = () => {
                                 </div>
                                 <Form.Group
                                     as={Row}
-                                    controlId="selling-price"
+                                    controlId="sellPrice"
                                     className="mb-2 align-items-center "
                                 >
                                     <Col>
                                         <Form.Control
-                                            name="selling-price"
-                                            htmlFor="selling-price"
+                                            type="number"
+                                            name="sellPrice"
+                                            htmlFor="sellPrice"
                                             className="bg-dark text-white "
                                             placeholder="Selling Price"
                                             defaultValue={values["sellPrice"]}
@@ -419,19 +594,25 @@ export const Create = () => {
                     </Col>
                 </div>
 
+                {/* Publish */}
                 <div className="d-flex justify-content-between align-items-center flex-wrap mt-4">
                     <Col lg={3} sm={12} md={12} className="pe-2"></Col>
                     <Col lg={8} sm={12} md={12}>
                         <div className="d-flex justify-content-between align-items-center">
                             <Form.Check
                                 type="switch"
+                                name="publish"
                                 id="publish-switch"
                                 label="Publish"
                                 className="publish"
-                                defaultChecked
-                                value={values["publish"]}
+                                defaultChecked={values["publish"]}
+                                onChange={onChange}
                             />
-                            <Button variant="light" className="publish-button">
+                            <Button
+                                variant="light"
+                                className="publish-button"
+                                onClick={(e) => handleSubmit(e)}
+                            >
                                 <b>Create Product</b>
                             </Button>
                         </div>

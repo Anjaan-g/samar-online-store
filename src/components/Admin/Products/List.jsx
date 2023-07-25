@@ -44,7 +44,7 @@ export const ListProducts = () => {
     }
 
     return (
-        <div className="d-flex flex-column w-100 text-white m-3">
+        <div className="d-flex flex-column text-white m-3">
             <h4>List</h4>
             <Breadcrumb className="text-white bread">
                 <Breadcrumb.Item
