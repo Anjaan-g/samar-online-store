@@ -127,23 +127,7 @@ export const Create = () => {
         useAddProductsMutation();
 
     async function handleSubmit(event) {
-        // console.log("submit clicked");
         event.preventDefault();
-        // const name = values["name"];
-        // const buyPrice = values["buyPrice"];
-        // const sellPrice = values["sellPrice"];
-        // const stock = values["stock"];
-        // const warranty = values["warranty"];
-        // const status = values["status"];
-        // const category = values["category"];
-        // const highlights = values["highlight"];
-        // const description = values["description"];
-        // const publish = values["publish"];
-        // const brand = values["brand"];
-        // const images = filesList;
-        // const images = { images };
-        const toSnakeCase = (str) =>
-            str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
         let formData = new FormData();
 
@@ -159,30 +143,11 @@ export const Create = () => {
         formData.append("publish", values["publish"]);
         formData.append("brand", values["brand"]);
 
-        // Object.keys(formData).forEach((key) => {
-        //     formData.append(toSnakeCase(key), data[key]);
-        // });
-
         for (let i = 0; i < selectedFiles.length; i++) {
             formData.append("images", selectedFiles[i]);
         }
 
         try {
-            // const {
-            //     name,
-            //     buyPrice,
-            //     sellPrice,
-            //     stock,
-            //     warranty,
-            //     status,
-            //     category,
-            //     highlights,
-            //     description,
-            //     publish,
-            //     brand,
-            //     images,
-            // } = formData;
-            // const { images } = formData;
             const response = await addProduct(formData);
             console.log(response);
             const notify = () => {
@@ -326,11 +291,11 @@ export const Create = () => {
                                                     <b>Drop or Select Files</b>
 
                                                     <p>
-                                                        Drop files here or{" "}
+                                                        Drop files here or
                                                         <u className="text-dark-green">
                                                             browse
-                                                        </u>{" "}
-                                                        through your machine.{" "}
+                                                        </u>
+                                                        through your machine.
                                                     </p>
                                                 </div>
                                             </div>

@@ -38,6 +38,15 @@ export const userHistorySlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["MyOrders"],
         }),
+
+        orderHistory: builder.query({
+            query: () => ({
+                url: `auth/admin/orders`,
+                method: "GET",
+                headers: authHeader,
+            }),
+            providesTags: ["orderHistory"],
+        }),
     }),
 });
 
@@ -45,4 +54,5 @@ export const {
     useGetAllHistoryQuery,
     useAddHistoryMutation,
     useGetHistoryQuery,
+    useOrderHistoryQuery,
 } = userHistorySlice;
