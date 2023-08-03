@@ -57,7 +57,7 @@ export const Footer = () => {
                             </p>
                         </div>
                         <div className="">
-                            <ul className="social">
+                            <ul className="social d-flex justify-content-center align-items-center">
                                 <li>
                                     <a
                                         href="https://www.facebook.com/Samarmart01/"
@@ -80,20 +80,11 @@ export const Footer = () => {
                                     <a
                                         href="https://twitter.com/Samarmart01"
                                         target="_blank"
-                                        className="text-accent"
+                                        className="text-accent text-decoration-none fs-4 "
                                     >
-                                        <FaTwitter size={25} />
+                                        𝕏
                                     </a>
                                 </li>
-                                {/* <li>
-                                    <a
-                                        href="#"
-                                        target="_blank"
-                                        className="text-accent"
-                                    >
-                                        <FaLinkedin />
-                                    </a>
-                                </li> */}
                             </ul>
                         </div>
                     </div>

@@ -61,8 +61,8 @@ export const AdminFooter = () => {
                             </p>
                         </div>
                         <div className="">
-                            <ul className="social">
-                            <li>
+                            <ul className="social d-flex justify-content-center align-items-center">
+                                <li>
                                     <a
                                         href="https://www.facebook.com/Samarmart01/"
                                         target="_blank"
@@ -84,9 +84,9 @@ export const AdminFooter = () => {
                                     <a
                                         href="https://twitter.com/Samarmart01"
                                         target="_blank"
-                                        className="text-accent"
+                                        className="text-accent text-decoration-none fs-4 "
                                     >
-                                        <FaTwitter size={25} />
+                                        𝕏
                                     </a>
                                 </li>
                             </ul>
