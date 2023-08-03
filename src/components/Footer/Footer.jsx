@@ -60,32 +60,32 @@ export const Footer = () => {
                             <ul className="social">
                                 <li>
                                     <a
-                                        href="#"
+                                        href="https://www.facebook.com/Samarmart01/"
                                         target="_blank"
                                         className="text-accent"
                                     >
-                                        <FaFacebook />
+                                        <FaFacebook size={25} />
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        href="#"
+                                        href="https://www.instagram.com/samar_mart_/"
                                         target="_blank"
                                         className="text-accent"
                                     >
-                                        <FaInstagram />
+                                        <FaInstagram size={25} />
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        href="#"
+                                        href="https://twitter.com/Samarmart01"
                                         target="_blank"
                                         className="text-accent"
                                     >
-                                        <FaTwitter />
+                                        <FaTwitter size={25} />
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a
                                         href="#"
                                         target="_blank"
@@ -93,7 +93,7 @@ export const Footer = () => {
                                     >
                                         <FaLinkedin />
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>

@@ -62,24 +62,31 @@ export const AdminFooter = () => {
                         </div>
                         <div className="">
                             <ul className="social">
-                                <li>
-                                    <a href="#" target="_blank">
-                                        <FaFacebook />
+                            <li>
+                                    <a
+                                        href="https://www.facebook.com/Samarmart01/"
+                                        target="_blank"
+                                        className="text-accent"
+                                    >
+                                        <FaFacebook size={25} />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" target="_blank">
-                                        <FaInstagram />
+                                    <a
+                                        href="https://www.instagram.com/samar_mart_/"
+                                        target="_blank"
+                                        className="text-accent"
+                                    >
+                                        <FaInstagram size={25} />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" target="_blank">
-                                        <FaTwitter />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">
-                                        <FaLinkedin />
+                                    <a
+                                        href="https://twitter.com/Samarmart01"
+                                        target="_blank"
+                                        className="text-accent"
+                                    >
+                                        <FaTwitter size={25} />
                                     </a>
                                 </li>
                             </ul>
