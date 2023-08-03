@@ -52,7 +52,7 @@ export function Admins() {
         );
     }
     return (
-        <div className="d-flex flex-column w-100 m-3 align-items-center text-white ">
+        <div className="d-flex flex-column  m-3 align-items-center text-white ">
             <div className="d-flex justify-content-between w-100 align-items-center text-white mb-3">
                 <h5 className="d-flex">All Admins</h5>
                 <Button

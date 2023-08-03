@@ -34,7 +34,7 @@ export const Vendors = () => {
     }
 
     return (
-        <div className="d-flex flex-column w-100 align-items-center mt-3 ms-3 me-3 text-white">
+        <div className="d-flex flex-column  align-items-center mt-3 ms-3 me-3 text-white">
             <div className="d-flex justify-content-between align-items-center mb-3 w-100 text-white">
                 <h5 className="d-flex">All Vendors</h5>
                 <Button

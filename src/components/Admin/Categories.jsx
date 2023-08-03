@@ -47,7 +47,7 @@ import { toast } from "react-toastify";
 export function Categories() {
     const { data = [], loading, error } = useGetAllCategoriesQuery();
     return (
-        <div className="d-flex flex-column w-100 m-3 align-items-center">
+        <div className="d-flex flex-column  m-3 align-items-center">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3">
                 <h5 className="d-flex text-white">All Categories</h5>
                 <Button variant="success" size="md">

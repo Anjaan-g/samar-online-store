@@ -33,7 +33,7 @@ export const Products = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(undefined);
 
     return (
-        <div className="products d-flex flex-column w-100 me-3 ms-3 mt-3 text-white">
+        <div className="products d-flex flex-column  me-3 ms-3 mt-3 text-white">
             <div className="d-flex justify-content-between align-items-center text-white">
                 {superUser ? (
                     <h5 className="d-flex">All Products</h5>
